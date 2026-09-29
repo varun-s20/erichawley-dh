@@ -1526,16 +1526,16 @@ body[data-header="overlay"] .site-header:not(.is-scrolled) .nav-toggle {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--ext) 0 50%, var(--int) 50% 100%);
+  background: linear-gradient(135deg, var(--int) 0 50%, var(--ext) 50% 100%); /* first half = interior (Erin: "Interior/Exterior") */
   box-shadow: inset 0 0 0 1px rgba(12, 28, 66, 0.14), 0 2px 4px rgba(12, 28, 66, 0.1);
 }
 
 .swatch-dot--white-white { --ext: #F4F4F0; --int: #F4F4F0; }
 .swatch-dot--black-black { --ext: #1F2124; --int: #1F2124; }
-.swatch-dot--white-oak { --ext: #F4F4F0; --int: #B07C4A; }
+.swatch-dot--white-oak { --int: #F4F4F0; --ext: #B07C4A; }
 .swatch-dot--brown-brown { --ext: #4A3428; --int: #4A3428; }
 .swatch-dot--tan-tan { --ext: #C7AD86; --int: #C7AD86; }
-.swatch-dot--white-green { --ext: #F4F4F0; --int: #2F4B3A; }
+.swatch-dot--white-green { --int: #F4F4F0; --ext: #2F4B3A; }
 
 /* Benefit cards (Why us) */
 .why-grid {
@@ -9102,8 +9102,8 @@ body[data-page="home"] .hero__text {
   transform: translateX(-16px);
 }
 
-.swatch-dot--white-black { --ext: #F4F4F0; --int: #1F2124; }
-.swatch-dot--white-almond { --ext: #F4F4F0; --int: #E4D9C3; }
+.swatch-dot--white-black { --int: #F4F4F0; --ext: #1F2124; }
+.swatch-dot--white-almond { --int: #F4F4F0; --ext: #E4D9C3; }
 
 .stat-swatches .swatch-dot {
   width: clamp(34px, 3vw, 46px);
@@ -9833,6 +9833,73 @@ body[data-page="home"] .hero__text {
 
 .review-consent {
   margin-top: var(--space-5);
+}
+
+/* ---- Estimator: Erin's windows intro, Pro Tip, color header ---- */
+.est-intro {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin: 4px 0 22px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-navy);
+  color: var(--color-on-navy-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.est-intro > .icon {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 50%;
+  background: rgba(127, 210, 254, 0.16);
+  color: var(--brand-sky);
+}
+
+.est-intro__title {
+  margin-bottom: 4px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.est-protip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 16px 10px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-50);
+  box-shadow: inset 0 0 0 1px var(--blue-200);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+}
+
+.est-protip .icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  color: var(--color-primary);
+}
+
+.est-protip strong {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.est-colorhead {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--blue-50);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
 }
 
 /* Header text links: full pill height as the tap area */

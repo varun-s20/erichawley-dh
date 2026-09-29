@@ -92,7 +92,7 @@ Keep the client's wording. Polish punctuation only, never meaning.
 
 - [ ] Bath flow details from the video: steps, questions, options, and the item photos
 - [ ] The missing screenshot `65E535A1-….png`
-- [ ] Color pairs: confirm **Interior/Exterior** orientation (e.g. is white/oak white inside with oak outside?)
+- [x] Color pairs follow her **Interior/Exterior** header exactly (white/oak = white inside, oak outside)
 - [ ] "Save up to 60%": confirm the client wants it published and can substantiate it
 - [ ] Email address that receives submissions
 - [x] ~~Logo / brand name~~ — using install-D and the logo from install-D.com (ask for the original vector file)
@@ -199,10 +199,10 @@ The team supplied a reference video (a "CoolFix" AC-repair site). Its language i
 The restored v1 estimator predates the 24 Sept spec. Items 1–8 below already exist in the archived v2 estimator JS and can be ported from there.
 
 1. **Order.** Contact details (name, address, phone, email) must come **first**, then project choice. v1 asks project → contact → location.
-2. **Windows intro copy** ("Great idea! … save up to 60%") is missing.
-3. **Photos.** The client wants **one photo per window with NEXT after each**. v1 has one bulk uploader.
-4. **Style.** The client wants exactly **"Same style" / "You decide!"**. v1 has three options with reworded labels.
-5. **Colors.** The client's list is headed **Interior/Exterior**. v1 stores pairs as Exterior/Interior, so they're likely reversed. Confirm with the client.
+2. ~~**Windows intro copy**~~ — **done** (29 Sept): verbatim banner on the window-count step, question uses her wording.
+3. **Photos.** The client wants **one photo per window with NEXT after each**. v1 has one bulk uploader. Her title and **Pro Tip** are now on the step (29 Sept); the per-window slot flow is still to do.
+4. **Style.** Team decision (29 Sept): **keep our three options** as they are.
+5. ~~**Colors**~~ — **done** (29 Sept): data, swatches (Int left, Ext right), payload, summary chips and the Windows-page visualizer all follow her "Interior/Exterior" header — first color is interior.
 6. **Framing/tempered note.** Use the client's exact text (§4.7). v1 has a softened draft.
 7. **Finish.** The client wants an **Additional information** box plus a **COMPLETE** button. v1 has a Review screen with "Submit My Project".
 8. **Confirmation** must be a **pop-up** with the exact text "CONGRATS! Your estimate has been submitted. You will receive your proposal soon." v1 shows an inline thank-you page.

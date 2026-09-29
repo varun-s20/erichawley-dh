@@ -80,20 +80,21 @@
   };
 
   /**
-   * Client-supplied frame color combinations, written "Exterior / Interior".
-   * CONTENT TO CONFIRM: the exterior/interior orientation of each pair and
-   * the on-screen hex approximations.
+   * Client-supplied frame color combinations, exactly as in Erin's list headed
+   * "Interior/Exterior" (24 Sept): the FIRST color is the interior, the SECOND the exterior.
+   * CONTENT TO CONFIRM: the on-screen hex approximations.
    */
   const WHITE = { name: 'White', hex: '#F4F4F0' };
+  const BLACK = { name: 'Black', hex: '#1F2124' };
   const WINDOW_COLORS = [
-    { id: 'white-white', label: 'White / White', exterior: WHITE, interior: WHITE },
-    { id: 'black-black', label: 'Black / Black', exterior: { name: 'Black', hex: '#1F2124' }, interior: { name: 'Black', hex: '#1F2124' } },
-    { id: 'white-black', label: 'White / Black', exterior: WHITE, interior: { name: 'Black', hex: '#1F2124' } },
-    { id: 'white-oak', label: 'White / Oak', exterior: WHITE, interior: { name: 'Oak', hex: '#B07C4A', texture: 'oak' } },
-    { id: 'brown-brown', label: 'Dark Brown / Dark Brown', exterior: { name: 'Dark Brown', hex: '#4A3428' }, interior: { name: 'Dark Brown', hex: '#4A3428' } },
-    { id: 'tan-tan', label: 'Tan / Tan', exterior: { name: 'Tan', hex: '#C7AD86' }, interior: { name: 'Tan', hex: '#C7AD86' } },
-    { id: 'white-green', label: 'White / Green', exterior: WHITE, interior: { name: 'Green', hex: '#2F4B3A' } },
-    { id: 'white-almond', label: 'White / Almond', exterior: WHITE, interior: { name: 'Almond', hex: '#E4D9C3' } },
+    { id: 'white-white', label: 'White / White', interior: WHITE, exterior: WHITE },
+    { id: 'black-black', label: 'Black / Black', interior: BLACK, exterior: BLACK },
+    { id: 'white-black', label: 'White / Black', interior: WHITE, exterior: BLACK },
+    { id: 'white-oak', label: 'White / Oak', interior: WHITE, exterior: { name: 'Oak', hex: '#B07C4A', texture: 'oak' } },
+    { id: 'brown-brown', label: 'Dark Brown / Dark Brown', interior: { name: 'Dark Brown', hex: '#4A3428' }, exterior: { name: 'Dark Brown', hex: '#4A3428' } },
+    { id: 'tan-tan', label: 'Tan / Tan', interior: { name: 'Tan', hex: '#C7AD86' }, exterior: { name: 'Tan', hex: '#C7AD86' } },
+    { id: 'white-green', label: 'White / Green', interior: WHITE, exterior: { name: 'Green', hex: '#2F4B3A' } },
+    { id: 'white-almond', label: 'White / Almond', interior: WHITE, exterior: { name: 'Almond', hex: '#E4D9C3' } },
   ];
 
   /** Client-supplied grid options. Diagrams are drawn by windowSVG(). */
@@ -1213,10 +1214,10 @@
       <label class="swatch-card">
         <input class="swatch-card__input" type="radio" name="${name}" value="${color.id}"${bind}>
         <span class="swatch-pair" aria-hidden="true">
-          <span class="swatch-pair__side${color.exterior.texture === 'oak' ? ' is-oak' : ''}" data-swatch="${color.exterior.hex}"><span>Ext</span></span>
           <span class="swatch-pair__side${color.interior.texture === 'oak' ? ' is-oak' : ''}" data-swatch="${color.interior.hex}"><span>Int</span></span>
+          <span class="swatch-pair__side${color.exterior.texture === 'oak' ? ' is-oak' : ''}" data-swatch="${color.exterior.hex}"><span>Ext</span></span>
         </span>
-        <span class="swatch-card__name">${escapeHTML(color.label)}<span class="visually-hidden"> — exterior ${escapeHTML(color.exterior.name)}, interior ${escapeHTML(color.interior.name)}</span></span>
+        <span class="swatch-card__name">${escapeHTML(color.label)}<span class="visually-hidden"> — interior ${escapeHTML(color.interior.name)}, exterior ${escapeHTML(color.exterior.name)}</span></span>
         <span class="swatch-card__check" aria-hidden="true">${icon('check')}</span>
       </label>`
     ).join('');
@@ -1278,7 +1279,7 @@
     const frameRoot = root.closest('[data-frame-root]');
     if (!stage || !windowEl) return;
 
-    let view = 'exterior';
+    let view = 'interior';
     let color = WINDOW_COLORS[0];
     windowEl.innerHTML = windowSVG('colonial', { withTrim: true });
 
@@ -1288,7 +1289,7 @@
       stage.style.setProperty('--frame-color', side.hex);
       stage.style.setProperty('--frame-edge', frameEdge(side.hex));
       if (nameEl) nameEl.textContent = color.label;
-      if (detailEl) detailEl.textContent = `Exterior: ${color.exterior.name} · Interior: ${color.interior.name}`;
+      if (detailEl) detailEl.textContent = `Interior: ${color.interior.name} · Exterior: ${color.exterior.name}`;
       // Grid diagrams further down the page follow the exterior color.
       if (frameRoot) {
         frameRoot.style.setProperty('--frame-color', color.exterior.hex);
@@ -2657,14 +2658,14 @@
   }
 
   function swatchChip(color) {
-    return `<span class="review-swatch" aria-hidden="true" data-swatch-chip="${color.exterior.hex}|${color.interior.hex}"></span>`;
+    return `<span class="review-swatch" aria-hidden="true" data-swatch-chip="${color.interior.hex}|${color.exterior.hex}"></span>`;
   }
 
   /** Swatch chips are painted via CSSOM after render (no inline style strings). */
   function paintSwatchChips(root = document) {
     $$('[data-swatch-chip]', root).forEach((chip) => {
-      const [ext, int] = chip.dataset.swatchChip.split('|');
-      chip.style.background = `linear-gradient(135deg, ${ext} 0 50%, ${int} 50% 100%)`;
+      const [int, ext] = chip.dataset.swatchChip.split('|'); // first = interior
+      chip.style.background = `linear-gradient(135deg, ${int} 0 50%, ${ext} 50% 100%)`;
       chip.removeAttribute('data-swatch-chip');
     });
   }
@@ -2704,7 +2705,7 @@
             quantity: Number(s.windows.quantity),
             approach: { id: s.windows.approach, label: WINDOW_APPROACHES[s.windows.approach] || '' },
             color: color
-              ? { id: color.id, label: color.label, exterior: color.exterior.name, interior: color.interior.name }
+              ? { id: color.id, label: color.label, interior: color.interior.name, exterior: color.exterior.name }
               : notSure,
             grid: grid ? { id: grid.id, label: grid.label } : notSure,
             details: s.windows.details.trim(),
