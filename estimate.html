@@ -40,7 +40,7 @@
       </a>
       <div class="est-header__actions">
         <a class="est-header__help" href="contact.html"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 18.5v-12A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v8a1.5 1.5 0 0 1-1.5 1.5H8z"/><path d="M9 9.5h6M9 12.5h4"/></svg><span>Need help?</span></a>
-        <button class="btn btn--secondary btn--sm" type="button" data-est-exit><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.5 4h4A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-4M10 8l-4 4 4 4M6 12h10"/></svg><span>Save &amp; Exit</span></button>
+        <button class="btn btn--secondary btn--sm est-header__exit" type="button" data-est-exit aria-label="Save &amp; Exit"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.5 4h4A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-4M10 8l-4 4 4 4M6 12h10"/></svg><span>Save &amp; Exit</span></button>
       </div>
     </div>
     <div class="est-progress" aria-hidden="true"><span class="est-progress__fill" data-est-progress-fill></span></div>
@@ -372,8 +372,10 @@
           <section class="est-step" data-step="b-photos" aria-labelledby="st-bphotos" hidden>
             <header class="est-step__header">
               <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-bphotos" tabindex="-1">Show us the bathroom you&rsquo;d like to remodel.</h2>
-              <p class="est-step__desc">A few wide shots of the room, plus close-ups of anything you&rsquo;d like to change.</p>
+              <!-- Client's bath intro (from her reference video) -->
+              <aside class="est-intro"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5s6 6.4 6 10.5a6 6 0 0 1-12 0c0-4.1 6-10.5 6-10.5z"/></svg><div><p class="est-intro__title">Great! You&rsquo;re looking to renovate your bathroom.</p><p>Water is the most damaging thing to a home. Replacing your old plumbing and eliminating mold &amp; mildew is a smart decision!</p></div></aside>
+              <h2 class="est-step__title" id="st-bphotos" tabindex="-1">All we need are a few photos.</h2>
+              <p class="est-step__desc">Please upload 4&ndash;5 photos of your bathroom. We love photos, so send as many as you want!</p>
             </header>
             <div class="est-step__body">
               <ul class="photo-tips" role="list">
@@ -399,30 +401,20 @@
             </div>
           </section>
 
-          <!-- ============ BATH FLOW — PRODUCT SELECTIONS (configuration-driven) ============
-               Rendered from `bathOptions` in main.js. This step is skipped automatically while
-               bathOptions is empty. TODO(CLIENT CONTENT): supply bathroom products & images. -->
-          <section class="est-step" data-step="b-options" aria-labelledby="st-boptions" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-boptions" tabindex="-1">Which options are you considering?</h2>
-              <p class="est-step__desc">Pick what&rsquo;s closest to what you have in mind. &ldquo;Not sure yet&rdquo; is always fine.</p>
-            </header>
-            <div class="est-step__body" data-bath-step-options></div>
-            <p class="step-error" data-step-error role="alert"></p>
-          </section>
-
-          <!-- ============ BATH FLOW — DESCRIPTION & ADDITIONAL INFO ============ -->
+          <!-- ============ BATH FLOW — WRAP-UP ("You did it!") ============
+               The bath question steps (b-plan, b-shower, b-vanity, b-floor, b-toilet) are rendered
+               from BATH_FLOW in main.js and inserted before this section. -->
           <section class="est-step" data-step="b-details" aria-labelledby="st-bdetails" hidden>
             <header class="est-step__header">
               <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-bdetails" tabindex="-1">Tell us about your bathroom project.</h2>
-              <p class="est-step__desc">Optional — describe it in your own words. There&rsquo;s no need for design terms.</p>
+              <h2 class="est-step__title" id="st-bdetails" tabindex="-1">You did it!</h2>
+              <p class="est-step__desc">Is there anything else you would like to add to your bathroom estimate?</p>
             </header>
-            <div class="est-step__body">
+            <div class="est-step__body bq-list">
+              <div data-bq-host="extras"></div>
               <div class="field">
-                <label class="field__label" for="e-bdesc">What would you like to change? <span class="field__optional">Optional</span></label>
-                <textarea class="field__input field__textarea" id="e-bdesc" rows="5" maxlength="2000" data-bind="bath.description" data-counter aria-describedby="e-bdesc-count" placeholder="For example: replace the tub with a walk-in shower and add more storage."></textarea>
+                <label class="field__label" for="e-bdesc">More details <span class="field__optional">Optional</span></label>
+                <textarea class="field__input field__textarea" id="e-bdesc" rows="5" maxlength="2000" data-bind="bath.description" data-counter aria-describedby="e-bdesc-count" placeholder="Anything about your bathroom we should know."></textarea>
                 <p class="field__hint field__hint--end" id="e-bdesc-count" data-counter-output>0 / 2000</p>
               </div>
               <div class="field">

@@ -77,20 +77,66 @@ Keep the client's wording. Polish punctuation only, never meaning.
    > "All of our window replacements come complete with new framing. Any windows that are on 2nd floor landings, in bathrooms, or are 16" or less from the floor, will be tempered."
 8. There is an attachment `65E535A1-43C3-46CA-BBA5-EA8598EF1500.png` ("AFTER THEY CHOOSE WINDOWS"). **We don't have it.** Ask for it.
 
-## 5. Bath Remodel flow — PENDING client assets
+## 5. Bath Remodel flow — from the client's video (`assets/video/C59A4167-….mp4`)
 
-- The client said the bath section "is on the video I sent" (Google Photos link). **We cannot view it.** Bath **item photos** were promised "later today" on 24 Sept and have **not arrived**.
-- install-D.com lists **tub-to-shower conversions** and **vanity replacements** as bath services.
-- Until the video and photos arrive, the bath flow is **provisional and config-driven**:
-  1. What would you like to update? (multi-select areas)
-  2. Photos of the bathroom
-  3. Style picks for each chosen area (photo cards)
-  4. Notes
-- Every provisional option is flagged `provisional: true` in the config and labelled in the UI while dev notes are on. **Do not invent product names, brands, SKUs, prices or warranties.**
+The video is a 4-minute phone screen recording (no narration) of the **previous vendor's tool at hometech-remodeling.com** (a different company). Erin walked through it as the reference for the bath flow. It shows the **questions and options she wants**, not a design to copy; she disliked that design. Item photos in it belong to that site, so we need her own (or licensed) images for every option.
 
+**Flow order in the video:** contact form (step 1 of 10) → service type (multi-select: Bathroom, Window, Siding, Doors, Roofing, Others) → Bathroom → Windows (when both are chosen) → "You are almost done!" → submit → thank-you message.
+
+### Bathroom questions (wording as shown; keep it, polish punctuation only)
+1. **Intro:** "Great! You're looking to renovate your bathroom." Quote: "Water is the most damaging thing to a home. Replacing your old plumbing and eliminating mold & mildew is a smart decision!"
+2. **Photos:** "All we need are a few photos. Please upload 4-5 photos of your bathroom. We love photos, so send as many as you want!" (Photo Library / Take Photo / Choose Files)
+3. **"Would you like to design your bathroom yourself or would you like us to Design it for you?"** Let me design it · You do it for me
+4. **"Choose which items you would like to focus on?"** (multi) Bathtub or Shower · Vanity · Flooring · Toilet. Only the chosen sections appear below.
+5. **Bathtub or Shower design process**
+   - "What would you like to do to the wet spaces in your bathroom?" Replace your tub with a new tub · Replace your tub with a new walk-in shower · Replace your tub and shower with one big walk-in shower · Replace your shower with a new shower · Replace your tub with a walk-in shower and remove your current shower · Replace your tub with a new tub and replace your shower with a new shower
+   - **Walk-in shower questions**
+     - "Choose the height of your shower pan": Low Profile – 1" With Ramp · Standard – 4" · Double Threshold – 8"
+     - "Glass doors or curtain rod?" (photo cards): Glass Doors · Curtain Rod
+     - "What color for your fixtures?" (photo cards): Chrome · Brushed nickel · Matte black · Gold · Oil rubbed bronze
+     - "Your shower will come with a standard shower head and valve, 2 corner shelves and 1 – 18" grab bar. Need anything else in your shower? (choose all that apply)" (photo cards, multi): 2 More Corner Shelves · Soapdish · A Niche Shelf · A Teak Seat · A Bench Seat · A Corner Seat · A Foot Pedestal · A 12" Grab Bar · A 24" Grab Bar · A Grab Bar Around The Valve · A Rain Shower Head Plus A Standard Shower Head
+     - "Choose a wall design for walk-in shower": Basic colors · Marbles · Tile Designs. Each reveals its own gallery:
+       - Marbles (photo cards): Napoli Marble · Tuscany · Horizon Beige · Sandalwood · White Travertine · Canyon Rock · Glacier Ice · Carbon Ash · Metapeake · Versailles · Artic Ice · Evo (+ more)
+       - Tile Designs (photo cards): Chevron · Cobblestone · Panorama · Subway · Roman Block · Flagstone; then "Black or grey laser etched grout?" Black · Grey; then "If you would like to add a marble color to your tile design, enter the name here" (text)
+       - Basic colors: options not shown in the video. **Ask Erin.**
+6. **Vanity design process**
+   - "Would you like us to supply the vanity or would you like to buy your own vanity and have us install it?" I want you to supply the vanity · I will supply the vanity myself but I will need you to install it
+   - If they supply it: "Are you going from a single bowl vanity to a double bowl vanity?" Yes · No, I'm keeping the same amount of bowls
+   - If we supply it: "Would you like a single vanity or a double?" Single · Double. Then "Choose a design you like" (Vanity 1–20, photo cards). Then "Don't worry, we will match your vanity size to your current vanity. Is that okay, or would you like to change the size of your vanity?" That's great! · I want a bigger vanity than the one I have now · I want a smaller vanity than the one I have now
+   - "We will match your vanity faucets with the color of your shower faucets. Choose a faucet style:" Faucet 1–12 (photo cards)
+7. **Flooring design process:** "We offer luxury vinyl plank and luxury vinyl tile. This is the best product for any bathroom space due to its durability, softness to the feet, and waterproofing capabilities." Then "Choose a design for flooring": Style 1–22 (photo cards)
+8. **Toilet design process**
+   - "Would you like us to supply the toilet or will you be supplying the toilet and need us to install it?" You supply the toilet · I will supply the toilet but I'll need you to install it
+   - If we supply it: "Choose a color for your toilet": White · Black · Almond (swatches). "Choose a style": Standard · Comfort Height – a bit taller, helps your knees… · A fancy toilet and bidet combo. Very modern. Very mindful. Very demure.
+9. **"You did it! Is there anything else you would like to add to your estimate?"** (multi) Remove tile wainscotting around the walls · Remove the vanity mirror · Add a ceiling light with exhaust · Replace vanity lights. Then **More Details** (text)
+
+### Windows (as shown in the same video, for comparison with §4)
+"It looks like you're also wanting to replace your windows. Great idea!" + the 60% quote; "Please upload a photo of each window you are wanting to replace. An inside photo is best."; same style / you decide; colors (the old site: White · Tan · Black · Burgundy · Grey · Green · Dark brown); grids (No · same as current · diamond · colonial); "All of our window installs come with re-framing, new sills and casing. Any windows on 2nd floor landings, in bathrooms, and/or are less than 16" from the floor will be tempered. Any bathroom windows will be tempered and obscure." **Erin's 24 Sept text (§4) is newer and wins**, but note two extras here: "An inside photo is best" and "bathroom windows will be tempered **and obscure**". Ask whether she wants both added.
+
+### Finish (video)
+"You are almost done! Within 24 hours, you will receive your estimate. We will also send you information about our company, about each product you want an estimate for, and steps on how to move forward with your renovation project. We will also tell you about our financing options…" → Submit → "Thank you for your message. We will get in touch with you shortly." Erin's own ask (§3.6, the CONGRATS pop-up) replaces this ending. The **"within 24 hours"** and **financing** promises are the old company's; only use them if Erin confirms.
+
+### Built (29 Sept 2026)
+- `BATH_FLOW` in `main.js` §1 holds every question above as data (overridable with `window.SITE_BATH_FLOW`). Steps: **b-photos** (video intro + "4–5 photos") → **b-plan** (design yourself / we design, focus areas) → **b-shower / b-vanity / b-floor / b-toilet** (each only if chosen) → **b-details** ("You did it!" extras + More details).
+- **One step per bathroom area** (team decision, 29 Sept: a one-question-per-step split was tried and rejected): `BATH_PAGES` gives `b-plan`, `b-shower`, `b-vanity`, `b-floor`, `b-toilet`. A step is skipped when its area isn't chosen. Inside a step, questions are numbered blocks split by hairlines, and numbering follows the visible questions (CSS counter). Answers use a compact design (`styles.css` §19q): text answers are wrapping pills (a radio dot or checkbox square on the left), photo answers are small tiles (4 columns on desktop, 3 on phones), and colors are compact chips.
+- The engine supports single, multi and text questions, `showIf` follow-ups, and image, swatch or list cards. Required visible questions are validated. Answers are saved in the draft, shown in the review by area, and sent in `payload.bath.areas` grouped by area for the email.
+- **Provisional:** shower-door and vanity photos are our stock images. Marble, tile, flooring and fixture colours are CSS swatches. Faucet styles are generic types (the video had "Faucet 1–12" images). All are marked `provisional`; swap in Erin's photos.
+- Bath page "areas" cards now describe these four areas.
+
+### Still open from the video
+- Erin's own photos for every option (vanities 20, faucets 12, flooring 22, marbles 12+, tiles 6, shower add-ons 11, doors 2, fixtures 5, toilets 3).
+- "Basic colors" wall options (not shown in the video).
+- Whether "Let me design it" vs "You do it for me" should change which questions appear (the video shows the same questions either way).
+- Windows extras seen in the video: "An inside photo is best", "bathroom windows will be tempered and obscure". Not added; ask Erin.
+- The old tool's service list (Siding, Doors, Roofing, Others). Still routed to the in-person quote until Erin confirms them as online products.
+
+### Build notes
+- Every option list above goes into `bathOptions` config (categories → questions → options with `image`), with conditional `showIf`. The engine needs **multi-select** questions, **conditional sub-questions** and **free-text** fields; today it only has single-choice cards.
+- **Images needed from Erin** (we can't reuse hometech's): 2 shower-door, 5 fixture finishes, 11 shower add-ons, marble swatches (12+), 6 tile patterns, vanities (20), faucets (12), flooring (22), 3 toilet colors.
+- Not in the video: measurements, per-area "colours picked out?" beyond the above, and "Basic colors" options.
 ## 6. Open-question list for the client (keep updated)
 
-- [ ] Bath flow details from the video: steps, questions, options, and the item photos
+- [x] Bath flow extracted from the video (§5). Still need: **her own item photos** for every option, the "Basic colors" wall options, and whether the "24 hours / financing" wording applies to install-D
 - [ ] The missing screenshot `65E535A1-….png`
 - [x] Color pairs follow her **Interior/Exterior** header exactly (white/oak = white inside, oak outside)
 - [ ] "Save up to 60%": confirm the client wants it published and can substantiate it
@@ -127,7 +173,7 @@ Keep the client's wording. Polish punctuation only, never meaning.
 
 ### Layout & content rules (team, 28 Sept 2026) — apply to every page
 1. **No wasted whitespace.** Columns end together, with no empty half-rows, dead photo bands or oversized section padding (`--section-y` ≈ 56–100px). If one column is taller, rebalance it: resize the media, spread the list across the row, or split the prose into two columns.
-2. **Headings use the full available width.** No forced `<br>`, no narrow `max-width` on `h1`/`h2`. A heading only wraps when it genuinely doesn't fit, and it never wraps early while the space beside it sits empty.
+2. **Headings use the full available width.** No forced `<br>`, no narrow `max-width` on `h1`/`h2`. A heading only wraps when it genuinely doesn't fit, and it never wraps early while the space beside it sits empty. Headings use `text-wrap: pretty`, never `balance` (balance breaks lines early). `initHeadingWidows()` in `main.js` keeps the last two words of any heading with 4+ words together.
 3. **Body text goes below its heading, never beside it.** No heading-left / paragraph-right layouts. Carousel arrows beside a heading are the one allowed exception.
 4. **No eyebrow pills** (the small label above a heading). Headings stand on their own.
 5. **Few words.** The hero is a short headline, one sentence and two actions. Section intros are one sentence.
@@ -207,7 +253,7 @@ The restored v1 estimator predates the 24 Sept spec. Items 1–8 below already e
 7. **Finish.** The client wants an **Additional information** box plus a **COMPLETE** button. v1 has a Review screen with "Submit My Project".
 8. **Confirmation** must be a **pop-up** with the exact text "CONGRATS! Your estimate has been submitted. You will receive your proposal soon." v1 shows an inline thank-you page.
 9. Client-side **photo compression** and a **spam honeypot** are missing.
-10. The **bath flow** is pending the client's video and item photos (§5).
+10. ~~**Bath flow**~~ — **built** from her video (§5); waiting only on her item photos.
 11. The **backend** (email grouped by area, photo attachments, saved submissions) is WordPress-side work (§10).
 12. **Offer vs current ask.** The accepted offer (23 Sept) still lists the *painting* scope: 21 rooms, 4 exterior sides, painting items, **"Yellow and red styling"**. Erin's 24 Sept messages replaced that with Windows + Bath and blue & white. **Get written confirmation** that the new scope replaces the offer's list, so delivery isn't judged against the old one.
 13. **Per-area measurements.** The original spec had a measurements box (W×H) per room or side. The new windows spec doesn't mention measurements, and the bath flow is unknown. Ask whether measurements are still wanted.

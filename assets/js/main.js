@@ -136,6 +136,455 @@
         // TODO(CLIENT CONTENT): add bathroom product categories here.
       ];
 
+  /* ---------------------------------------------------------------------
+     BATH FLOW — the client's bathroom questions (from her reference video,
+     CLAUDE.md §5). Pure data, so WordPress can override it with
+     window.SITE_BATH_FLOW and the estimator, review and payload follow.
+
+     Step:     { id, kicker, title, desc?, intro?, when?, questions: [...] }
+     Question: { id, label, type: 'single'|'multi'|'text', layout?: 'list'|'cards'|'swatches',
+                 required?, hint?, review?, showIf?: { q, in: [...] }, options?: [...] }
+     Option:   { id, label, image?, swatch?, icon? }
+     `when` / `showIf` reference another question's answer:
+       { q: 'focus', in: ['shower'] } → shown when that answer is (or includes) one of the values.
+
+     IMAGES: the video's product photos belong to another company. Options
+     below use representative stock photos or colour swatches, flagged
+     `provisional`. Replace `image` / `swatch` with the client's own photos.
+     --------------------------------------------------------------------- */
+  const IMG = (base) => `assets/images/bath/${base}-640.webp`;
+  const DEFAULT_BATH_FLOW = [
+    {
+      id: 'b-plan',
+      kicker: 'Bathroom',
+      title: 'How would you like to plan your bathroom?',
+      questions: [
+        {
+          id: 'design',
+          label: 'Would you like to design your bathroom yourself or would you like us to design it for you?',
+          review: 'Design',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          options: [
+            { id: 'me', label: 'Let me design it', icon: 'palette' },
+            { id: 'you', label: 'You do it for me', icon: 'sparkle' },
+          ],
+        },
+        {
+          id: 'focus',
+          label: 'Choose which items you would like to focus on.',
+          review: 'Focus areas',
+          hint: 'Choose all that apply.',
+          type: 'multi',
+          layout: 'list',
+          required: true,
+          options: [
+            { id: 'shower', label: 'Bathtub or shower', icon: 'shower' },
+            { id: 'vanity', label: 'Vanity', icon: 'vanity' },
+            { id: 'flooring', label: 'Flooring', icon: 'floor' },
+            { id: 'toilet', label: 'Toilet', icon: 'toilet' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'b-shower',
+      kicker: 'Bathtub or shower',
+      title: 'Bathtub or shower design',
+      when: { q: 'focus', in: ['shower'] },
+      questions: [
+        {
+          id: 'wet',
+          label: 'What would you like to do to the wet spaces in your bathroom?',
+          review: 'Wet spaces',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          options: [
+            { id: 'tub-to-tub', label: 'Replace your tub with a new tub' },
+            { id: 'tub-to-walkin', label: 'Replace your tub with a new walk-in shower' },
+            { id: 'both-to-walkin', label: 'Replace your tub and shower with one big walk-in shower' },
+            { id: 'shower-to-shower', label: 'Replace your shower with a new shower' },
+            { id: 'tub-to-walkin-remove', label: 'Replace your tub with a walk-in shower and remove your current shower' },
+            { id: 'tub-and-shower', label: 'Replace your tub with a new tub and replace your shower with a new shower' },
+          ],
+        },
+        {
+          id: 'pan',
+          label: 'Choose the height of your shower pan.',
+          review: 'Shower pan',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          showIf: { q: 'wet', in: ['tub-to-walkin', 'both-to-walkin', 'shower-to-shower', 'tub-to-walkin-remove', 'tub-and-shower'] },
+          options: [
+            { id: 'low', label: 'Low profile – 1″ with ramp' },
+            { id: 'standard', label: 'Standard – 4″' },
+            { id: 'double', label: 'Double threshold – 8″' },
+          ],
+        },
+        {
+          id: 'doors',
+          label: 'Glass doors or curtain rod?',
+          review: 'Doors',
+          type: 'single',
+          layout: 'cards',
+          required: true,
+          showIf: { q: 'wet', in: ['tub-to-walkin', 'both-to-walkin', 'shower-to-shower', 'tub-to-walkin-remove', 'tub-and-shower'] },
+          options: [
+            { id: 'glass', label: 'Glass doors', image: IMG('bath-glass-shower'), provisional: true },
+            { id: 'curtain', label: 'Curtain rod', image: IMG('bath-freestanding-tub'), provisional: true },
+          ],
+        },
+        {
+          id: 'fixtures',
+          label: 'What color for your fixtures?',
+          review: 'Fixture color',
+          type: 'single',
+          layout: 'swatches',
+          required: true,
+          options: [
+            { id: 'chrome', label: 'Chrome', swatch: 'linear-gradient(135deg,#f4f6f8,#b9c0c7 45%,#eef1f3 55%,#9aa3ab)' },
+            { id: 'brushed-nickel', label: 'Brushed nickel', swatch: 'linear-gradient(135deg,#d9d6cf,#a9a59c 50%,#cfcbc2)' },
+            { id: 'matte-black', label: 'Matte black', swatch: '#232325' },
+            { id: 'gold', label: 'Gold', swatch: 'linear-gradient(135deg,#e7c985,#b98b3e 55%,#d8b064)' },
+            { id: 'oil-rubbed-bronze', label: 'Oil rubbed bronze', swatch: 'linear-gradient(135deg,#6b4a33,#3a2518 60%,#5a3c29)' },
+          ],
+        },
+        {
+          id: 'addons',
+          label: 'Need anything else in your shower?',
+          hint: 'Your shower will come with a standard shower head and valve, 2 corner shelves and 1 – 18″ grab bar. Choose all that apply.',
+          review: 'Shower extras',
+          type: 'multi',
+          layout: 'list',
+          options: [
+            { id: 'corner-shelves', label: '2 more corner shelves' },
+            { id: 'soapdish', label: 'Soap dish' },
+            { id: 'niche', label: 'A niche shelf' },
+            { id: 'teak-seat', label: 'A teak seat' },
+            { id: 'bench-seat', label: 'A bench seat' },
+            { id: 'corner-seat', label: 'A corner seat' },
+            { id: 'foot-pedestal', label: 'A foot pedestal' },
+            { id: 'grab-12', label: 'A 12″ grab bar' },
+            { id: 'grab-24', label: 'A 24″ grab bar' },
+            { id: 'grab-valve', label: 'A grab bar around the valve' },
+            { id: 'rain-head', label: 'A rain shower head plus a standard shower head' },
+          ],
+        },
+        {
+          id: 'wall',
+          label: 'Choose a wall design for your walk-in shower.',
+          review: 'Wall design',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          options: [
+            { id: 'basic', label: 'Basic colors' },
+            { id: 'marble', label: 'Marbles' },
+            { id: 'tile', label: 'Tile designs' },
+          ],
+        },
+        {
+          id: 'marble',
+          label: 'Choose a marble design.',
+          review: 'Marble',
+          type: 'single',
+          layout: 'swatches',
+          required: true,
+          showIf: { q: 'wall', in: ['marble'] },
+          provisional: true,
+          options: [
+            { id: 'napoli', label: 'Napoli Marble', swatch: 'linear-gradient(135deg,#e9e9e7,#c9c8c4 40%,#f2f1ee 60%,#b8b7b3)' },
+            { id: 'tuscany', label: 'Tuscany', swatch: 'linear-gradient(135deg,#f6efe8,#e2d2c6 50%,#fbf7f3)' },
+            { id: 'horizon-beige', label: 'Horizon Beige', swatch: 'repeating-linear-gradient(170deg,#d9d2c6 0 6px,#c7bdae 6px 9px,#e4ded4 9px 16px)' },
+            { id: 'sandalwood', label: 'Sandalwood', swatch: 'linear-gradient(135deg,#c89e78,#9a6c4a 50%,#d8b394)' },
+            { id: 'white-travertine', label: 'White Travertine', swatch: 'linear-gradient(135deg,#efe3c6,#dcc9a0 50%,#f4ead3)' },
+            { id: 'canyon-rock', label: 'Canyon Rock', swatch: 'linear-gradient(135deg,#b07548,#7a4b2e 50%,#c9946a)' },
+            { id: 'glacier-ice', label: 'Glacier Ice', swatch: 'linear-gradient(135deg,#ece6e8,#bdb2b6 50%,#f3eff0)' },
+            { id: 'carbon-ash', label: 'Carbon Ash', swatch: 'linear-gradient(135deg,#cfcfcf,#b3b3b3 50%,#d8d8d8)' },
+            { id: 'metapeake', label: 'Metapeake', swatch: 'linear-gradient(135deg,#d9d8d6,#c4c3c0 50%,#e3e2df)' },
+            { id: 'versailles', label: 'Versailles', swatch: 'linear-gradient(135deg,#e6e6de,#c7c9bd 50%,#eeeee8)' },
+            { id: 'artic-ice', label: 'Artic Ice', swatch: 'linear-gradient(135deg,#f3f1f0,#dad6d4 50%,#f7f6f5)' },
+            { id: 'evo', label: 'Evo', swatch: 'radial-gradient(circle at 30% 30%,#8e8a93 0 8%,transparent 9%),radial-gradient(circle at 70% 60%,#6f6b74 0 7%,transparent 8%),#cfccd2' },
+          ],
+        },
+        {
+          id: 'tile',
+          label: 'Choose a tile design style.',
+          review: 'Tile style',
+          type: 'single',
+          layout: 'swatches',
+          required: true,
+          showIf: { q: 'wall', in: ['tile'] },
+          options: [
+            { id: 'chevron', label: 'Chevron', swatch: 'repeating-linear-gradient(45deg,#f6f5f1 0 10px,#dcdad3 10px 11px),#f6f5f1' },
+            { id: 'cobblestone', label: 'Cobblestone', swatch: 'repeating-linear-gradient(0deg,#f6f5f1 0 12px,#dcdad3 12px 13px)' },
+            { id: 'panorama', label: 'Panorama', swatch: 'repeating-linear-gradient(0deg,#f6f5f1 0 22px,#dcdad3 22px 23px)' },
+            { id: 'subway', label: 'Subway', swatch: 'repeating-linear-gradient(0deg,#f6f5f1 0 8px,#d8d6cf 8px 9px)' },
+            { id: 'roman-block', label: 'Roman Block', swatch: 'repeating-linear-gradient(90deg,#f6f5f1 0 28px,#d8d6cf 28px 29px)' },
+            { id: 'flagstone', label: 'Flagstone', swatch: 'repeating-linear-gradient(0deg,#f6f5f1 0 14px,#d8d6cf 14px 15px),repeating-linear-gradient(90deg,transparent 0 20px,#d8d6cf 20px 21px)' },
+          ],
+        },
+        {
+          id: 'grout',
+          label: 'Black or grey laser etched grout?',
+          review: 'Grout',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          showIf: { q: 'wall', in: ['tile'] },
+          options: [
+            { id: 'black', label: 'Black' },
+            { id: 'grey', label: 'Grey' },
+          ],
+        },
+        {
+          id: 'tileMarble',
+          label: 'If you would like to add a marble color to your tile design, enter the name here.',
+          review: 'Tile marble color',
+          type: 'text',
+          showIf: { q: 'wall', in: ['tile'] },
+        },
+      ],
+    },
+    {
+      id: 'b-vanity',
+      kicker: 'Vanity',
+      title: 'Vanity design',
+      when: { q: 'focus', in: ['vanity'] },
+      questions: [
+        {
+          id: 'vanitySupply',
+          label: 'Would you like us to supply the vanity or would you like to buy your own vanity and have us install it?',
+          review: 'Vanity',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          options: [
+            { id: 'us', label: 'I want you to supply the vanity' },
+            { id: 'own', label: 'I will supply the vanity myself but I will need you to install it' },
+          ],
+        },
+        {
+          id: 'bowls',
+          label: 'Are you going from a single bowl vanity to a double bowl vanity?',
+          review: 'Bowls',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          showIf: { q: 'vanitySupply', in: ['own'] },
+          options: [
+            { id: 'yes', label: 'Yes' },
+            { id: 'no', label: 'No, I’m keeping the same amount of bowls' },
+          ],
+        },
+        {
+          id: 'vanityType',
+          label: 'Would you like a single vanity or a double?',
+          review: 'Single or double',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          showIf: { q: 'vanitySupply', in: ['us'] },
+          options: [
+            { id: 'single', label: 'Single' },
+            { id: 'double', label: 'Double' },
+          ],
+        },
+        {
+          id: 'vanityDesign',
+          label: 'Choose a design you like.',
+          review: 'Vanity design',
+          type: 'single',
+          layout: 'cards',
+          required: true,
+          provisional: true,
+          showIf: { q: 'vanitySupply', in: ['us'] },
+          options: [
+            { id: 'vanity-1', label: 'Vanity 1', image: IMG('bath-oak-vanity') },
+            { id: 'vanity-2', label: 'Vanity 2', image: IMG('bath-marble-vanity') },
+            { id: 'vanity-3', label: 'Vanity 3', image: IMG('bath-floating-vanity-sage') },
+            { id: 'vanity-4', label: 'Vanity 4', image: IMG('bath-grey-black-sink') },
+            { id: 'vanity-5', label: 'Vanity 5', image: IMG('bath-double-vessel') },
+            { id: 'vanity-6', label: 'Vanity 6', image: IMG('bath-stone-tub') },
+          ],
+        },
+        {
+          id: 'vanitySize',
+          label: 'Don’t worry, we will match your vanity size to your current vanity. Is that okay, or would you like to change the size of your vanity?',
+          review: 'Vanity size',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          showIf: { q: 'vanitySupply', in: ['us'] },
+          options: [
+            { id: 'same', label: 'That’s great!' },
+            { id: 'bigger', label: 'I want a bigger vanity than the one I have now' },
+            { id: 'smaller', label: 'I want a smaller vanity than the one I have now' },
+          ],
+        },
+        {
+          id: 'faucet',
+          label: 'We will match your vanity faucets with the color of your shower faucets. Choose a faucet style:',
+          review: 'Faucet style',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          provisional: true,
+          options: [
+            { id: 'single-handle', label: 'Single-handle' },
+            { id: 'widespread', label: 'Widespread (three-piece)' },
+            { id: 'centerset', label: 'Centerset (4″)' },
+            { id: 'vessel', label: 'Tall vessel' },
+            { id: 'waterfall', label: 'Waterfall spout' },
+            { id: 'not-sure', label: 'Not sure yet' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'b-floor',
+      kicker: 'Flooring',
+      title: 'Flooring design',
+      desc: 'We offer luxury vinyl plank and luxury vinyl tile. This is the best product for any bathroom space due to its durability, softness to the feet, and waterproofing capabilities.',
+      when: { q: 'focus', in: ['flooring'] },
+      questions: [
+        {
+          id: 'floor',
+          label: 'Choose a design for flooring.',
+          review: 'Flooring style',
+          type: 'single',
+          layout: 'swatches',
+          required: true,
+          provisional: true,
+          options: [
+            { id: 'style-1', label: 'Style 1', swatch: 'linear-gradient(135deg,#eeebe7,#d6d1cb 50%,#f3f1ee)' },
+            { id: 'style-2', label: 'Style 2', swatch: 'repeating-linear-gradient(0deg,#6d6862 0 14px,#5a5550 14px 15px,#77726c 15px 30px)' },
+            { id: 'style-3', label: 'Style 3', swatch: 'repeating-linear-gradient(0deg,#d8d9d5 0 14px,#c4c5c0 14px 15px)' },
+            { id: 'style-4', label: 'Style 4', swatch: 'repeating-linear-gradient(0deg,#c9a57c 0 14px,#b38e66 14px 15px,#d4b58f 15px 30px)' },
+            { id: 'style-5', label: 'Style 5', swatch: 'repeating-linear-gradient(0deg,#8a6446 0 14px,#735238 14px 15px,#98704f 15px 30px)' },
+            { id: 'style-6', label: 'Style 6', swatch: 'repeating-linear-gradient(0deg,#d9d0c1 0 14px,#c6bcac 14px 15px)' },
+            { id: 'style-7', label: 'Style 7', swatch: 'repeating-linear-gradient(0deg,#8e8b87 0 14px,#7b7874 14px 15px)' },
+            { id: 'style-8', label: 'Style 8', swatch: 'linear-gradient(135deg,#f5f3f2,#e3e0de 50%,#f8f7f6)' },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'b-toilet',
+      kicker: 'Toilet',
+      title: 'Toilet design',
+      when: { q: 'focus', in: ['toilet'] },
+      questions: [
+        {
+          id: 'toiletSupply',
+          label: 'Would you like us to supply the toilet or will you be supplying the toilet and need us to install it?',
+          review: 'Toilet',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          options: [
+            { id: 'us', label: 'You supply the toilet' },
+            { id: 'own', label: 'I will supply the toilet but I’ll need you to install it' },
+          ],
+        },
+        {
+          id: 'toiletColor',
+          label: 'Choose a color for your toilet.',
+          review: 'Toilet color',
+          type: 'single',
+          layout: 'swatches',
+          required: true,
+          showIf: { q: 'toiletSupply', in: ['us'] },
+          options: [
+            { id: 'white', label: 'White', swatch: '#FFFFFF' },
+            { id: 'black', label: 'Black', swatch: '#161619' },
+            { id: 'almond', label: 'Almond', swatch: '#F2E3B3' },
+          ],
+        },
+        {
+          id: 'toiletStyle',
+          label: 'Choose a style.',
+          review: 'Toilet style',
+          type: 'single',
+          layout: 'list',
+          required: true,
+          showIf: { q: 'toiletSupply', in: ['us'] },
+          options: [
+            { id: 'standard', label: 'Standard' },
+            { id: 'comfort', label: 'Comfort height – a bit taller, helps your knees' },
+            { id: 'bidet', label: 'A fancy toilet and bidet combo – very modern' },
+          ],
+        },
+      ],
+    },
+  ];
+
+  /* Wrap-up question on the bathroom details step (video: "You did it!") */
+  const BATH_EXTRAS = {
+    id: 'extras',
+    label: 'Is there anything else you would like to add to your estimate?',
+    review: 'Also add',
+    hint: 'Choose all that apply.',
+    type: 'multi',
+    layout: 'list',
+    options: [
+      { id: 'wainscot', label: 'Remove tile wainscotting around the walls' },
+      { id: 'mirror', label: 'Remove the vanity mirror' },
+      { id: 'ceiling-light', label: 'Add a ceiling light with exhaust' },
+      { id: 'vanity-lights', label: 'Replace vanity lights' },
+    ],
+  };
+
+  const BATH_FLOW = Array.isArray(window.SITE_BATH_FLOW) ? window.SITE_BATH_FLOW : DEFAULT_BATH_FLOW;
+  const BATH_QUESTIONS = BATH_FLOW.flatMap((step) => step.questions.map((q) => ({ ...q, step: step.id }))).concat([{ ...BATH_EXTRAS, step: 'b-details', page: 'b-details' }]);
+
+  /* One estimator step per bathroom area (b-plan, b-shower, b-vanity, b-floor, b-toilet). */
+  const BATH_PAGES = BATH_FLOW.map((step) => ({
+    id: step.id,
+    area: step.id,
+    kicker: step.kicker,
+    title: step.title,
+    desc: step.desc || '',
+    when: step.when,
+    grouped: true,
+    questions: step.questions.map((q) => q.id),
+  }));  BATH_QUESTIONS.forEach((q) => {
+    if (q.page) return;
+    const page = BATH_PAGES.find((pg) => pg.questions.includes(q.id));
+    q.page = page ? page.id : q.step;
+  });
+
+  /** True when a when/showIf condition holds for the current answers. */
+  function bathCondition(cond, answers) {
+    if (!cond) return true;
+    const value = answers[cond.q];
+    const list = Array.isArray(value) ? value : value ? [value] : [];
+    return list.some((v) => cond.in.includes(v));
+  }
+
+  /** Answered, currently-applicable bath questions → [{ step, id, question, answer }] (human-readable). */
+  function bathAnswerList(state) {
+    const answers = state.bath.answers || {};
+    return BATH_QUESTIONS.filter((q) => {
+      const step = BATH_FLOW.find((s) => s.id === q.step);
+      const value = answers[q.id];
+      const answered = Array.isArray(value) ? value.length : String(value || '').trim();
+      return answered && bathCondition(step && step.when, answers) && bathCondition(q.showIf, answers);
+    }).map((q) => {
+      const value = answers[q.id];
+      const labelOf = (v) => ((q.options || []).find((o) => o.id === v) || {}).label || v;
+      return {
+        step: q.step,
+        id: q.id,
+        question: q.review || q.label,
+        answer: q.type === 'text' ? String(value).trim() : (Array.isArray(value) ? value : [value]).map(labelOf).join(', '),
+      };
+    });
+  }
+
   /* Inline icon set (matches the icons used in the HTML) */
   const ICON_PATHS = {
     check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
@@ -152,6 +601,11 @@
     palette: '<circle cx="8.5" cy="12" r="4.5"/><circle cx="15.5" cy="12" r="4.5"/>',
     layers: '<path d="m12 4 8.5 4.5L12 13 3.5 8.5z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5"/>',
     image: '<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="9.5" r="1.5"/><path d="m20.5 16-5-5-9 8.5"/>',
+    sparkle: '<path d="M12 3.5 13.9 9 19.5 11l-5.6 2L12 18.5 10.1 13 4.5 11l5.6-2z"/>',
+    shower: '<path d="M6 21V7a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3v1"/><path d="M9.5 8h7"/><path d="M11 11v.5M13 12v.5M15 11v.5M12 14.5v.5M14 15v.5"/>',
+    vanity: '<rect x="4" y="11" width="16" height="9" rx="1.5"/><path d="M12 11v9M9 15h.01M15 15h.01"/><path d="M9 11V8.5a3 3 0 0 1 6 0V11"/>',
+    floor: '<path d="M2.5 20h19L17.5 12h-11zM9 12l-2 8M15 12l2 8M4.3 16h15.4"/>',
+    toilet: '<path d="M7 3.5h7v6H7z"/><path d="M5 9.5h14v1a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6z"/><path d="m9 16.5-1 4h8l-1-4"/>',
   };
 
   function icon(name, className = 'icon') {
@@ -1701,7 +2155,7 @@
       contact: { firstName: '', lastName: '', email: '', phone: '', preferredContact: '' },
       address: { street: '', line2: '', city: '', region: '', postalCode: '' },
       windows: { quantity: '', approach: '', color: '', grid: '', details: '' },
-      bath: { selections: {}, description: '' },
+      bath: { selections: {}, description: '', answers: {} }, // answers: BATH_FLOW question id → value / [values]
       notes: '',
       uploads: [], // { id, group, file, url } — File objects are never persisted
     };
@@ -1785,6 +2239,7 @@
     estimateState.bath = {
       selections: saved.bath && typeof saved.bath.selections === 'object' && saved.bath.selections ? saved.bath.selections : {},
       description: str(saved.bath && saved.bath.description),
+      answers: saved.bath && saved.bath.answers && typeof saved.bath.answers === 'object' ? saved.bath.answers : {},
     };
     estimateState.notes = str(saved.notes);
     estimateState.currentStep = str(saved.currentStep) || 'project';
@@ -1895,7 +2350,8 @@
     { id: 'w-grid', phase: 'Windows', when: hasWindows, choices: ['windowGrid'] },
     { id: 'w-details', phase: 'Windows', when: hasWindows },
     { id: 'b-photos', phase: 'Bath', when: hasBath, photos: 'bath' },
-    { id: 'b-options', phase: 'Bath', when: (s) => hasBath(s) && bathOptions.length > 0, choices: () => bathOptions.map((c) => `bath-${c.id}`) },
+    // Client's bathroom questions (CLAUDE.md §5) — each step shows only for the areas chosen in b-plan.
+    ...BATH_PAGES.map((pg) => ({ id: pg.id, phase: 'Bath', bathFlow: true, when: (s) => hasBath(s) && bathCondition(pg.when, s.bath.answers) && bathCondition(pg.showIf, s.bath.answers) })),
     { id: 'b-details', phase: 'Bath', when: hasBath },
     { id: 'review', phase: 'Review' },
   ];
@@ -1923,42 +2379,122 @@
     const stepEl = (id) => $(`[data-step="${id}"]`, form);
     const reachedIndex = () => stepIndex(estimateState.furthestStep);
 
-    /* ---- Render configuration-driven bath options into the estimator ---- */
-    const bathStepBody = $('[data-bath-step-options]', form);
-    if (bathStepBody && bathOptions.length) {
-      bathStepBody.innerHTML = bathOptions
-        .map((cat) => {
-          const name = `bath-${cat.id}`;
-          const cards = (cat.options || [])
-            .map(
-              (opt) => `
-            <label class="option-card${opt.image ? ' option-card--media' : ''}">
-              <input class="option-card__input" type="radio" name="${name}" value="${escapeHTML(opt.id)}" data-bind="bath.selections.${escapeHTML(cat.id)}">
-              ${opt.image ? `<span class="option-card__media"><img src="${escapeHTML(opt.image)}" alt="" loading="lazy" decoding="async" width="640" height="480"></span>` : ''}
-              <span class="option-card__body">
-                <span class="option-card__title">${escapeHTML(opt.label)}</span>
-                ${opt.description ? `<span class="option-card__text">${escapeHTML(opt.description)}</span>` : ''}
-              </span>
-              <span class="option-card__check" aria-hidden="true">${icon('check')}</span>
-            </label>`
-            )
-            .join('');
+    /* ---- Client's bathroom questions (BATH_FLOW) — rendered from config ---- */
+    const bathAnswers = () => estimateState.bath.answers;
+    const bathStepOf = (id) => BATH_FLOW.find((s) => s.id === id);
+    const questionActive = (q) => {
+      const step = bathStepOf(q.step);
+      return hasBath(estimateState) && bathCondition(step && step.when, bathAnswers()) && bathCondition(q.showIf, bathAnswers());
+    };
+    const hasAnswer = (v) => (Array.isArray(v) ? v.length > 0 : Boolean(String(v || '').trim()));
+
+    function renderBathQuestion(q, { asTitle = false, num = 0 } = {}) {
+      const wrapAttrs = `data-bq-wrap="${escapeHTML(q.id)}"${q.showIf && !asTitle ? ' hidden' : ''}`;
+      if (q.type === 'text') {
+        return `
+          <div class="field bq" ${wrapAttrs}>
+            <label class="field__label" for="bq-${escapeHTML(q.id)}">${escapeHTML(q.label)} <span class="field__optional">Optional</span></label>
+            <input class="field__input" id="bq-${escapeHTML(q.id)}" type="text" maxlength="160" data-bq="${escapeHTML(q.id)}">
+          </div>`;
+      }
+      const layout = q.layout || 'list';
+      const inputType = q.type === 'multi' ? 'checkbox' : 'radio';
+      const options = (q.options || [])
+        .map((opt) => {
+          const media = opt.image
+            ? `<span class="option-card__media"><img src="${escapeHTML(opt.image)}" alt="" width="640" height="427" loading="lazy" decoding="async"></span>`
+            : opt.swatch
+              ? `<span class="option-card__media bq-swatch" data-bg="${escapeHTML(opt.swatch)}" aria-hidden="true"></span>`
+              : '';
+          const rowIcon = layout === 'list' && opt.icon ? `<span class="option-card__row-icon">${icon(opt.icon)}</span>` : '';
           return `
-          <fieldset class="bath-category">
-            <legend class="field__label">${escapeHTML(cat.label || cat.category)}</legend>
-            ${cat.description ? `<p class="field__hint">${escapeHTML(cat.description)}</p>` : ''}
-            <div class="option-grid option-grid--3">${cards}</div>
-            <label class="option-card option-card--row option-card--subtle">
-              <input class="option-card__input" type="radio" name="${name}" value="not-sure" data-bind="bath.selections.${escapeHTML(cat.id)}">
-              <span class="option-card__row-icon">${icon('chat')}</span>
-              <span class="option-card__body"><span class="option-card__title">Not sure yet</span></span>
+            <label class="option-card bq-opt${layout === 'list' ? ' option-card--row' : ' option-card--media'}">
+              <input class="option-card__input" type="${inputType}" name="bq-${escapeHTML(q.id)}" value="${escapeHTML(opt.id)}" data-bq="${escapeHTML(q.id)}">
+              ${media}${rowIcon}
+              <span class="option-card__body"><span class="option-card__title">${escapeHTML(opt.label)}</span></span>
               <span class="option-card__check" aria-hidden="true">${icon('check')}</span>
-            </label>
-          </fieldset>`;
+            </label>`;
         })
         .join('');
+      return `
+        <fieldset class="bq bq--${layout}" ${wrapAttrs}>
+          <legend class="${asTitle ? 'visually-hidden' : 'bq__label'}">${num ? `<span class="bq__num" aria-hidden="true"></span>` : ''}${escapeHTML(q.label)}${q.required || asTitle ? '' : ' <span class="field__optional">Optional</span>'}</legend>
+          ${q.hint && !asTitle ? `<p class="bq__hint">${escapeHTML(q.hint)}</p>` : ''}
+          ${q.provisional ? '<p class="dev-note">Representative images — replace with the client&rsquo;s own photos.</p>' : ''}
+          <div class="bq__options bq__options--${layout}">${options}</div>
+        </fieldset>`;
     }
 
+    const bathDetails = stepEl('b-details');
+    if (bathDetails) {
+      BATH_PAGES.forEach((pg) => {
+        const questions = pg.questions.map((qid) => BATH_QUESTIONS.find((q) => q.id === qid));
+        const optional = !pg.grouped && !questions[0].required && questions[0].type !== 'text';
+        const section = document.createElement('section');
+        section.className = 'est-step';
+        section.dataset.step = pg.id;
+        section.hidden = true;
+        section.setAttribute('aria-labelledby', `st-${pg.id}`);
+        section.innerHTML = `
+          <header class="est-step__header">
+            <p class="est-step__kicker" data-step-kicker></p>
+            <h2 class="est-step__title" id="st-${pg.id}" tabindex="-1">${escapeHTML(pg.title.replace(/[.:]$/, ''))}</h2>
+            ${pg.desc || optional ? `<p class="est-step__desc">${escapeHTML(pg.desc)}${optional ? `${pg.desc ? ' ' : ''}Optional.` : ''}</p>` : ''}
+          </header>
+          <div class="est-step__body bq-list">${questions.map((q, i) => renderBathQuestion(q, { asTitle: !pg.grouped && i === 0, num: pg.grouped ? i + 1 : 0 })).join('')}</div>
+          <p class="step-error" data-step-error role="alert"></p>`;
+        bathDetails.before(section);
+      });      const extrasHost = $('[data-bq-host="extras"]', bathDetails);
+      if (extrasHost) extrasHost.innerHTML = renderBathQuestion({ ...BATH_EXTRAS, step: 'b-details' });
+      $$('.bq-swatch', form).forEach((el) => {
+        el.style.background = el.dataset.bg;
+        el.removeAttribute('data-bg');
+      });
+    }
+
+    function refreshBathVisibility() {
+      BATH_QUESTIONS.forEach((q) => {
+        if (!q.showIf) return;
+        const wrap = $(`[data-bq-wrap="${q.id}"]`, form);
+        if (wrap) wrap.hidden = !bathCondition(q.showIf, bathAnswers());
+      });
+    }
+
+    function syncBathInputs() {
+      $$('[data-bq]', form).forEach((input) => {
+        const value = bathAnswers()[input.dataset.bq];
+        if (input.type === 'checkbox') input.checked = Array.isArray(value) && value.includes(input.value);
+        else if (input.type === 'radio') input.checked = value === input.value;
+        else input.value = value || '';
+      });
+      $$('.bq-opt', form).forEach((card) => card.classList.toggle('is-selected', $('input', card).checked));
+      refreshBathVisibility();
+    }
+
+    function onBathInput(event) {
+      const input = event.target.closest('[data-bq]');
+      if (!input) return;
+      const id = input.dataset.bq;
+      if (input.type === 'checkbox') {
+        bathAnswers()[id] = $$(`[data-bq="${id}"]:checked`, form).map((i) => i.value);
+      } else if (input.type === 'radio') {
+        if (!input.checked) return;
+        bathAnswers()[id] = input.value;
+      } else {
+        bathAnswers()[id] = input.value;
+      }
+      $$(`[data-bq="${id}"]`, form).forEach((i) => {
+        const card = i.closest('.bq-opt');
+        if (card) card.classList.toggle('is-selected', i.checked);
+      });
+      refreshBathVisibility();
+      clearStepError(input.closest('.est-step'));
+      onStateChange(`bath.answers.${id}`);
+    }
+    on(form, 'change', onBathInput);
+    on(form, 'input', (event) => {
+      if (event.target.matches('input[type="text"][data-bq]')) onBathInput(event);
+    });
     /* ---- Uploaders ---- */
     $$('[data-uploader]', form).forEach((el) => {
       const group = el.dataset.uploader;
@@ -2030,6 +2566,7 @@
       new Set($$('input[type="radio"]', form).map((r) => r.name)).forEach((name) => syncChoiceCards(name, form));
       updateGridFrameColor();
       updateQuantityUI();
+      syncBathInputs();
     }
 
     function updateCounter(field) {
@@ -2094,10 +2631,16 @@
       const invalidFields = $$('[data-validate]', step).filter((field) => !validateField(field));
       const choices = typeof config.choices === 'function' ? config.choices() : config.choices || [];
       const missingChoice = choices.find((name) => !$(`input[name="${name}"]:checked`, step));
+      const missingBath = config.bathFlow || id === 'b-details'
+        ? BATH_QUESTIONS.find((q) => q.page === id && q.required && questionActive(q) && !hasAnswer(bathAnswers()[q.id]))
+        : null;
 
       const error = $('[data-step-error]', step);
       if (missingChoice && error) {
         error.textContent = choices.length > 1 ? 'Please choose an option in each group to continue.' : 'Please choose an option to continue.';
+        error.classList.add('is-visible');
+      } else if (missingBath && error) {
+        error.textContent = `Please answer: “${missingBath.label.replace(/[.?:]$/, '')}”`;
         error.classList.add('is-visible');
       } else {
         clearStepError(step);
@@ -2108,9 +2651,15 @@
         else if (missingChoice) {
           const first = $(`input[name="${missingChoice}"]`, step);
           if (first) first.focus();
+        } else if (missingBath) {
+          const first = $(`[data-bq="${missingBath.id}"]`, step);
+          if (first) {
+            first.closest('.bq').scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+            first.focus({ preventScroll: true });
+          }
         }
       }
-      return !invalidFields.length && !missingChoice;
+      return !invalidFields.length && !missingChoice && !missingBath;
     }
 
     /* ---- Chrome: progress, phases, kicker, buttons ---- */
@@ -2127,7 +2676,8 @@
       const current = steps[index];
       const kicker = current && $('[data-step-kicker]', stepEl(current.id));
       if (kicker) {
-        kicker.textContent = typeChosen ? `${current.phase} · Step ${index + 1} of ${steps.length}` : 'Getting started';
+        const page = BATH_PAGES.find((pg) => pg.id === current.id);
+        kicker.textContent = typeChosen ? `${page ? page.kicker : current.phase} · Step ${index + 1} of ${steps.length}` : 'Getting started';
       }
 
       // Phase indicator
@@ -2147,6 +2697,9 @@
             return `<li class="est-phase" data-state="${state}"${state === 'current' ? ' aria-current="step"' : ''}><span class="est-phase__dot">${dot}</span><span class="est-phase__label">${label}</span><span class="visually-hidden"> (${state === 'done' ? 'completed' : state === 'current' ? 'current' : 'upcoming'})</span></li>`;
           })
           .join('');
+        // Narrow phones scroll the phase row: keep the current phase in view
+        const cur = $('.est-phase[data-state="current"]', phasesEl);
+        if (cur && phasesEl.scrollWidth > phasesEl.clientWidth) phasesEl.scrollLeft = Math.max(0, cur.offsetLeft - phasesEl.offsetLeft - 8);
       }
 
       updateActions();
@@ -2298,8 +2851,8 @@
       if (hasBath(s)) {
         const n = s.uploads.filter((u) => u.group === 'bath').length;
         if (n) items.push(['Bath photos', String(n)]);
-        const chosen = Object.values(s.bath.selections || {}).filter(Boolean).length;
-        if (chosen) items.push(['Bath selections', String(chosen)]);
+        const focus = bathAnswerList(s).find((a) => a.id === 'focus');
+        if (focus) items.push(['Bath areas', escapeHTML(focus.answer)]);
         if (s.bath.description) items.push(['Description', 'Added']);
       }
 
@@ -2380,22 +2933,24 @@
       }
 
       if (hasBath(s)) {
-        const bathRows = bathOptions.map((cat) => {
-          const chosen = s.bath.selections[cat.id];
-          const opt = (cat.options || []).find((o) => o.id === chosen);
-          return [escapeHTML(cat.category), opt ? escapeHTML(opt.label) : chosen === 'not-sure' ? 'Not sure yet' : dash];
+        const answered = bathAnswerList(s);
+        BATH_FLOW.forEach((step) => {
+          const rows = answered.filter((a) => a.step === step.id).map((a) => [escapeHTML(a.question), escapeHTML(a.answer)]);
+          const pages = getActiveSteps().filter((st) => BATH_PAGES.some((pg) => pg.id === st.id && pg.area === step.id));
+          if (rows.length && pages.length) {
+            groups.push({ title: step.id === 'b-plan' ? 'Bathroom plan' : step.kicker, start: pages[0].id, until: pages[pages.length - 1].id, rows });
+          }
         });
+        const extras = answered.find((a) => a.id === 'extras');
         groups.push({
-          title: 'Bathroom',
-          start: bathOptions.length ? 'b-options' : 'b-details',
-          until: 'b-details',
+          title: 'Bathroom — anything else',
+          start: 'b-details',
           rows: [
-            ...bathRows,
-            ['What you&rsquo;d like to change', s.bath.description.trim() ? escapeHTML(s.bath.description) : '<span class="review-empty">None added</span>', true],
+            ...(extras ? [[escapeHTML(extras.question), escapeHTML(extras.answer)]] : []),
+            ['More details', s.bath.description.trim() ? escapeHTML(s.bath.description) : '<span class="review-empty">None added</span>', true],
             ['Anything else', s.notes.trim() ? escapeHTML(s.notes) : '<span class="review-empty">None added</span>', true],
           ],
-        });
-        groups.push({ title: 'Bathroom photos', start: 'b-photos', photos: 'bath' });
+        });        groups.push({ title: 'Bathroom photos', start: 'b-photos', photos: 'bath' });
       }
       return groups;
     }
@@ -2715,12 +3270,12 @@
       bath: hasBath(s)
         ? {
             description: s.bath.description.trim(),
-            selections: bathOptions.map((cat) => {
-              const chosen = s.bath.selections[cat.id] || null;
-              const opt = (cat.options || []).find((o) => o.id === chosen);
-              return { categoryId: cat.id, category: cat.category, optionId: chosen, label: opt ? opt.label : chosen === 'not-sure' ? 'Not sure yet' : null };
-            }),
-            photoCount: photosFor('bath').length,
+            // Grouped by area for the email (client ask: "organized by area").
+            areas: BATH_FLOW.map((step) => ({
+              area: step.id === 'b-plan' ? 'Plan' : step.kicker,
+              answers: bathAnswerList(s).filter((a) => a.step === step.id).map(({ question, answer }) => ({ question, answer })),
+            })).filter((g) => g.answers.length),
+            extras: (bathAnswerList(s).find((a) => a.id === 'extras') || {}).answer || '',            photoCount: photosFor('bath').length,
           }
         : {},
       notes: s.notes.trim(),
@@ -2867,6 +3422,23 @@
     button.setAttribute('aria-busy', String(loading));
   }
 
+  /* Keeps the last two words of longer headings together, so a heading never
+     ends on a single orphaned word. Runs before the heading animations (which
+     keep whitespace as text, so the non-breaking space survives them). */
+  function initHeadingWidows(scope = document) {
+    $$('h1, h2, h3', scope).forEach((h) => {
+      if (h.dataset.widowFixed || h.textContent.trim().split(/\s+/).length < 4) return;
+      const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+      let last = null;
+      while (walker.nextNode()) if (walker.currentNode.data.trim()) last = walker.currentNode;
+      if (!last) return;
+      const trimmed = last.data.replace(/\s+$/, '');
+      const i = trimmed.search(/\s+\S+$/);
+      if (i > 0) last.data = trimmed.slice(0, i) + ' ' + trimmed.slice(i).trim() + last.data.slice(trimmed.length);
+      h.dataset.widowFixed = '1';
+    });
+  }
+
   /* ===================================================================
      16. INITIALIZATION
      =================================================================== */
@@ -2879,6 +3451,7 @@
 
     // Content renderers first, so later components see the final DOM.
     renderDataDriven();
+    initHeadingWidows();
     initDiagrams();
 
     const header = $('[data-site-header]');

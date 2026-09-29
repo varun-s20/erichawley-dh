@@ -319,7 +319,7 @@ h1, h2, h3, h4 {
   font-weight: var(--fw-semibold);
   line-height: var(--lh-heading);
   letter-spacing: var(--tracking-heading);
-  text-wrap: balance;
+  text-wrap: pretty; /* rule 2: fill the line, wrap only when it doesn't fit */
 }
 
 p,
@@ -7496,6 +7496,12 @@ body[data-header="overlay"] .site-header:not(.is-scrolled) .nav-toggle {
   .intro-split__body .numbered-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  /* Three across: the number sits above the text so the copy gets the card's full width */
+  .intro-split__body .numbered-list li {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -8906,7 +8912,7 @@ h2:not(.is-word-reveal) .avatar-stack {
 .site-footer .footer__grid {
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: var(--space-7);
-  padding-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+  padding-bottom: clamp(2.5rem, 1.75rem + 2.5vw, 4rem);
   border: 0;
 }
 
@@ -8928,6 +8934,7 @@ h2:not(.is-word-reveal) .avatar-stack {
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-5);
+  margin-top: 0; /* the grid's padding already spaces it; no double gap */
   padding: 0 0 calc(28px + env(safe-area-inset-bottom));
   border: 0;
   color: #6F6E78;
@@ -9835,6 +9842,104 @@ body[data-page="home"] .hero__text {
   margin-top: var(--space-5);
 }
 
+/* ---- Estimator: bath question blocks (BATH_FLOW) ---- */
+.bq-list {
+  display: grid;
+  gap: 28px;
+}
+
+.bq {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.bq[hidden] {
+  display: none;
+}
+
+.bq__label {
+  display: block;
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.bq__hint {
+  margin-bottom: 12px;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.bq__label + .bq__options,
+.bq__label + .dev-note {
+  margin-top: 12px;
+}
+
+.bq__options {
+  display: grid;
+  gap: 10px;
+}
+
+.bq__options--list {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.bq__options--cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bq__options--swatches {
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+}
+
+.bq__options--list .option-card--row {
+  min-height: 56px;
+}
+
+.bq__options--list .option-card--row .option-card__body {
+  align-content: center;
+}
+
+.bq__options--swatches .option-card__media {
+  aspect-ratio: 4 / 3;
+}
+
+.bq__options--swatches .option-card__body {
+  padding: 10px 12px 12px;
+}
+
+.bq__options--swatches .option-card__title {
+  font-size: 0.875rem;
+  padding-right: 24px;
+}
+
+.bq__options--swatches .option-card__check {
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.bq-swatch {
+  box-shadow: inset 0 -1px 0 var(--color-border);
+}
+
+@media (min-width: 640px) {
+  .bq__options--list:has(> :nth-child(4)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bq__options--cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 /* ---- Estimator: Erin's windows intro, Pro Tip, color header ---- */
 .est-intro {
   display: grid;
@@ -9918,6 +10023,21 @@ body[data-page="home"] .hero__text {
 @media (max-width: 639px) {
   .grid-showcase > :last-child:nth-child(odd) {
     grid-column: 1 / -1;
+  }
+}
+
+/* Tablet: five grid cards fill two full rows (3 + 2) on a 6-column track */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .grid-showcase {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .grid-showcase > * {
+    grid-column: span 2;
+  }
+
+  .grid-showcase > :nth-child(n + 4):nth-last-child(-n + 2) {
+    grid-column: span 3;
   }
 }
 
@@ -10059,5 +10179,421 @@ img {
   .step-col__body,
   .svc__panel {
     transition-duration: 1ms !important;
+  }
+}
+
+/* Check circle keeps its shape when a long option label wraps */
+.bq-opt .option-card__check {
+  flex: none;
+}
+
+
+/* =================================================
+   19o. Values & answers: regular weight, not bold
+   Labels stay small and muted; the value carries the ink colour.
+   Selection is shown by the ring, check and a colour shift,
+   not by extra weight (so text never jumps when picked).
+   ================================================= */
+
+/* Answer options */
+.option-card__title,
+.swatch-card__name,
+.chip-option span {
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.option-card--media .option-card__title,
+.option-grid--3 .option-card__title {
+  font-weight: 500; /* project cards keep a little presence */
+}
+
+.option-card.is-selected .option-card__title,
+.swatch-card.is-selected .swatch-card__name,
+.chip-option input:checked + span {
+  color: var(--color-primary);
+}
+
+.option-card__text {
+  font-weight: 400;
+}
+
+/* Sidebar summary: muted label left, plain value right */
+.summary-item dt {
+  font-size: 0.875rem;
+}
+
+.summary-item dd {
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+/* Review: small muted label above a regular-weight value */
+.review-sec .review-row dt {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.review-sec .review-row dd {
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.review-hero__chips li {
+  font-weight: 400;
+}
+
+.review-sec .review-list {
+  align-items: start;
+}
+
+.review-sec .review-row {
+  align-content: start;
+}
+
+.review-sec .review-row dd {
+  align-items: flex-start;
+}
+
+/* =================================================
+   19p. Smaller, calmer answer options (all estimator steps)
+   ================================================= */
+.option-card__title {
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+
+.option-card__text {
+  font-size: 0.8125rem;
+}
+
+.swatch-card__name {
+  font-size: 0.8125rem;
+}
+
+.bq__options {
+  gap: 8px;
+}
+
+.bq__options--list .option-card--row {
+  min-height: 52px;
+}
+
+.bq__options--list .option-card--row .option-card__body {
+  padding-block: 12px;
+}
+
+.bq__options--swatches .option-card__title {
+  font-size: 0.8125rem;
+}
+
+.bq__options--cards .option-card__title {
+  font-size: 0.875rem;
+}
+
+/* Bath area pages: options start right under the step title */
+.est-step[data-step*="--"] .est-step__body {
+  margin-top: var(--space-5);
+}
+
+/* =========================================================
+   §19q  Bath area steps — compact answer design
+   Each question is a numbered block split by a hairline.
+   Text answers are wrapping pills (indicator left, label right);
+   photo answers are small tiles; colors are compact chips.
+   ========================================================= */
+.est-step .bq-list {
+  gap: 0;
+  counter-reset: bq;
+}
+
+.bq-list > .bq:not([hidden]) {
+  counter-increment: bq;
+}
+
+.bq__num::before {
+  content: counter(bq);
+}
+
+/* A floated legend is laid out like a normal block, so the fieldset box (and the
+   divider positioned from it) starts at the question, not below it */
+.bq > legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.bq > legend ~ * {
+  clear: both;
+}
+
+/* Divider as a pseudo-element: a fieldset border would run through its legend */
+.bq-list > .bq:not([hidden]) ~ .bq:not([hidden]) {
+  position: relative;
+  margin-top: 45px;
+}
+
+.bq-list > .bq:not([hidden]) ~ .bq:not([hidden])::before {
+  content: "";
+  position: absolute;
+  top: -23px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.bq__label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.bq__num {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--blue-50);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transform: translateY(-1px);
+}
+
+.bq__label:has(.bq__num) ~ .bq__hint,
+.bq__label:has(.bq__num) ~ .bq__options {
+  margin-left: 32px;
+}
+
+.bq__hint {
+  margin-bottom: 10px;
+  font-size: 0.875rem;
+}
+
+/* ---- Pills (text answers) ---- */
+.bq__options--list,
+.bq__options--list:has(> :nth-child(4)) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bq__options--list .option-card--row {
+  flex: 0 1 auto;
+  gap: 10px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 16px 0 12px;
+  border-radius: var(--radius-pill);
+  background: #fff;
+}
+
+.bq__options--list .option-card--row .option-card__body {
+  padding: 10px 0;
+}
+
+.bq__options--list .option-card__title {
+  padding-right: 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.bq__options--list .option-card--row .option-card__check {
+  order: -1;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  box-shadow: inset 0 0 0 1.5px var(--color-border-strong);
+}
+
+.bq__options--list .option-card__check .icon {
+  width: 11px;
+  height: 11px;
+}
+
+.bq-opt:has(input[type="checkbox"]) .option-card__check {
+  border-radius: 5px;
+}
+
+.bq__options--list .option-card__row-icon {
+  width: 26px;
+  height: 26px;
+  margin-left: -2px;
+  background: transparent;
+}
+
+.bq__options--list .option-card__row-icon .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.bq__options--list .option-card.is-selected {
+  background: var(--blue-50);
+}
+
+.bq__options--list .option-card.is-selected .option-card__title {
+  color: var(--color-primary);
+}
+
+/* ---- Photo tiles ---- */
+.bq__options--cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.bq__options--cards .option-card__media {
+  aspect-ratio: 4 / 3;
+}
+
+.bq__options--cards .option-card__body {
+  padding: 9px 12px 11px;
+}
+
+.bq__options--cards .option-card__title {
+  padding-right: 0;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.bq__options--cards .option-card__check,
+.bq__options--swatches .option-card__check {
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+}
+
+.bq__options--cards .option-card__check .icon,
+.bq__options--swatches .option-card__check .icon {
+  width: 13px;
+  height: 13px;
+}
+
+/* ---- Color chips ---- */
+.bq__options--swatches {
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+}
+
+.bq__options--swatches .option-card__media {
+  aspect-ratio: 16 / 9;
+}
+
+.bq__options--swatches .option-card__body {
+  padding: 7px 10px 9px;
+}
+
+.bq__options--swatches .option-card__title {
+  padding-right: 0;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+@media (min-width: 640px) {
+  .bq__options--cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .bq__options--cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .bq__options--cards:has(> :nth-child(4)),
+  .bq__options--swatches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .bq__options--cards:has(> :nth-child(4)) .option-card__body {
+    padding: 7px 8px 9px;
+  }
+}
+
+@media (max-width: 479px) {
+  .bq__label:has(.bq__num) ~ .bq__hint,
+  .bq__label:has(.bq__num) ~ .bq__options {
+    margin-left: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bq__options--list .option-card:not(.is-selected):hover {
+    background: var(--color-surface);
+  }
+}
+
+/* Smallest phones: the estimator header keeps the logo and an icon-only Save & Exit */
+@media (max-width: 359px) {
+  .est-header__exit {
+    width: 40px;
+    padding-inline: 0;
+  }
+
+  .est-header__exit span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Estimator column never grows past the viewport because of a wide child */
+.est-main > * {
+  min-width: 0;
+}
+
+.est-actions__next {
+  min-width: 0;
+}
+
+@media (max-width: 359px) {
+  .est-actions {
+    gap: var(--space-2);
+    padding-inline: var(--space-3);
+  }
+
+  .est-actions__next {
+    padding-inline: 14px;
+  }
+
+  .est-phases,
+  .est-phase {
+    gap: 4px;
+  }
+
+  .est-phase + .est-phase::before {
+    width: 10px;
+  }
+
+  .est-phase__dot {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Phones: two link columns side by side, "Get in touch" spans below (no tall single stack) */
+@media (max-width: 559px) {
+  .site-footer .footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6) var(--space-4);
+  }
+
+  .site-footer .footer__grid > :nth-child(3):last-child {
+    grid-column: 1 / -1;
   }
 }
