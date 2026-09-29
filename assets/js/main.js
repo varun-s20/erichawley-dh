@@ -760,14 +760,14 @@
     if (type === 'recommend') {
       return (
         open + frame(50) +
-        '<circle cx="94" cy="20" r="13" fill="#2F72D0"/>' +
-        '<path d="m88 20 4 4 8-8" fill="none" stroke="#fff" stroke-width="2.6"/></svg>'
+        '<circle cx="94" cy="20" r="13" fill="#7FD2FE"/>' +
+        '<path d="m88 20 4 4 8-8" fill="none" stroke="#1B1B41" stroke-width="2.6"/></svg>'
       );
     }
     return (
       open + frame(50) +
-      '<circle cx="94" cy="20" r="13" fill="#E6F0FC" stroke="#2F72D0" stroke-width="1.6"/>' +
-      '<text x="94" y="25.5" text-anchor="middle" font-size="16" font-weight="800" fill="#2F72D0" font-family="General Sans, sans-serif">?</text></svg>'
+      '<circle cx="94" cy="20" r="13" fill="#E0F4FF" stroke="#0D71A5" stroke-width="1.6"/>' +
+      '<text x="94" y="25.5" text-anchor="middle" font-size="16" font-weight="800" fill="#0D71A5" font-family="General Sans, sans-serif">?</text></svg>'
     );
   }
 
@@ -873,7 +873,7 @@
     let ticking = false;
     // Over a photo hero the bar stays transparent until the next section covers it.
     const overlay = document.body.dataset.header === 'overlay';
-    const hero = overlay ? $('[data-hero]') : null;
+    const hero = overlay ? $('[data-hero], [data-header-hero]') : null;
     const darkZones = $$('[data-header-theme="dark"]');
     const update = () => {
       const y = window.scrollY;
@@ -1207,6 +1207,87 @@
     on(track, 'scroll', debounce(update, 60), { passive: true });
     on(window, 'resize', debounce(update, 150));
     update();
+  }
+
+  /**
+   * Scroll-driven card row. The section pins under the header while the page
+   * scrolls, and the row slides sideways 1:1 with the scroll, eased so it
+   * glides instead of snapping. Once the last card is in view the page moves on.
+   * Reduced motion keeps the swipeable row and its arrows (initReviews).
+   */
+  function initScrollTrack(root) {
+    const track = $('[data-reviews-track]', root);
+    if (!track || prefersReducedMotion() || track.children.length < 2) return false;
+    track.classList.add('is-scroll-driven');
+    const controls = $('.reviews__controls', root);
+    if (controls) controls.hidden = true;
+
+    // Wrap the section's content in a sticky "pin"; the section itself becomes
+    // the tall scroll runway. The section's padding moves onto the pin.
+    const pin = document.createElement('div');
+    pin.className = 'quotes-ref__pin';
+    const cs = getComputedStyle(root);
+    pin.style.paddingTop = cs.paddingTop;
+    pin.style.paddingBottom = cs.paddingBottom;
+    while (root.firstChild) pin.appendChild(root.firstChild);
+    root.appendChild(pin);
+    root.classList.add('is-pinned');
+
+    const header = $('[data-site-header]');
+    let max = 0;
+    let stickyTop = 0;
+    let runway = 1;
+    const layout = () => {
+      const prevTransform = track.style.transform;
+      track.style.transform = 'none';
+      const tr = track.getBoundingClientRect();
+      const last = track.lastElementChild.getBoundingClientRect();
+      const padEnd = parseFloat(getComputedStyle(track).paddingRight) || 0;
+      max = Math.max(0, last.right + padEnd - tr.right);
+      track.style.transform = prevTransform;
+
+      const vh = window.innerHeight;
+      const headerH = header ? header.getBoundingClientRect().height : 64;
+      const pinH = pin.offsetHeight;
+      // Centre the pinned block in the space under the header; if it is taller
+      // than that space, stick it higher so the cards stay in view.
+      const free = vh - headerH - pinH;
+      stickyTop = free >= 0 ? headerH + free / 2 : vh - pinH;
+      pin.style.top = `${stickyTop}px`;
+      runway = Math.max(1, max);                 // 1px of scroll = 1px of sideways travel
+      root.style.height = `${pinH + runway}px`;
+    };
+    layout();
+
+    // Ease toward the scroll position instead of jumping to it each frame
+    let target = 0;
+    let current = 0;
+    let raf = 0;
+    const step = () => {
+      current += (target - current) * 0.12;
+      if (Math.abs(target - current) < 0.3) current = target;
+      track.style.transform = `translate3d(${current.toFixed(1)}px, 0, 0)`;
+      raf = current === target ? 0 : window.requestAnimationFrame(step);
+    };
+    const progress = () => clamp((stickyTop - root.getBoundingClientRect().top) / runway, 0, 1);
+    onScrollFrame(() => {
+      target = -progress() * max;
+      if (!raf) raf = window.requestAnimationFrame(step);
+    });
+    on(window, 'resize', debounce(() => { layout(); window.dispatchEvent(new Event('scroll')); }, 150));
+
+    // Keyboard: tabbing to a card scrolls the page to where that card is on screen
+    on(track, 'focusin', (e) => {
+      const card = e.target.closest('.quote-card');
+      if (!card || !max) return;
+      const padStart = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+      const offset = card.getBoundingClientRect().left - track.getBoundingClientRect().left - padStart;
+      const p = clamp(offset / max, 0, 1);
+      window.scrollTo({ top: window.scrollY + root.getBoundingClientRect().top - stickyTop + p * runway, behavior: 'auto' });
+      target = current = -p * max;
+      track.style.transform = `translate3d(${current.toFixed(1)}px, 0, 0)`;
+    });
+    return true;
   }
 
   /** Remove sample/placeholder sections in one switch (SITE_CONFIG.hidePlaceholderSections). */
@@ -1605,6 +1686,7 @@
 
   /** Mouse drag-to-scroll for horizontal card tracks (touch scrolls natively). */
   function initDragScroll(track) {
+    if (track.classList.contains('is-scroll-driven')) return;
     let startX = 0;
     let startLeft = 0;
     let dragging = false;
@@ -3354,7 +3436,7 @@
   function burstConfetti(host) {
     if (!host || prefersReducedMotion() || typeof host.animate !== 'function') return;
     host.innerHTML = '';
-    const palette = ['#2F72D0', '#5DA0EB', '#A9CCF4', '#CFE2F9', '#06070C', '#FFFFFF'];
+    const palette = ['#7FD2FE', '#0D71A5', '#A3DFFF', '#C4EAFF', '#1B1B41', '#FFFFFF'];
     const count = 30;
     for (let i = 0; i < count; i += 1) {
       const piece = document.createElement('span');
@@ -3463,7 +3545,7 @@
     $$('[data-compare]').forEach(initCompare);
 
     const reviews = $('[data-reviews]');
-    if (reviews) initReviews(reviews);
+    if (reviews && !initScrollTrack(reviews)) initReviews(reviews);
 
     const process = $('[data-process]');
     if (process) initProcess(process);
