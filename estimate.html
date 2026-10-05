@@ -77,42 +77,12 @@
             <header class="est-step__header">
               <p class="est-step__kicker" data-step-kicker></p>
               <h2 class="est-step__title" id="st-project" tabindex="-1">What are you planning to improve?</h2>
-              <p class="est-step__desc">Choose a project to get started. You can select both if you&rsquo;re planning windows and a bathroom.</p>
+              <p class="est-step__desc">Choose all that apply.</p>
             </header>
             <fieldset class="est-step__body">
-              <legend class="visually-hidden">Project type</legend>
-              <div class="option-grid option-grid--3">
-                <label class="option-card option-card--media">
-                  <input class="option-card__input" type="radio" name="projectType" value="windows" data-bind="projectType">
-                  <span class="option-card__media"><img src="assets/images/windows/windows-double-hung-grids-1024.webp" srcset="assets/images/windows/windows-double-hung-grids-640.webp 640w, assets/images/windows/windows-double-hung-grids-1024.webp 1024w, assets/images/windows/windows-double-hung-grids-1600.webp 1600w" sizes="(min-width: 768px) 240px, 100vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></span>
-                  <span class="option-card__body">
-                    <span class="option-card__title">Replacement Windows</span>
-                    <span class="option-card__text">Count, photos, style, color &amp; grids</span>
-                  </span>
-                  <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-                </label>
-                <label class="option-card option-card--media">
-                  <input class="option-card__input" type="radio" name="projectType" value="bath" data-bind="projectType">
-                  <span class="option-card__media"><img src="assets/images/bath/bath-glass-shower-1024.webp" srcset="assets/images/bath/bath-glass-shower-640.webp 640w, assets/images/bath/bath-glass-shower-1024.webp 1024w, assets/images/bath/bath-glass-shower-1600.webp 1600w, assets/images/bath/bath-glass-shower-2400.webp 2400w" sizes="(min-width: 768px) 240px, 100vw" width="1600" height="1066" alt="" loading="lazy" decoding="async"></span>
-                  <span class="option-card__body">
-                    <span class="option-card__title">Bath Remodel</span>
-                    <span class="option-card__text">Photos and your project goals</span>
-                  </span>
-                  <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-                </label>
-                <label class="option-card option-card--media">
-                  <input class="option-card__input" type="radio" name="projectType" value="both" data-bind="projectType">
-                  <span class="option-card__media option-card__media--split">
-                    <img src="assets/images/windows/windows-bedroom-white-1024.webp" srcset="assets/images/windows/windows-bedroom-white-640.webp 640w, assets/images/windows/windows-bedroom-white-1024.webp 1024w, assets/images/windows/windows-bedroom-white-1600.webp 1600w" sizes="(min-width: 768px) 120px, 50vw" width="1600" height="1066" alt="" loading="lazy" decoding="async">
-                    <img src="assets/images/bath/bath-oak-vanity-1024.webp" srcset="assets/images/bath/bath-oak-vanity-640.webp 640w, assets/images/bath/bath-oak-vanity-1024.webp 1024w, assets/images/bath/bath-oak-vanity-1600.webp 1600w" sizes="(min-width: 768px) 120px, 50vw" width="1600" height="1200" alt="" loading="lazy" decoding="async">
-                  </span>
-                  <span class="option-card__body">
-                    <span class="option-card__title">Both Projects</span>
-                    <span class="option-card__text">Windows and a bathroom remodel</span>
-                  </span>
-                  <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-                </label>
-              </div>
+              <legend class="visually-hidden">Projects</legend>
+              <!-- Rendered from ESTIMATE_PRODUCTS in main.js -->
+              <div class="option-grid option-grid--products" data-render="products"></div>
             </fieldset>
             <p class="step-error" data-step-error role="alert"></p>
           </section>
@@ -197,242 +167,27 @@
             </div>
           </section>
 
-          <!-- ============ WINDOWS FLOW — A. QUANTITY ============ -->
-          <section class="est-step" data-step="w-quantity" aria-labelledby="st-wqty" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <!-- CLIENT COPY (Erin, 24 Sept) — keep verbatim. "Up to 60%" is her claim; confirm before launch (CLAUDE.md §6). -->
-              <aside class="est-intro"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg><div><p class="est-intro__title">Looks like you&rsquo;re wanting to replace your windows &ndash; Great idea!</p><p>Energy efficient windows pay for themselves! You can save up to 60% on your energy bills just by replacing your windows.</p></div></aside>
-              <h2 class="est-step__title" id="st-wqty" tabindex="-1">How many windows would you like to replace?</h2>
-              <p class="est-step__desc">A best guess is fine.</p>
-            </header>
-            <div class="est-step__body">
-              <div class="qty" data-qty>
-                <button class="qty__btn" type="button" data-qty-step="-1" aria-label="Decrease number of windows"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/></svg></button>
-                <div class="qty__value">
-                  <label class="visually-hidden" for="e-qty">Number of windows</label>
-                  <input class="qty__input" id="e-qty" type="number" inputmode="numeric" min="1" max="500" step="1" data-bind="windows.quantity" data-validate="quantity" aria-describedby="e-qty-error">
-                  <span class="qty__unit" aria-hidden="true" data-qty-unit>windows</span>
-                </div>
-                <button class="qty__btn" type="button" data-qty-step="1" aria-label="Increase number of windows"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg></button>
-              </div>
-              <p class="field__error field__error--center" id="e-qty-error"></p>
-              <div class="quick-picks" role="group" aria-label="Quick picks">
-                <button class="chip chip--sm" type="button" data-qty-set="1">1</button>
-                <button class="chip chip--sm" type="button" data-qty-set="3">3</button>
-                <button class="chip chip--sm" type="button" data-qty-set="5">5</button>
-                <button class="chip chip--sm" type="button" data-qty-set="8">8</button>
-                <button class="chip chip--sm" type="button" data-qty-set="12">12</button>
-                <button class="chip chip--sm" type="button" data-qty-set="20">20</button>
-              </div>
-            </div>
-          </section>
+          <!-- ============ PRODUCT PAGES ============
+               Bathroom, Windows, Siding, Doors, Roofing and Something else are rendered from
+               ESTIMATE_PRODUCTS in main.js (Erin's script, client-chat/estimate-flow-2026-10-05.md)
+               and inserted here, before the submit page. -->
 
-          <!-- ============ WINDOWS FLOW — B. PHOTOS ============ -->
-          <section class="est-step" data-step="w-photos" aria-labelledby="st-wphotos" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-wphotos" tabindex="-1">Please upload a photo of each window you&rsquo;d like to replace.</h2>
-              <p class="est-protip"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.1l1.3-2h6.2l1.3 2h2.1A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg><span><strong>Pro Tip:</strong> take photos of each side of your home.</span></p>
-            </header>
-            <div class="est-step__body">
-              <ul class="photo-tips" role="list">
-                <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg> Stand back so the whole window is in frame</li>
-                <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg> Daylight photos work best</li>
-                <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/></svg> Inside or outside views both help</li>
-              </ul>
-              <div class="uploader" data-uploader="windows" data-label="window photos">
-                <input class="uploader__input visually-hidden" id="w-photos-input" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple data-uploader-input aria-describedby="w-photos-help">
-                <label class="uploader__zone" for="w-photos-input" data-uploader-zone>
-                  <span class="uploader__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15.5V4M7 9l5-5 5 5M4.5 14.5v4A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></span>
-                  <span class="uploader__title"><span class="only-fine">Drag photos here or <span class="uploader__link">browse your files</span></span><span class="only-coarse">Tap to choose photos</span></span>
-                  <span class="uploader__meta" id="w-photos-help">JPG, PNG or WEBP · up to 15&nbsp;MB each · up to 20 photos</span>
-                </label>
-                <input class="visually-hidden uploader__camera-input" id="w-photos-camera" type="file" accept="image/*" capture="environment" data-uploader-camera>
-                <label class="btn btn--secondary btn--block uploader__camera" for="w-photos-camera"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.1l1.3-2h6.2l1.3 2h2.1A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg> Take a photo</label>
-                <p class="uploader__status" data-uploader-status aria-live="polite"></p>
-                <p class="uploader__error" data-uploader-error role="alert" hidden></p>
-                <ul class="upload-list" role="list" data-uploader-list></ul>
-                <input class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" data-uploader-replace tabindex="-1" aria-hidden="true">
-              </div>
-              <p class="skip-note" data-skip-note>No photos handy? You can continue and share them later.</p>
-            </div>
-          </section>
-
-          <!-- ============ WINDOWS FLOW — C. REPLACEMENT PREFERENCE ============ -->
-          <section class="est-step" data-step="w-approach" aria-labelledby="st-wapproach" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-wapproach" tabindex="-1">How would you like to approach the window style?</h2>
-              <p class="est-step__desc">There&rsquo;s no wrong answer — this just helps us prepare.</p>
-            </header>
-            <fieldset class="est-step__body">
-              <legend class="visually-hidden">Window style approach</legend>
-              <div class="option-grid option-grid--3">
-                <label class="option-card option-card--icon">
-                  <input class="option-card__input" type="radio" name="windowApproach" value="similar" data-bind="windows.approach">
-                  <span class="option-card__art" data-diagram="approach" data-approach="similar" aria-hidden="true"></span>
-                  <span class="option-card__body">
-                    <span class="option-card__title">Keep a Similar Style</span>
-                    <span class="option-card__text">Match the style of the windows you have now.</span>
-                  </span>
-                  <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-                </label>
-                <label class="option-card option-card--icon">
-                  <input class="option-card__input" type="radio" name="windowApproach" value="recommend" data-bind="windows.approach">
-                  <span class="option-card__art" data-diagram="approach" data-approach="recommend" aria-hidden="true"></span>
-                  <span class="option-card__body">
-                    <span class="option-card__title">Recommend the Best Option</span>
-                    <span class="option-card__text">Let our team suggest the best replacement for your home.</span>
-                  </span>
-                  <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-                </label>
-                <label class="option-card option-card--icon">
-                  <input class="option-card__input" type="radio" name="windowApproach" value="not-sure" data-bind="windows.approach">
-                  <span class="option-card__art" data-diagram="approach" data-approach="not-sure" aria-hidden="true"></span>
-                  <span class="option-card__body">
-                    <span class="option-card__title">I&rsquo;m Not Sure Yet</span>
-                    <span class="option-card__text">No problem — we&rsquo;ll talk through options together.</span>
-                  </span>
-                  <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-                </label>
-              </div>
-            </fieldset>
-            <p class="step-error" data-step-error role="alert"></p>
-          </section>
-
-          <!-- ============ WINDOWS FLOW — D. COLOR ============ -->
-          <section class="est-step" data-step="w-color" aria-labelledby="st-wcolor" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-wcolor" tabindex="-1">Choose a color for your windows.</h2>
-              <p class="est-step__desc"><strong class="est-colorhead">Interior / Exterior</strong> Each option lists the interior color first, then the exterior. On-screen colors are approximate.</p>
-            </header>
-            <fieldset class="est-step__body">
-              <legend class="visually-hidden">Window frame color</legend>
-              <!-- Rendered from WINDOW_COLORS in main.js -->
-              <div class="swatch-grid swatch-grid--estimate" data-render="window-colors" data-input-name="windowColor" data-bind="windows.color"></div>
-              <label class="option-card option-card--row option-card--subtle">
-                <input class="option-card__input" type="radio" name="windowColor" value="not-sure" data-bind="windows.color">
-                <span class="option-card__row-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 18.5v-12A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v8a1.5 1.5 0 0 1-1.5 1.5H8z"/><path d="M9 9.5h6M9 12.5h4"/></svg></span>
-                <span class="option-card__body"><span class="option-card__title">I&rsquo;m not sure yet</span><span class="option-card__text">We can help you choose during your project review.</span></span>
-                <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-              </label>
-            </fieldset>
-            <p class="step-error" data-step-error role="alert"></p>
-          </section>
-
-          <!-- ============ WINDOWS FLOW — E. GRID ============ -->
-          <section class="est-step" data-step="w-grid" aria-labelledby="st-wgrid" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-wgrid" tabindex="-1">Would you like grids in your windows?</h2>
-              <p class="est-step__desc">Grids divide the glass into panes. Diagrams are shown in the frame color you chose.</p>
-            </header>
-            <fieldset class="est-step__body" data-frame-root>
-              <legend class="visually-hidden">Window grid style</legend>
-              <!-- Rendered from WINDOW_GRIDS in main.js (same diagrams as the Windows page) -->
-              <div class="option-grid option-grid--grids" data-render="window-grids" data-input-name="windowGrid" data-bind="windows.grid"></div>
-              <label class="option-card option-card--row option-card--subtle">
-                <input class="option-card__input" type="radio" name="windowGrid" value="not-sure" data-bind="windows.grid">
-                <span class="option-card__row-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 18.5v-12A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v8a1.5 1.5 0 0 1-1.5 1.5H8z"/><path d="M9 9.5h6M9 12.5h4"/></svg></span>
-                <span class="option-card__body"><span class="option-card__title">I&rsquo;m not sure yet</span><span class="option-card__text">We&rsquo;ll look at your photos and suggest options.</span></span>
-                <span class="option-card__check" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
-              </label>
-            </fieldset>
-            <p class="step-error" data-step-error role="alert"></p>
-          </section>
-
-          <!-- ============ WINDOWS FLOW — F + G. NOTE & DETAILS ============ -->
-          <section class="est-step" data-step="w-details" aria-labelledby="st-wdetails" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-wdetails" tabindex="-1">Anything else we should know about your windows?</h2>
-              <p class="est-step__desc">Optional — but helpful. Mention rooms, problem windows, or anything you&rsquo;d like us to look at.</p>
-            </header>
-            <div class="est-step__body">
-              <!-- CLIENT CONTENT: replace with the client's exact wording for this note (mirrored on windows.html).
-                   Informational only — not an automated building-code or legal determination. -->
-              <aside class="info-note info-note--compact">
-                <span class="info-note__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg></span>
-                <div>
-                  <h3 class="info-note__title">About replacement framing &amp; tempered glass</h3>
-                  <p>All of our window replacements come complete with new framing. Any windows that are on 2nd floor landings, in bathrooms, or are 16&Prime; or less from the floor, will be tempered.</p>
-                </div>
-              </aside>
-              <div class="field">
-                <label class="field__label" for="e-wdetails">Additional details <span class="field__optional">Optional</span></label>
-                <textarea class="field__input field__textarea" id="e-wdetails" rows="5" maxlength="2000" data-bind="windows.details" data-counter aria-describedby="e-wdetails-count" placeholder="For example: the two front bedroom windows are hard to open."></textarea>
-                <p class="field__hint field__hint--end" id="e-wdetails-count" data-counter-output>0 / 2000</p>
-              </div>
-            </div>
-          </section>
-
-          <!-- ============ BATH FLOW — PHOTOS ============ -->
-          <section class="est-step" data-step="b-photos" aria-labelledby="st-bphotos" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <!-- Client's bath intro (from her reference video) -->
-              <aside class="est-intro"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5s6 6.4 6 10.5a6 6 0 0 1-12 0c0-4.1 6-10.5 6-10.5z"/></svg><div><p class="est-intro__title">Great! You&rsquo;re looking to renovate your bathroom.</p><p>Water is the most damaging thing to a home. Replacing your old plumbing and eliminating mold &amp; mildew is a smart decision!</p></div></aside>
-              <h2 class="est-step__title" id="st-bphotos" tabindex="-1">All we need are a few photos.</h2>
-              <p class="est-step__desc">Please upload 4&ndash;5 photos of your bathroom. We love photos, so send as many as you want!</p>
-            </header>
-            <div class="est-step__body">
-              <ul class="photo-tips" role="list">
-                <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg> Shoot from the doorway to capture the whole room</li>
-                <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.1l1.3-2h6.2l1.3 2h2.1A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg> Add close-ups of the tub, shower or vanity</li>
-                <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg> Turn the lights on for clearer photos</li>
-              </ul>
-              <div class="uploader" data-uploader="bath" data-label="bathroom photos">
-                <input class="uploader__input visually-hidden" id="b-photos-input" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple data-uploader-input aria-describedby="b-photos-help">
-                <label class="uploader__zone" for="b-photos-input" data-uploader-zone>
-                  <span class="uploader__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15.5V4M7 9l5-5 5 5M4.5 14.5v4A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5v-4"/></svg></span>
-                  <span class="uploader__title"><span class="only-fine">Drag photos here or <span class="uploader__link">browse your files</span></span><span class="only-coarse">Tap to choose photos</span></span>
-                  <span class="uploader__meta" id="b-photos-help">JPG, PNG or WEBP · up to 15&nbsp;MB each · up to 20 photos</span>
-                </label>
-                <input class="visually-hidden uploader__camera-input" id="b-photos-camera" type="file" accept="image/*" capture="environment" data-uploader-camera>
-                <label class="btn btn--secondary btn--block uploader__camera" for="b-photos-camera"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2.1l1.3-2h6.2l1.3 2h2.1A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg> Take a photo</label>
-                <p class="uploader__status" data-uploader-status aria-live="polite"></p>
-                <p class="uploader__error" data-uploader-error role="alert" hidden></p>
-                <ul class="upload-list" role="list" data-uploader-list></ul>
-                <input class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" data-uploader-replace tabindex="-1" aria-hidden="true">
-              </div>
-              <p class="skip-note" data-skip-note>No photos handy? You can continue and share them later.</p>
-            </div>
-          </section>
-
-          <!-- ============ BATH FLOW — WRAP-UP ("You did it!") ============
-               The bath question steps (b-plan, b-shower, b-vanity, b-floor, b-toilet) are rendered
-               from BATH_FLOW in main.js and inserted before this section. -->
-          <section class="est-step" data-step="b-details" aria-labelledby="st-bdetails" hidden>
-            <header class="est-step__header">
-              <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-bdetails" tabindex="-1">You did it!</h2>
-              <p class="est-step__desc">Is there anything else you would like to add to your bathroom estimate?</p>
-            </header>
-            <div class="est-step__body bq-list">
-              <div data-bq-host="extras"></div>
-              <div class="field">
-                <label class="field__label" for="e-bdesc">More details <span class="field__optional">Optional</span></label>
-                <textarea class="field__input field__textarea" id="e-bdesc" rows="5" maxlength="2000" data-bind="bath.description" data-counter aria-describedby="e-bdesc-count" placeholder="Anything about your bathroom we should know."></textarea>
-                <p class="field__hint field__hint--end" id="e-bdesc-count" data-counter-output>0 / 2000</p>
-              </div>
-              <div class="field">
-                <label class="field__label" for="e-notes">Anything else we should know? <span class="field__optional">Optional</span></label>
-                <textarea class="field__input field__textarea" id="e-notes" rows="3" maxlength="2000" data-bind="notes" placeholder="Timing, access, questions for our team&hellip;"></textarea>
-              </div>
-            </div>
-          </section>
-
-          <!-- ============ REVIEW ============ -->
+          <!-- ============ SUBMIT PAGE (Erin's wording) ============ -->
           <section class="est-step" data-step="review" aria-labelledby="st-review" hidden>
             <header class="est-step__header">
               <p class="est-step__kicker" data-step-kicker></p>
-              <h2 class="est-step__title" id="st-review" tabindex="-1">Review your project</h2>
-              <p class="est-step__desc">Check everything below. Use &ldquo;Edit&rdquo; to change anything — the rest of your answers stay put.</p>
+              <h2 class="est-step__title" id="st-review" tabindex="-1">You&rsquo;re almost done!</h2>
             </header>
             <div class="est-step__body">
-              <div class="review-grid" data-review></div>
+              <div class="est-finish">
+                <p>Within 24 hours, you will receive your estimate. We will also send you information about our company, about each product you want an estimate for, and steps on how to move forward with your renovation project.</p>
+                <p>We will also tell you about our financing options which can make your renovation project a much smoother process and takes the risk out for you!</p>
+                <p class="est-finish__cta">Just hit &ldquo;Submit&rdquo; and we&rsquo;ll get started on your estimate.</p>
+              </div>
+              <details class="review-details">
+                <summary><span>Check your answers</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+                <div class="review-grid" data-review></div>
+              </details>
               <p class="fine-print review-consent"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg> By submitting, you agree that we may contact you about this project using the details above. See our <a href="privacy.html">Privacy Policy</a>.</p>
               <div class="submit-error" data-submit-error role="alert" hidden></div>
             </div>

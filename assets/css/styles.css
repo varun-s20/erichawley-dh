@@ -10719,3 +10719,241 @@ img {
   position: sticky;
   top: 0;
 }
+
+/* =========================================================
+   §19s  Estimate flow v3 — Erin's full script (5 Oct 2026)
+   Six products, info notes and text answers inside question
+   lists, her "You're almost done!" submit page.
+   ========================================================= */
+
+/* ---- Project step: six product cards, choose all that apply ---- */
+.option-grid--products {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.option-grid--products .option-card__media {
+  aspect-ratio: 16 / 10;
+}
+
+.option-grid--products .option-card__body {
+  padding: 10px 12px 12px;
+}
+
+.option-grid--products .option-card__title {
+  padding-right: 26px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.option-grid--products .option-card__text {
+  font-size: 0.8125rem;
+}
+
+.option-grid--products .option-card__check {
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+}
+
+.option-card--product .option-card__input[type="checkbox"] ~ .option-card__check {
+  border-radius: 7px;
+}
+
+@media (min-width: 768px) {
+  .option-grid--products {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 359px) {
+  .option-grid--products .option-card__text {
+    display: none;
+  }
+}
+
+/* ---- Info notes inside a question list (not numbered) ---- */
+.bq-list > .bq.bq--note:not([hidden]) {
+  counter-increment: none;
+}
+
+.bq--note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  background: var(--blue-50);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.bq--note p + p {
+  margin-top: 6px;
+}
+
+.bq-note__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--color-primary-ink);
+}
+
+.bq-note__icon .icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Text answers in a question list ---- */
+.bq--text .bq__label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.bq__options--text {
+  display: block;
+}
+
+.bq__options--text .field__textarea {
+  min-height: 112px;
+}
+
+/* Questions that follow an uploader on the same page */
+.bq-list--after-photos {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---- Progress row with many products: only the current phase keeps its label ---- */
+.est-phases.is-many .est-phase:not([data-state="current"]) .est-phase__label {
+  display: none;
+}
+
+/* ---- Submit page ---- */
+.est-finish {
+  display: grid;
+  gap: 12px;
+  padding: 20px 22px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-navy);
+  color: var(--color-on-navy-muted);
+  font-size: 0.9688rem;
+  line-height: 1.6;
+}
+
+.est-finish__cta {
+  color: #fff;
+  font-weight: 500;
+}
+
+.review-details {
+  margin-top: var(--space-5);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.review-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 18px;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+}
+
+.review-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.review-details > summary .icon {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.review-details[open] > summary .icon {
+  transform: rotate(180deg);
+}
+
+.review-details > .review-grid {
+  padding: 0 18px 18px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .review-details > summary:hover {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* The estimator columns never grow to fit a long progress row; the row scrolls instead */
+.est-layout > * {
+  min-width: 0;
+}
+
+.est-phases {
+  position: relative; /* contains the absolutely positioned screen-reader labels inside the scroll box */
+  max-width: 100%;
+}
+
+/* Layout rule 2: step titles use the card's full width and only wrap when they don't fit */
+.est-step__title {
+  max-width: none;
+}
+
+/* Window frame colors from her estimate script (one color inside and out) */
+.swatch-dot--white { --int: #F4F4F0; --ext: #F4F4F0; }
+.swatch-dot--tan { --int: #C7AD86; --ext: #C7AD86; }
+.swatch-dot--black { --int: #1F2124; --ext: #1F2124; }
+.swatch-dot--burgundy { --int: #6B2430; --ext: #6B2430; }
+.swatch-dot--grey { --int: #8A8D90; --ext: #8A8D90; }
+.swatch-dot--green { --int: #2F4B3A; --ext: #2F4B3A; }
+.swatch-dot--dark-brown { --int: #4A3428; --ext: #4A3428; }
+
+/* Windows page: the three grid patterns fill one row */
+@media (min-width: 640px) {
+  .grid-showcase {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-showcase > *,
+  .grid-showcase > :nth-child(n + 4):nth-last-child(-n + 2) {
+    grid-column: auto;
+  }
+}
+
+/* Windows page: seven colors. Two columns (phones, desktop): the last spans the row instead of
+   sitting alone. Tablet, where the swatches run full width: all seven in one row. */
+@media (max-width: 639px), (min-width: 1024px) {
+  .color-viz .swatch-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .color-viz .swatch-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+/* Erin's product photos on white (shower heads, seats, grab bars): show the whole product */
+.option-card--contain .option-card__media {
+  background: #fff;
+}
+
+.option-card--contain .option-card__media img {
+  object-fit: contain;
+  padding: 8px;
+}

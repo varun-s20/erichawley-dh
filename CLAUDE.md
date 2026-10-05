@@ -37,6 +37,7 @@ Later messages supersede earlier ones.
 | 24 Sept | Bath flow is shown in a video (Google Photos link); bath **item photos to follow** | **Pending**, not received |
 | 24 Sept | Previous vendor's tool: "I didn't like the design and never used it" | Design quality is the reason this project exists |
 | 25 Sept | "The website is install-D.com" | The estimate site is reached from install-D.com |
+| 5 Oct | **Erin's full estimate script** (`client-chat/estimate-flow-2026-10-05.md`): six products (Bathroom, Windows, Siding, Doors, Roofing, Something else), every question, branch and page break, plus the submit page. Team: "build it exactly that way." | **Current — supersedes §4 and §5.** Option photos sent as Google Photos links (not yet received as files) |
 
 ## 3. What the client needs (authoritative)
 
@@ -58,7 +59,31 @@ Later messages supersede earlier ones.
 ### Out of scope (stated in the offer)
 Automatic price calculation (Erin prepares proposals herself), online payments, ongoing marketing, and recurring costs (hosting, domain, premium plugin licences are billed to the client).
 
-## 4. Windows flow — the client's exact spec (24 Sept, 19:27–19:44)
+## 3a. The estimate flow — Erin's script (5 Oct 2026) — CURRENT
+
+**Source of truth:** `client-chat/estimate-flow-2026-10-05.md` (verbatim). It replaces the 24 Sept windows chat (§4) and the bath video (§5); those sections are kept only as history. Build it exactly as written: her wording (capitalisation and punctuation polished only), her branching, one estimator page per "HIT NEXT".
+
+**Built (5 Oct 2026)** — all of it is data in `main.js` `DEFAULT_ESTIMATE_PRODUCTS` (overridable with `window.SITE_ESTIMATE_PRODUCTS`), rendered by one engine:
+- **Order:** project choice (multi-select of the six products) → contact → address → each chosen product in her order (Bathroom, Windows, Siding, Doors, Roofing, Something else) → submit page.
+- **Bathroom:** photos (intro + "4–5 photos") → focus items (incl. "Customer glass") → design yourself / we design → *if "Let me design it"*: Bathtub or shower (wet spaces; new tub → standard [height, color, doors/curved rod, fixtures, add-ons, wall: basic colors / marbles / tile + grout + marble text] or freestanding [shape, fixtures]) → Walk-in shower (pan, doors, fixtures, 14 add-ons, wall) → Shower removal (note + drywall / shelves / linen closet) → Vanity (we supply: single/double, design, size, faucet note + style · they supply: bowls) → Flooring → Toilet (we supply: color, style · they supply: standard / needs electricity) → "You did it!" (extras + More details). **"You do it for me" skips every design page straight to "You did it!".**
+- **Windows:** photos (her intro + "photo of each window") → one page: same style / you decide, 7 colors (White, Tan, Black, Burgundy, Grey, Green, Dark Brown), grids (No / Yes / diamond / colonial), framing + "tempered and obscure" note. No window count, no interior/exterior pairs, no Queen Anne (all dropped by her script).
+- **Siding:** photos (8: front, back, sides, 4 corners) → 1st floor style + color → 2nd floor style + color → trim/soffits/fascia color + gutters.
+- **Doors:** photos → entry door? yes: steel/fiberglass, style, color, handset, extras · no: sliding / patio French (color + anything else) / neither ("Tell us what you are looking for", required).
+- **Roofing:** photos (4–6) → shingle (GAF color + gutters) or metal (black/green/red/brown + gutters).
+- **Something else:** her intro + photos + "Tell us about your project" (required).
+- **Submit page:** her "You're almost done!" text (24 hours + financing — she wrote it, so it's confirmed) and a **Submit** button; the answers sit in a collapsed "Check your answers" with Edit links.
+- Engine: single / multi / text / textarea / **note** questions; `when` and `showIf` take one condition or an array (all must hold); a question also hides when the question it depends on is hidden. Required visible questions are validated. Drafts (`installd:estimate-draft:v2`), summary, review and `payload.projects[].sections[]` (grouped by product, then section, for the email) all follow the config. Photos are uploaded per product (`photos_<product>[]`).
+- **Placeholders (flagged `provisional`):** shower-door and vanity photos are stock; marbles, tiles, flooring, faucets, siding styles/colors, door styles/colors/handsets and shingle colors are CSS swatches or numbered ("Style 1", "Color 1") until Erin's photos arrive. Never invent product or color names for them.
+- Site pages follow the same option lists (home stats: 7 colors / 4 grid choices / 6 projects; Windows page visualizer: 7 single colors, 3 grid patterns; About + services copy: everything can be estimated online).
+
+**Assumptions made where her script is silent (confirm with Erin — also in §6):**
+1. "Replace your shower with a new shower" isn't routed anywhere in her script → it gets the walk-in shower questions.
+2. "You do it for me → bathroom submit page" → interpreted as the bath's "You did it!" page (extras + details), not the final submit.
+3. ~~"Customer glass"~~ — resolved 3 Oct: "Custom glass" page with Framed / Rollers / Frameless glass.
+4. "Article Ice" → shown as **Arctic Ice**; "24' grab bar" → 24″.
+5. After Submit, the existing thank-you page shows. Her earlier ask (10 Sept) was a CONGRATS pop-up; her script doesn't mention one.
+
+## 4. Windows flow — the client's exact spec (24 Sept, 19:27–19:44) — SUPERSEDED by §3a
 
 Keep the client's wording. Polish punctuation only, never meaning.
 
@@ -77,7 +102,7 @@ Keep the client's wording. Polish punctuation only, never meaning.
    > "All of our window replacements come complete with new framing. Any windows that are on 2nd floor landings, in bathrooms, or are 16" or less from the floor, will be tempered."
 8. There is an attachment `65E535A1-43C3-46CA-BBA5-EA8598EF1500.png` ("AFTER THEY CHOOSE WINDOWS"). **We don't have it.** Ask for it.
 
-## 5. Bath Remodel flow — from the client's video (`assets/video/C59A4167-….mp4`)
+## 5. Bath Remodel flow — from the client's video (`assets/video/C59A4167-….mp4`) — SUPERSEDED by §3a
 
 The video is a 4-minute phone screen recording (no narration) of the **previous vendor's tool at hometech-remodeling.com** (a different company). Erin walked through it as the reference for the bath flow. It shows the **questions and options she wants**, not a design to copy; she disliked that design. Item photos in it belong to that site, so we need her own (or licensed) images for every option.
 
@@ -136,6 +161,20 @@ The video is a 4-minute phone screen recording (no narration) of the **previous 
 - Not in the video: measurements, per-area "colours picked out?" beyond the above, and "Basic colors" options.
 ## 6. Open-question list for the client (keep updated)
 
+- [x] Her 13 Google Photos albums (3 Oct) are in `assets/images/estimate/` and used in the Bathroom flow: marbles (13), tiles (9), basic colors, showerheads, shower heights, doors/curtain rod, fixture colors, tubs, add-ons, vanities (20), flooring (22), custom glass (framed / rollers / frameless). Text burned into swatches and add-on cards was cropped out.
+- [ ] **Marble and tile names:** 13 marble and 9 tile photos have no names; her script names 10 marbles and 6 tiles. Shown as "Marble 1–13" / "Tile 1–9" until she says which photo is which
+- [ ] Basic color photo says **"Sandbar"**, her script says "Sandstone"; fixture photo says **"Brushed Gold"**, script says "Gold"
+- [ ] Shower heights: 3 unlabelled photos, matched by curb height (photo 3 = low profile, 2 = standard, 1 = double threshold) — confirm
+- [ ] "A foot pedestal" uses her shaving-bar photo; no square freestanding tub photo — confirm / send
+- [ ] Still no photos for: faucet styles, siding styles + colors, door styles + colors + handsets, GAF shingle colors
+- [ ] Her "Walk-in Tubs" album isn't in her script — does she want a walk-in tub option, and where?
+- [x] "Customer glass" = **Custom glass**: Framed, Rollers, Frameless glass (her 3 Oct message) — built as its own page
+- [ ] "Replace your shower with a new shower": confirm it should use the walk-in shower questions
+- [ ] "You do it for me": straight to the "You did it!" page (built) or straight to the final submit?
+- [ ] Spelling: "Arctic Ice" (her script: "Article Ice")
+- [ ] After Submit: keep the thank-you page, or the CONGRATS pop-up from 10 Sept?
+- [ ] Scope: Siding, Doors, Roofing and Something else go beyond the accepted Windows + Bath scope — agree it in writing (and any price change) before delivery
+
 - [x] Bath flow extracted from the video (§5). Still need: **her own item photos** for every option, the "Basic colors" wall options, and whether the "24 hours / financing" wording applies to install-D
 - [ ] The missing screenshot `65E535A1-….png`
 - [x] Color pairs follow her **Interior/Exterior** header exactly (white/oak = white inside, oak outside)
@@ -150,7 +189,7 @@ The video is a 4-minute phone screen recording (no narration) of the **previous 
 ### Stack
 - Static **HTML5 + CSS + vanilla JS**. No frameworks and no build step. One stylesheet (`assets/css/styles.css`) and one script (`assets/js/main.js`) for every page.
 - Behaviour hooks are `data-*` attributes (not generated class names), so WordPress templates can output the same markup and get the same behaviour.
-- **Editable content is config** in `main.js` §1: `SITE_CONFIG`, `WINDOW_COLORS`, `WINDOW_GRIDS`, `bathOptions` (see README §3). A CMS overrides them with `window.SITE_CONFIG_OVERRIDES` / `window.SITE_BATH_OPTIONS`. Keep moving estimator wording and options into config, not markup; this is what makes the tool generic and licensable.
+- **Editable content is config** in `main.js` §1: `SITE_CONFIG`, `WINDOW_COLORS`, `WINDOW_GRIDS` and the whole estimate flow `DEFAULT_ESTIMATE_PRODUCTS` (§3a). A CMS overrides them with `window.SITE_CONFIG_OVERRIDES` / `window.SITE_ESTIMATE_PRODUCTS`. Keep moving estimator wording and options into config, not markup; this is what makes the tool generic and licensable.
 - `SITE_CONFIG.submissionEndpoint` empty means **dev mode**: nothing is sent, and the payload is logged and shown inside a "Development preview" frame.
 - `_archive/` is reference only. **Never edit it or link to it.**
   - `v1-2026-09-26/` is a snapshot of the approved design before the motion layer.
@@ -236,7 +275,7 @@ The team supplied a reference video (a "CoolFix" AC-repair site). Its language i
 ## 7a. Brand & scope (v1.4, 28 Sept 2026)
 - **Brand is install-D** (the placeholder "Clearwell" is gone). The logo emblem is cut from the client's own logo on install-D.com and lives in `assets/images/brand/installd-emblem-{128,256,512}.{webp,png}`, with favicons and the OG image regenerated from it. The wordmark is "INSTALL-D" in wide tracking, as in the logo. Brand colors from the logo: navy `#1B1B41` (all dark sections) and sky `#7FD2FE` (accent on dark, hero headline gradient).
 - **Phone** `(910) 617-9122` comes from install-D.com's live site and is set in `SITE_CONFIG.phone`. Confirm it before launch.
-- **Scope:** install-D is a **home remodeling** company. The previous vendor's tool covered "windows, bathrooms, roofing, etc." (24 Sept). The **online estimate** covers **Windows and Bath Remodel only**, because those are the products Erin listed for the tool. The site presents install-D as a remodeler, and routes "Other Remodeling Projects" to the in-person quote. Never invent other services (roofing, siding and so on) as bookable products until Erin confirms them.
+- **Scope (updated 5 Oct 2026):** install-D is a **home remodeling** company. Erin's script (§3a) puts **six products** in the online estimate: Bathroom, Windows, Siding, Doors, Roofing and Something else. The in-person quote stays as the secondary path everywhere. Don't add products beyond her script.
 - **Dev notes are off** (`showDevNotes: false`). Placeholder markers still exist in the markup, so set the flag to `true` to review them. The sample reviews were replaced by an "Ideas for your home" card set (inspiration, not testimonials).
 - The header is **always visible** (sticky). It never hides on scroll.
 - **Brand blue = the logo's sky `#7FD2FE`** (team, 1 Oct 2026; `styles.css` §19r, supersedes the `--color-primary` values in §8). Fills (buttons, active steps, checks, the before/after tab) use it exactly, with logo navy text on top (9.8:1; white would be 1.7:1). Text, icons and selection rings on white use `--color-primary-ink` `#0D71A5` (same hue, 5.35:1). Dark zones use the pure sky. Keep this split when adding components: `background: var(--color-primary)` + `color: var(--color-on-primary)`, and `color: var(--color-primary-ink)` for text on white.
@@ -281,6 +320,6 @@ Quick screenshots: `npx playwright screenshot --full-page --viewport-size="1440,
 ## 10. WordPress conversion notes
 
 - Header and footer sit between `BEGIN/END: site-header|site-footer` comments and map to `header.php` / `footer.php` (or template parts).
-- Estimator config maps to an **options page** (ACF or Carbon Fields): colors, grids, bath categories and all copy. It is printed as `window.SITE_CONFIG_OVERRIDES` / `window.SITE_BATH_OPTIONS` before `main.js`.
+- Estimator config maps to an **options page** (ACF or Carbon Fields): products, pages, questions, options (with her photos) and all copy. It is printed as `window.SITE_CONFIG_OVERRIDES` / `window.SITE_ESTIMATE_PRODUCTS` before `main.js`.
 - Backend: a REST route (or Gravity Forms / Fluent Forms API) that accepts the multipart payload. It stores each submission as a CPT entry, stores photos in the media library, emails a grouped summary with photos attached through SMTP (WP Mail SMTP), and adds a honeypot plus Cloudflare Turnstile or reCAPTCHA for spam.
 - Testimonials, projects and FAQs become CPTs. See README §8.
