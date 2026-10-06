@@ -310,10 +310,10 @@
             ] },
             ...wallQuestions('tub', { q: 'tubType', in: ['standard'] }),
             /* B. Freestanding tub */
-            // Her "Bathtubs" album has an oval and a clawfoot photo, but no square tub.
+            // Oval and clawfoot from her "Bathtubs" album; square tub photo sent 5 Oct.
             { id: 'freeShape', label: 'Would you like an oval tub, a square tub or a clawfoot tub?', review: 'Tub shape', type: 'single', layout: 'cards', required: true, showIf: { q: 'tubType', in: ['freestanding'] }, options: [
               { id: 'oval', label: 'Oval', image: EST('tub-freestanding') },
-              { id: 'square', label: 'Square', swatch: 'linear-gradient(#ffffff,#ffffff) 50% 58%/46% 34% no-repeat,linear-gradient(#e3e6ea,#e3e6ea) 50% 61%/50% 40% no-repeat,#f3f5f8', provisional: true },
+              { id: 'square', label: 'Square', image: EST('tub-square') },
               { id: 'clawfoot', label: 'Clawfoot', image: EST('tub-clawfoot') },
             ] },
             { id: 'freeFixtures', label: 'Choose a color for your fixtures.', review: 'Fixture color', type: 'single', layout: 'swatches', required: true, showIf: { q: 'tubType', in: ['freestanding'] }, options: FIXTURE_FINISHES },
@@ -393,7 +393,22 @@
               { id: 'smaller', label: 'I want a smaller vanity than the one I have now' },
             ] },
             { id: 'faucetNote', type: 'note', label: 'We will match your vanity faucets with the color of your shower faucets.', showIf: { q: 'vanitySupply', in: ['us'] } },
-            { id: 'faucet', label: 'Choose a faucet style.', review: 'Faucet style', type: 'single', layout: 'swatches', required: true, provisional: true, showIf: { q: 'vanitySupply', in: ['us'] }, options: numbered('faucet', 'Faucet', ['#E4E6E8', '#D2D5D8', '#C4C8CC', '#B6BBC0', '#A9AEB4', '#9CA2A8']) },
+            // Her "Vanity Faucets" album (6 Oct, 12 photos). She said the names don't matter ("you can make it up"),
+            // so each gets a short descriptive name she can edit later.
+            { id: 'faucet', label: 'Choose a faucet style.', review: 'Faucet style', type: 'single', layout: 'cards', fit: 'contain', required: true, showIf: { q: 'vanitySupply', in: ['us'] }, options: [
+              { id: 'faucet-1', label: 'Arc', image: EST('faucet-01') },
+              { id: 'faucet-2', label: 'Curve', image: EST('faucet-02') },
+              { id: 'faucet-3', label: 'Classic', image: EST('faucet-03') },
+              { id: 'faucet-4', label: 'Modern', image: EST('faucet-04') },
+              { id: 'faucet-5', label: 'Vessel', image: EST('faucet-05') },
+              { id: 'faucet-6', label: 'Waterfall', image: EST('faucet-06') },
+              { id: 'faucet-7', label: 'Square', image: EST('faucet-07') },
+              { id: 'faucet-8', label: 'Centerset', image: EST('faucet-08') },
+              { id: 'faucet-9', label: 'Two-handle', image: EST('faucet-09') },
+              { id: 'faucet-10', label: 'Widespread', image: EST('faucet-10') },
+              { id: 'faucet-11', label: 'Farmhouse', image: EST('faucet-11') },
+              { id: 'faucet-12', label: 'Minimal', image: EST('faucet-12') },
+            ] },
             /* B. They supply it */
             { id: 'bowls', label: 'Are you going from a single bowl vanity to a double bowl vanity?', review: 'Bowls', type: 'single', layout: 'list', required: true, showIf: { q: 'vanitySupply', in: ['own'] }, options: [
               { id: 'yes', label: 'Yes' },

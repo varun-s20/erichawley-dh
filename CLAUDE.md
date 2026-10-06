@@ -165,8 +165,9 @@ The video is a 4-minute phone screen recording (no narration) of the **previous 
 - [ ] **Marble and tile names:** 13 marble and 9 tile photos have no names; her script names 10 marbles and 6 tiles. Shown as "Marble 1–13" / "Tile 1–9" until she says which photo is which
 - [ ] Basic color photo says **"Sandbar"**, her script says "Sandstone"; fixture photo says **"Brushed Gold"**, script says "Gold"
 - [ ] Shower heights: 3 unlabelled photos, matched by curb height (photo 3 = low profile, 2 = standard, 1 = double threshold) — confirm
-- [ ] "A foot pedestal" uses her shaving-bar photo; no square freestanding tub photo — confirm / send
-- [ ] Still no photos for: faucet styles, siding styles + colors, door styles + colors + handsets, GAF shingle colors
+- [ ] "A foot pedestal" uses her shaving-bar photo — confirm
+- [x] Square freestanding tub photo (5 Oct) and her 12 "Vanity Faucets" (6 Oct; she said names can be made up — Arc, Curve, Classic… editable) are in
+- [ ] Still no photos for: siding styles + colors, door styles + colors + handsets, GAF shingle colors
 - [ ] Her "Walk-in Tubs" album isn't in her script — does she want a walk-in tub option, and where?
 - [x] "Customer glass" = **Custom glass**: Framed, Rollers, Frameless glass (her 3 Oct message) — built as its own page
 - [ ] "Replace your shower with a new shower": confirm it should use the walk-in shower questions
