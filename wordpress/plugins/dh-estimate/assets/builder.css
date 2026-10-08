@@ -1,0 +1,55 @@
+/* Estimate builder (wp-admin) */
+.dhb-lead { max-width: 760px; color: #50575e; margin: 4px 0 16px; }
+.dhb-bar { position: sticky; top: 32px; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 12px; margin: 0 0 16px; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; }
+.dhb-bar__spacer { flex: 1; }
+.dhb-status { width: 100%; color: #2271b1; min-height: 1em; }
+.dhb-status:empty { display: none; }
+.dhb-cols { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 960px) { .dhb-cols { grid-template-columns: 1fr; } }
+
+.dhb-products { position: sticky; top: 100px; background: #fff; border: 1px solid #dcdcde; border-radius: 8px; padding: 12px; }
+.dhb-products ol { list-style: none; margin: 8px 0 12px; padding: 0; display: grid; gap: 6px; }
+.dhb-products li { display: flex; align-items: center; gap: 4px; border-radius: 6px; }
+.dhb-products li.is-current { background: #f0f6fc; box-shadow: inset 0 0 0 1px #2271b1; }
+.dhb-product { flex: 1; display: flex; align-items: center; gap: 8px; padding: 6px; background: none; border: 0; text-align: left; cursor: pointer; font-size: 14px; }
+.dhb-product img { width: 40px; height: 30px; object-fit: cover; border-radius: 4px; }
+.dhb-product small { display: block; color: #646970; font-size: 12px; }
+
+.dhb-main { display: grid; gap: 12px; }
+.dhb-card { background: #fff; border: 1px solid #dcdcde; border-radius: 8px; padding: 14px 16px; }
+.dhb-list { display: grid; gap: 8px; }
+.dhb-panel { background: #fff; border: 1px solid #dcdcde; border-radius: 8px; }
+.dhb-panel--q { background: #fbfbfc; }
+.dhb-panel > summary { display: flex; align-items: center; gap: 12px; padding: 10px 14px; cursor: pointer; list-style: none; }
+.dhb-panel > summary::-webkit-details-marker { display: none; }
+.dhb-panel > summary::before { content: "▸"; color: #8c8f94; transition: transform .15s ease; }
+.dhb-panel[open] > summary::before { transform: rotate(90deg); }
+.dhb-sum { flex: 1; min-width: 0; }
+.dhb-sum small { display: block; color: #646970; font-size: 12px; margin-top: 2px; }
+.dhb-body { padding: 4px 16px 16px; display: grid; gap: 12px; border-top: 1px solid #f0f0f1; }
+
+.dhb-tools { display: inline-flex; gap: 6px; align-items: center; white-space: nowrap; }
+.dhb-tools .button-link { text-decoration: none; padding: 2px 4px; }
+.dhb-tools .button-link[disabled] { opacity: .3; }
+.dhb-del { color: #b32d2e !important; }
+
+.dhb-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.dhb-field { display: grid; gap: 4px; }
+.dhb-field .regular-text, .dhb-field select { width: 100%; max-width: none; }
+.dhb-field__label { font-weight: 600; font-size: 13px; }
+.dhb-help { color: #646970; font-size: 12px; margin: 0; }
+.dhb-check { display: flex; gap: 6px; align-items: center; }
+.dhb-mt { margin-top: 8px; }
+
+.dhb-opts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.dhb-opt { display: flex; align-items: center; gap: 8px; }
+.dhb-opt > input[type="text"] { flex: 1; min-width: 0; }
+.dhb-thumb { flex: none; width: 56px; height: 42px; padding: 0; border: 1px dashed #c3c4c7; border-radius: 6px; background: #fff; cursor: pointer; overflow: hidden; display: grid; place-items: center; }
+.dhb-thumb img, .dhb-thumb span { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dhb-thumb em { font-size: 11px; color: #2271b1; font-style: normal; }
+.dhb-thumb--wide { width: 160px; height: 100px; }
+
+.dhb-cond { display: grid; gap: 6px; padding: 10px 12px; background: #f6f7f7; border-radius: 6px; }
+.dhb-rule { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.dhb-rule select { max-width: 420px; }
+.dhb-rule__values { display: flex; flex-wrap: wrap; gap: 4px 12px; }

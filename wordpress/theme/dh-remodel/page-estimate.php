@@ -1,0 +1,272 @@
+<?php defined( 'ABSPATH' ) || exit; ?>
+<?php get_header( 'estimate' ); ?>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- Focused application header (no marketing navigation) -->
+  <header class="est-header">
+    <div class="container est-header__inner">
+      <a class="brand" href="<?php echo esc_url( dh_url( 'index' ) ); ?>" aria-label="<?php dh_brand_e(); ?> — home">
+        <img class="brand__mark" src="<?php echo esc_url( dh_logo_url( 128 ) ); ?>" width="128" height="128" alt="" decoding="async">
+        <span class="brand__name"><?php dh_brand_short_e( true ); ?></span>
+      </a>
+      <div class="est-header__actions">
+        <a class="est-header__help" href="<?php echo esc_url( dh_url( 'contact' ) ); ?>"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 18.5v-12A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v8a1.5 1.5 0 0 1-1.5 1.5H8z"/><path d="M9 9.5h6M9 12.5h4"/></svg><span>Need help?</span></a>
+        <button class="btn btn--secondary btn--sm est-header__exit" type="button" data-est-exit aria-label="Save &amp; Exit"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.5 4h4A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-4M10 8l-4 4 4 4M6 12h10"/></svg><span>Save &amp; Exit</span></button>
+      </div>
+    </div>
+    <div class="est-progress" aria-hidden="true"><span class="est-progress__fill" data-est-progress-fill></span></div>
+  </header>
+
+  <main id="main" class="est-shell" data-estimator>
+    <div class="container est-layout">
+      <div class="est-main">
+        <h1 class="visually-hidden">Request your estimate</h1>
+
+        <ol class="est-phases" role="list" data-est-phases aria-label="Estimate progress"></ol>
+
+        <div class="draft-banner" data-draft-banner hidden>
+          <span class="draft-banner__icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5M20 4v4.5h-4.5M20 12a8 8 0 0 1-13.7 5.6L4 15.5M4 20v-4.5h4.5"/></svg></span>
+          <p><strong>Welcome back.</strong> We restored the progress saved on this device.<span data-draft-photos hidden> Photos aren&rsquo;t saved in drafts — please add them again.</span></p>
+          <button class="text-btn" type="button" data-est-restart>Start over</button>
+        </div>
+
+        <details class="est-summary-mobile" data-summary-mobile>
+          <summary>
+            <span>Project summary <span class="est-summary-mobile__count" data-summary-count></span></span>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="est-summary-mobile__body">
+            <dl class="summary-list" data-summary-list></dl>
+            <button class="text-btn" type="button" data-est-restart>Start over</button>
+          </div>
+        </details>
+
+        <form class="est-card" id="estimate-form" data-est-form novalidate>
+            <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="company_website" tabindex="-1" autocomplete="off" data-hp></label></div>
+
+          <!-- ============ STEP: PROJECT TYPE ============ -->
+          <section class="est-step" data-step="project" aria-labelledby="st-project">
+            <header class="est-step__header">
+              <p class="est-step__kicker" data-step-kicker></p>
+              <h2 class="est-step__title" id="st-project" tabindex="-1">What are you planning to improve?</h2>
+              <p class="est-step__desc">Choose all that apply.</p>
+            </header>
+            <fieldset class="est-step__body">
+              <legend class="visually-hidden">Projects</legend>
+              <!-- Rendered from ESTIMATE_PRODUCTS in main.js -->
+              <div class="option-grid option-grid--products" data-render="products"></div>
+            </fieldset>
+            <p class="step-error" data-step-error role="alert"></p>
+          </section>
+
+          <!-- ============ STEP: CONTACT ============ -->
+          <section class="est-step" data-step="contact" aria-labelledby="st-contact" hidden>
+            <header class="est-step__header">
+              <p class="est-step__kicker" data-step-kicker></p>
+              <h2 class="est-step__title" id="st-contact" tabindex="-1">How can we reach you?</h2>
+              <p class="est-step__desc">We&rsquo;ll use this to follow up about your project — nothing else.</p>
+            </header>
+            <div class="est-step__body">
+              <div class="field-row">
+                <div class="field">
+                  <label class="field__label" for="e-first">First name</label>
+                  <input class="field__input" id="e-first" type="text" autocomplete="given-name" autocapitalize="words" data-bind="contact.firstName" data-validate="required" aria-describedby="e-first-error">
+                  <p class="field__error" id="e-first-error"></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="e-last">Last name</label>
+                  <input class="field__input" id="e-last" type="text" autocomplete="family-name" autocapitalize="words" data-bind="contact.lastName" data-validate="required" aria-describedby="e-last-error">
+                  <p class="field__error" id="e-last-error"></p>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <label class="field__label" for="e-email">Email</label>
+                  <input class="field__input" id="e-email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" data-bind="contact.email" data-validate="required email" aria-describedby="e-email-error">
+                  <p class="field__error" id="e-email-error"></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="e-phone">Phone</label>
+                  <input class="field__input" id="e-phone" type="tel" inputmode="tel" autocomplete="tel" data-bind="contact.phone" data-validate="required phone" aria-describedby="e-phone-error">
+                  <p class="field__error" id="e-phone-error"></p>
+                </div>
+              </div>
+              <fieldset class="field">
+                <legend class="field__label">Preferred way to reach you <span class="field__optional">Optional</span></legend>
+                <div class="chip-group">
+                  <label class="chip-option"><input type="radio" name="preferredContact" value="phone" data-bind="contact.preferredContact"><span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5.5 4h3l1.5 4-2 1.3a11 11 0 0 0 6.7 6.7L16 14l4 1.5v3a1.5 1.5 0 0 1-1.5 1.5A15.5 15.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4z"/></svg> Phone call</span></label>
+                  <label class="chip-option"><input type="radio" name="preferredContact" value="text" data-bind="contact.preferredContact"><span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 18.5v-12A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v8a1.5 1.5 0 0 1-1.5 1.5H8z"/><path d="M9 9.5h6M9 12.5h4"/></svg> Text message</span></label>
+                  <label class="chip-option"><input type="radio" name="preferredContact" value="email" data-bind="contact.preferredContact"><span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="m4 7 8 6 8-6"/></svg> Email</span></label>
+                </div>
+              </fieldset>
+            </div>
+          </section>
+
+          <!-- ============ STEP: LOCATION ============ -->
+          <section class="est-step" data-step="location" aria-labelledby="st-location" hidden>
+            <header class="est-step__header">
+              <p class="est-step__kicker" data-step-kicker></p>
+              <h2 class="est-step__title" id="st-location" tabindex="-1">Where is the project?</h2>
+              <p class="est-step__desc">The address of the home you&rsquo;d like to improve.</p>
+            </header>
+            <div class="est-step__body">
+              <div class="field">
+                <label class="field__label" for="e-street">Street address</label>
+                <input class="field__input" id="e-street" type="text" autocomplete="address-line1" data-bind="address.street" data-validate="required" aria-describedby="e-street-error">
+                <p class="field__error" id="e-street-error"></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="e-line2">Apartment, suite, etc. <span class="field__optional">Optional</span></label>
+                <input class="field__input" id="e-line2" type="text" autocomplete="address-line2" data-bind="address.line2">
+              </div>
+              <div class="field-row field-row--3">
+                <div class="field">
+                  <label class="field__label" for="e-city">City</label>
+                  <input class="field__input" id="e-city" type="text" autocomplete="address-level2" data-bind="address.city" data-validate="required" aria-describedby="e-city-error">
+                  <p class="field__error" id="e-city-error"></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="e-region">State / Region</label>
+                  <input class="field__input" id="e-region" type="text" autocomplete="address-level1" data-bind="address.region" data-validate="required" aria-describedby="e-region-error">
+                  <p class="field__error" id="e-region-error"></p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="e-postal">ZIP / Postal code</label>
+                  <input class="field__input" id="e-postal" type="text" autocomplete="postal-code" autocapitalize="characters" data-bind="address.postalCode" data-validate="required postal" aria-describedby="e-postal-error">
+                  <p class="field__error" id="e-postal-error"></p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ============ PRODUCT PAGES ============
+               Bathroom and Windows are rendered from ESTIMATE_PRODUCTS in main.js (Erin's script,
+               client-chat/estimate-flow-2026-10-05.md; Siding, Doors, Roofing and Something else
+               were removed at her request on 7 Oct 2026)
+               and inserted here, before the submit page. -->
+
+          <!-- ============ SUBMIT PAGE (Erin's wording) ============ -->
+          <section class="est-step" data-step="review" aria-labelledby="st-review" hidden>
+            <header class="est-step__header">
+              <p class="est-step__kicker" data-step-kicker></p>
+              <h2 class="est-step__title" id="st-review" tabindex="-1">You&rsquo;re almost done!</h2>
+            </header>
+            <div class="est-step__body">
+              <div class="est-finish">
+                <p>Within 24 hours, you will receive your estimate. We will also send you information about our company, about each product you want an estimate for, and steps on how to move forward with your renovation project.</p>
+                <p>We will also tell you about our financing options which can make your renovation project a much smoother process and takes the risk out for you!</p>
+                <p class="est-finish__cta">Just hit &ldquo;Submit&rdquo; and we&rsquo;ll get started on your estimate.</p>
+              </div>
+              <details class="review-details">
+                <summary><span>Check your answers</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></summary>
+                <div class="review-grid" data-review></div>
+              </details>
+              <p class="fine-print review-consent"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg> By submitting, you agree that we may contact you about this project using the details above. See our <a href="<?php echo esc_url( dh_url( 'privacy' ) ); ?>">Privacy Policy</a>.</p>
+              <div class="submit-error" data-submit-error role="alert" hidden></div>
+            </div>
+          </section>
+
+          <!-- Shared action bar (sticky on mobile) -->
+          <div class="est-actions" data-est-actions>
+            <button class="btn btn--ghost est-actions__back" type="button" data-est-back><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back</button>
+            <button class="btn btn--primary btn--lg est-actions__next" type="submit" data-est-next>
+              <span class="btn__label" data-est-next-label>Continue</span>
+              <span class="btn__spinner" aria-hidden="true"></span>
+              <svg class="icon btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- ============ CONFIRMATION ============ -->
+        <section class="est-card confirm" data-est-confirmation aria-labelledby="confirm-title" tabindex="-1" hidden>
+          <div class="dev-banner" data-confirm-dev hidden>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg>
+            <div>
+              <p><strong>Development preview — nothing was sent.</strong> <code>SUBMISSION_ENDPOINT</code> is not configured in main.js, so this project was not delivered to anyone. The payload that would be submitted is below and in the browser console.</p>
+              <details class="dev-banner__payload">
+                <summary>View payload</summary>
+                <pre data-confirm-payload></pre>
+              </details>
+              <button class="btn btn--secondary btn--sm" type="button" data-confirm-back><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to review</button>
+            </div>
+          </div>
+          <div class="confirm__preview" data-confirm-preview>
+            <div class="confirm__icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><circle class="confirm__ring" cx="32" cy="32" r="29"/><path class="confirm__tick" d="m20 33 8 8 16-17"/></svg>
+              <div class="confirm__confetti" data-confetti></div>
+            </div>
+            <h2 class="confirm__title" id="confirm-title">Thank you<span data-confirm-name></span>. We&rsquo;ve received your project.</h2>
+            <p class="confirm__text">Our team will review your details and photos, then follow up with your proposal and next steps.</p>
+            <ol class="confirm__steps" role="list">
+              <li><span class="confirm__num">1</span><div><h3>We review your project</h3><p>A member of our team looks over your details, photos and preferences.</p></div></li>
+              <li><span class="confirm__num">2</span><div><h3>We follow up with you</h3><p>We&rsquo;ll reach out using your preferred contact method if we have questions.</p></div></li>
+              <li><span class="confirm__num">3</span><div><h3>You receive your proposal</h3><p>We share your proposal and the next steps for your project.</p></div></li>
+            </ol>
+            <div class="confirm__actions">
+              <a class="btn btn--primary" href="<?php echo esc_url( dh_url( 'index' ) ); ?>">Back to Homepage</a>
+              <a class="btn btn--secondary" href="<?php echo esc_url( dh_url( 'our-work' ) ); ?>">Browse Inspiration</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ PROJECT SUMMARY (desktop) ============ -->
+      <aside class="est-aside" aria-label="Project summary">
+        <div class="summary-card">
+          <div class="summary-card__media" data-summary-media>
+            <span class="summary-card__placeholder" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5h-5v5H5a1 1 0 0 1-1-1z"/></svg></span>
+          </div>
+          <div class="summary-card__body">
+            <p class="summary-card__eyebrow">Your project</p>
+            <p class="summary-card__title" data-summary-title>Let&rsquo;s get started</p>
+            <dl class="summary-list" data-summary-list></dl>
+            <button class="text-btn summary-card__restart" type="button" data-est-restart><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5M20 4v4.5h-4.5M20 12a8 8 0 0 1-13.7 5.6L4 15.5M4 20v-4.5h4.5"/></svg> Start over</button>
+          </div>
+        </div>
+        <div class="help-card">
+          <div class="help-card__head">
+            <span class="help-card__avatar" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></span>
+            <div>
+              <p class="help-card__title">Questions along the way?</p>
+              <p class="help-card__role">Our project team is happy to help</p>
+            </div>
+            <a class="round-btn" href="<?php echo esc_url( dh_url( 'contact' ) ); ?>" aria-label="Contact our team"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 18.5v-12A1.5 1.5 0 0 1 6.5 5h11A1.5 1.5 0 0 1 19 6.5v8a1.5 1.5 0 0 1-1.5 1.5H8z"/><path d="M9 9.5h6M9 12.5h4"/></svg></a>
+          </div>
+          <p class="help-card__phone" data-config-item="phone" hidden><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5.5 4h3l1.5 4-2 1.3a11 11 0 0 0 6.7 6.7L16 14l4 1.5v3a1.5 1.5 0 0 1-1.5 1.5A15.5 15.5 0 0 1 4 5.5 1.5 1.5 0 0 1 5.5 4z"/></svg> <a data-config-link href="<?php echo esc_url( dh_url( 'contact' ) ); ?>"></a></p>
+        </div>
+        <p class="privacy-note"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg> <span>Your information is used to review your project and follow up with you. Drafts are saved only on this device. <a href="<?php echo esc_url( dh_url( 'privacy' ) ); ?>">Privacy Policy</a></span></p>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="est-footer">
+    <div class="container est-footer__inner">
+      <p>&copy; <span data-year>2026</span> <?php dh_brand_e(); ?></p>
+      <p class="footer__credit">Created with love by <a href="https://digitalheroesco.com/" target="_blank" rel="noopener">Digital Heroes</a></p>
+      <a href="<?php echo esc_url( dh_url( 'privacy' ) ); ?>">Privacy Policy</a>
+    </div>
+  </footer>
+
+  <!-- Confirmation dialogs (native <dialog>: focus trap + Escape built in) -->
+  <dialog class="dialog" data-dialog="restart" aria-labelledby="dlg-restart-title">
+    <form method="dialog" class="dialog__body">
+      <h2 class="dialog__title" id="dlg-restart-title">Start over?</h2>
+      <p>This clears your answers and photos from this device. It can&rsquo;t be undone.</p>
+      <div class="dialog__actions">
+        <button class="btn btn--secondary" value="cancel" autofocus>Keep my progress</button>
+        <button class="btn btn--danger" value="confirm">Start over</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" data-dialog="exit" aria-labelledby="dlg-exit-title">
+    <form method="dialog" class="dialog__body">
+      <h2 class="dialog__title" id="dlg-exit-title">Save and exit?</h2>
+      <p>Your answers are saved on this device for 7 days so you can pick up where you left off. Photos aren&rsquo;t saved and will need to be added again.</p>
+      <div class="dialog__actions">
+        <button class="btn btn--secondary" value="cancel" autofocus>Keep going</button>
+        <button class="btn btn--primary" value="confirm">Save &amp; Exit</button>
+      </div>
+    </form>
+  </dialog>
+<?php get_footer( 'estimate' ); ?>

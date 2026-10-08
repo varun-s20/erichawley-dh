@@ -1,0 +1,14 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "preferredVersions": { "php": "8.2", "wp": "latest" },
+  "login": true,
+  "steps": [
+    { "step": "defineWpConfigConsts", "consts": { "WP_DEBUG": true, "WP_DEBUG_DISPLAY": true } },
+    { "step": "setSiteOptions", "options": { "blogname": "install-D Home Remodeling" } },
+    { "step": "unzip", "zipFile": { "resource": "vfs", "path": "/dist/dh-remodel.zip" }, "extractToPath": "/wordpress/wp-content/themes" },
+    { "step": "unzip", "zipFile": { "resource": "vfs", "path": "/dist/dh-estimate.zip" }, "extractToPath": "/wordpress/wp-content/plugins" },
+    { "step": "activateTheme", "themeFolderName": "dh-remodel" },
+    { "step": "activatePlugin", "pluginPath": "dh-estimate/dh-estimate.php" },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "wordpress-seo" } }
+  ]
+}

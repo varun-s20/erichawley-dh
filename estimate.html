@@ -71,6 +71,7 @@
         </details>
 
         <form class="est-card" id="estimate-form" data-est-form novalidate>
+            <div class="hp-field" aria-hidden="true"><label>Leave this field empty <input type="text" name="company_website" tabindex="-1" autocomplete="off" data-hp></label></div>
 
           <!-- ============ STEP: PROJECT TYPE ============ -->
           <section class="est-step" data-step="project" aria-labelledby="st-project">
@@ -168,8 +169,9 @@
           </section>
 
           <!-- ============ PRODUCT PAGES ============
-               Bathroom, Windows, Siding, Doors, Roofing and Something else are rendered from
-               ESTIMATE_PRODUCTS in main.js (Erin's script, client-chat/estimate-flow-2026-10-05.md)
+               Bathroom and Windows are rendered from ESTIMATE_PRODUCTS in main.js (Erin's script,
+               client-chat/estimate-flow-2026-10-05.md; Siding, Doors, Roofing and Something else
+               were removed at her request on 7 Oct 2026)
                and inserted here, before the submit page. -->
 
           <!-- ============ SUBMIT PAGE (Erin's wording) ============ -->
@@ -269,6 +271,7 @@
   <footer class="est-footer">
     <div class="container est-footer__inner">
       <p>&copy; <span data-year>2026</span> install-D Home Remodeling</p>
+      <p class="footer__credit">Created with love by <a href="https://digitalheroesco.com/" target="_blank" rel="noopener">Digital Heroes</a></p>
       <a href="privacy.html">Privacy Policy</a>
     </div>
   </footer>

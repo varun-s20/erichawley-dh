@@ -1,0 +1,101 @@
+<?php defined( 'ABSPATH' ) || exit; ?>
+<?php get_header(); ?>
+
+  <main id="main">
+    <section class="page-hero page-hero--split" aria-labelledby="about-page-title">
+      <div class="container page-hero__grid">
+        <div class="page-hero__content">
+          <h1 class="h1" id="about-page-title" data-split-lines>A clearer way to <em class="text-accent">improve your home.</em></h1>
+          <p class="lead"><?php dh_brand_short_e(); ?> is a home remodeling company that makes planning your project simple, visual and personal &mdash; starting with a free online estimate.</p>
+          <div class="page-hero__actions">
+            <a class="btn btn--primary btn--lg" href="<?php echo esc_url( dh_url( 'estimate' ) ); ?>">Start Your Estimate <span class="btn__icon"><svg class="icon btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+            <a class="btn btn--secondary btn--lg" href="#approach">Our Approach</a>
+          </div>
+        </div>
+        <div class="page-hero__media page-hero__media--landscape">
+          <img class="page-hero__img" src="<?php dh_assets(); ?>assets/images/projects/exterior-brick-suburban-1024.webp" srcset="<?php dh_assets(); ?>assets/images/projects/exterior-brick-suburban-640.webp 640w, <?php dh_assets(); ?>assets/images/projects/exterior-brick-suburban-800.webp 800w, <?php dh_assets(); ?>assets/images/projects/exterior-brick-suburban-1024.webp 1024w, <?php dh_assets(); ?>assets/images/projects/exterior-brick-suburban-1600.webp 1600w" sizes="(min-width: 1024px) 44vw, 100vw" width="1600" height="1200" alt="Brick family home with a green lawn and mature trees" fetchpriority="high" decoding="async">
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENT CONTENT NEEDED: company story, founding background, team, service area and licensing details.
+         Keep claims qualitative until the client verifies specifics (years, project counts, awards). -->
+    <section class="section" aria-labelledby="story-title">
+      <div class="container intro-split">
+        <header class="section-head" data-reveal>
+          <h2 class="h2" id="story-title" data-word-reveal>Why we do it <em class="text-accent">differently.</em></h2>
+        </header>
+        <div class="intro-split__body prose" data-reveal>
+          <p class="dev-note"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></svg> <span>Placeholder copy. Replace with the client&rsquo;s company story, team, service area and licensing details.</span></p>
+          <p class="lead">Most homeowners put off windows and bathrooms not because they don&rsquo;t want them, but because the process feels uncertain — who to call, what to ask, what it will involve.</p>
+          <p>We built our process to remove that uncertainty. You start from home, on your schedule: choose your project, share photos, and pick the options you like. We review every submission personally and come back with a clear proposal and next steps.</p>
+          <p>Bathrooms and windows can be estimated fully online with a few photos. We&rsquo;re also happy to come out and quote them in person.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--surface" id="approach" aria-labelledby="approach-title">
+      <div class="container">
+        <header class="section-head section-head--center" data-reveal>
+          <h2 class="h2" id="approach-title" data-word-reveal>What you can <em class="text-accent">expect from us.</em></h2>
+        </header>
+        <ul class="principle-grid" role="list" data-reveal="stagger">
+          <li class="principle"><span class="principle__num">01</span><h3>Start with your home</h3><p>Your photos and priorities shape the plan — not a one-size-fits-all package.</p></li>
+          <li class="principle"><span class="principle__num">02</span><h3>Visual, not overwhelming</h3><p>Colors, grids and styles are shown clearly so decisions feel easy.</p></li>
+          <li class="principle"><span class="principle__num">03</span><h3>Personal review, every time</h3><p>A real person on our team reviews each project before we follow up.</p></li>
+          <li class="principle"><span class="principle__num">04</span><h3>Clear next steps</h3><p>You&rsquo;ll always know what happens next and what we need from you.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="about-services-title">
+      <div class="container">
+        <header class="section-head section-head--split" data-reveal>
+          <div>
+            <h2 class="h2" id="about-services-title" data-word-reveal>Remodeling, <em class="text-accent">start to finish.</em></h2>
+          </div>
+          <p class="section-head__aside">Every project has its own guided online estimate, or we can quote it in person.</p>
+        </header>
+        <div class="duo-grid" data-reveal="stagger">
+          <article class="service-card service-card--feature">
+            <div class="service-card__media">
+              <img src="<?php dh_assets(); ?>assets/images/windows/windows-living-room-light-1024.webp" srcset="<?php dh_assets(); ?>assets/images/windows/windows-living-room-light-640.webp 640w, <?php dh_assets(); ?>assets/images/windows/windows-living-room-light-800.webp 800w, <?php dh_assets(); ?>assets/images/windows/windows-living-room-light-1024.webp 1024w, <?php dh_assets(); ?>assets/images/windows/windows-living-room-light-1600.webp 1600w" sizes="(min-width: 1024px) 50vw, 100vw" width="1600" height="1066" alt="Living room brightened by large windows" loading="lazy" decoding="async">
+            </div>
+            <div class="service-card__body">
+              <p class="service-card__tag"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="3.5" width="14" height="17" rx="1.5"/><path d="M5 12h14M12 3.5v17"/></svg> Windows</p>
+              <h3 class="service-card__title">Replacement Windows</h3>
+              <p class="service-card__text">Styles, frame colors and grid patterns, chosen visually and reviewed with you.</p>
+              <a class="service-card__link stretched-link" href="<?php echo esc_url( dh_url( 'windows' ) ); ?>">Explore windows <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="service-card service-card--feature">
+            <div class="service-card__media">
+              <img src="<?php dh_assets(); ?>assets/images/bath/bath-double-vessel-1024.webp" srcset="<?php dh_assets(); ?>assets/images/bath/bath-double-vessel-640.webp 640w, <?php dh_assets(); ?>assets/images/bath/bath-double-vessel-800.webp 800w, <?php dh_assets(); ?>assets/images/bath/bath-double-vessel-1024.webp 1024w, <?php dh_assets(); ?>assets/images/bath/bath-double-vessel-1600.webp 1600w" sizes="(min-width: 1024px) 50vw, 100vw" width="1600" height="1068" alt="Modern bathroom with twin vessel sinks and glass shower" loading="lazy" decoding="async">
+            </div>
+            <div class="service-card__body">
+              <p class="service-card__tag"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 12h17v2.5a5 5 0 0 1-5 5h-7a5 5 0 0 1-5-5z"/><path d="M6 12V6.5a2.5 2.5 0 0 1 4.8-1"/><path d="m7 19.5-1 1.5M17 19.5l1 1.5"/></svg> Bath</p>
+              <h3 class="service-card__title">Bath Remodel</h3>
+              <p class="service-card__text">From refresh to full remodel, planned from your photos and goals.</p>
+              <a class="service-card__link stretched-link" href="<?php echo esc_url( dh_url( 'bath-remodel' ) ); ?>">Explore bath remodeling <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-banner" aria-labelledby="about-cta-title">
+          <div class="cta-banner__media">
+            <img class="cta-banner__img" src="<?php dh_assets(); ?>assets/images/projects/exterior-white-cottage-1024.webp" srcset="<?php dh_assets(); ?>assets/images/projects/exterior-white-cottage-640.webp 640w, <?php dh_assets(); ?>assets/images/projects/exterior-white-cottage-800.webp 800w, <?php dh_assets(); ?>assets/images/projects/exterior-white-cottage-1024.webp 1024w, <?php dh_assets(); ?>assets/images/projects/exterior-white-cottage-1600.webp 1600w" sizes="(orientation: portrait) and (max-width: 1023px) 130vh, (min-width: 1280px) 1200px, 100vw" width="1600" height="1063" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="container cta-banner__content" data-reveal>
+            <h2 class="cta-banner__title" id="about-cta-title">Tell us about <em class="text-accent">your home.</em></h2>
+            <p class="cta-banner__text">Start online in a few minutes, or reach out with any questions.</p>
+            <div class="cta-banner__actions">
+              <a class="btn btn--primary btn--lg" href="<?php echo esc_url( dh_url( 'estimate' ) ); ?>">Start Your Estimate <span class="btn__icon"><svg class="icon btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+              <a class="btn btn--outline-light btn--lg" href="<?php echo esc_url( dh_url( 'contact' ) ); ?>">Contact Us</a>
+            </div>
+          </div>
+    </section>
+  </main>
+
+  <?php get_footer(); ?>

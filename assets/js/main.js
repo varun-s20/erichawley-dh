@@ -43,6 +43,13 @@
     window.SITE_CONFIG_OVERRIDES || {}
   );
 
+  /**
+   * WordPress passes the theme's asset folder and its page URLs; the static
+   * prototype falls back to relative paths and the .html files.
+   */
+  const ASSET_BASE = window.SITE_ASSET_BASE || '';
+  const pageUrl = (slug) => (window.SITE_URLS && window.SITE_URLS[slug]) || `${slug}.html`;
+
   /** Where estimates are POSTed. Empty = development mode: nothing is sent. */
   const SUBMISSION_ENDPOINT = SITE_CONFIG.submissionEndpoint || '';
 
@@ -127,8 +134,9 @@
      Page:     { id, title, kicker?, desc?, review?, intro?: { icon, title, text },
                  photos?: { tips?: [...] }, titleQuestion?: true, when?, questions: [...] }
                One page = one "HIT NEXT" screen in her script.
-     Question: { id, label, type: 'single'|'multi'|'text'|'textarea'|'note',
+     Question: { id, label, type: 'single'|'multi'|'text'|'textarea'|'number'|'note',
                  layout?: 'list'|'cards'|'swatches', required?, hint?, review?,
+                 unit? (number: 'windows'), picks? (number: quick-pick chips),
                  showIf?, provisional?, options?: [{ id, label, image?, swatch?, icon? }] }
      when / showIf: { q: 'questionId', in: ['answer', …] }, or an array of them (all must hold).
                A question also hides whenever the question it depends on is hidden.
@@ -138,10 +146,10 @@
      placeholders ("Style 1"), flagged `provisional`. Never invent brands,
      product names, SKUs or prices.
      --------------------------------------------------------------------- */
-  const IMG = (base) => `assets/images/bath/${base}-640.webp`;
-  const PHOTO = (dir, base) => `assets/images/${dir}/${base}-640.webp`;
+  const IMG = (base) => `${ASSET_BASE}assets/images/bath/${base}-640.webp`;
+  const PHOTO = (dir, base) => `${ASSET_BASE}assets/images/${dir}/${base}-640.webp`;
   /** Erin's own option photos (Google Photos albums, 3 Oct 2026), saved in assets/images/estimate/. */
-  const EST = (name) => `assets/images/estimate/${name}.webp`;
+  const EST = (name) => `${ASSET_BASE}assets/images/estimate/${name}.webp`;
   const countTo = (n) => Array.from({ length: n }, (_, i) => i + 1);
   const twoDigits = (n) => String(n).padStart(2, '0');
 
@@ -171,26 +179,6 @@
   // Roman Block, Herringbone, Hexagon) — numbered in album order until she matches names to photos.
   const TILE_DESIGNS = countTo(9).map((n) => ({ id: `tile-${n}`, label: `Tile ${n}`, image: EST(`tile-${twoDigits(n)}`) }));
 
-  /* Numbered placeholders until Erin's photos arrive ("Style 1", "Color 1"…) */
-  const numbered = (prefix, label, swatches) => swatches.map((swatch, i) => ({ id: `${prefix}-${i + 1}`, label: `${label} ${i + 1}`, swatch }));
-  const PLACEHOLDER_COLORS = ['#F2F0EB', '#D9D3C7', '#B7AE9E', '#8C9A8E', '#6E7F92', '#4A5563', '#7A5A45', '#2F3237'];
-  const SIDING_PATTERNS = [
-    'repeating-linear-gradient(0deg,#e9e6df 0 11px,#cfcac0 11px 12px)',
-    'repeating-linear-gradient(0deg,#e9e6df 0 7px,#d8d3c9 7px 13px,#cfcac0 13px 14px)',
-    'repeating-linear-gradient(90deg,#e9e6df 0 16px,#cfcac0 16px 19px)',
-    'radial-gradient(circle at 50% 0,#e9e6df 0 6px,#cfcac0 6px 7px,transparent 7px) 0 0/12px 10px,#e9e6df',
-    'repeating-linear-gradient(90deg,#e9e6df 0 9px,#cfcac0 9px 10px)',
-    'repeating-linear-gradient(0deg,#e9e6df 0 17px,#cfcac0 17px 18px)',
-  ];
-  const DOOR_PATTERNS = [
-    'linear-gradient(#e9e6df,#e9e6df) 22% 18%/56% 26% no-repeat,linear-gradient(#e9e6df,#e9e6df) 22% 78%/56% 34% no-repeat,#cfcac0',
-    'linear-gradient(#bcd3df,#bcd3df) 50% 22%/56% 40% no-repeat,#cfcac0',
-    'repeating-linear-gradient(0deg,#cfcac0 0 12px,#bdb7ab 12px 13px)',
-    'linear-gradient(#bcd3df,#bcd3df) 50% 50%/16% 70% no-repeat,#cfcac0',
-    'linear-gradient(#e9e6df,#e9e6df) 30% 50%/22% 76% no-repeat,linear-gradient(#e9e6df,#e9e6df) 70% 50%/22% 76% no-repeat,#cfcac0',
-    'radial-gradient(ellipse at 50% 20%,#bcd3df 0 30%,transparent 31%),#cfcac0',
-  ];
-  const SHINGLE_COLORS = ['#3C3D3F', '#5B5550', '#6E6458', '#4D5A61', '#7A6A58', '#2B2B2C'];
 
   /** Wall design questions shared by the standard tub and the walk-in shower. */
   function wallQuestions(prefix, showIf) {
@@ -211,11 +199,6 @@
       { id: `${prefix}TileMarble`, label: 'If you would like to add a marble color to your tile design, enter the name here:', review: 'Marble color for tile', type: 'text', showIf: on('tile') },
     ];
   }
-
-  const YES_NO = [
-    { id: 'yes', label: 'Yes' },
-    { id: 'no', label: 'No' },
-  ];
 
   const DESIGNING = { q: 'design', in: ['me'] };
   const WET_TUB = ['tub-to-tub', 'tub-and-shower'];
@@ -492,10 +475,19 @@
       card: { text: 'Style, color & grids', image: PHOTO('windows', 'windows-double-hung-grids') },
       pages: [
         {
-          id: 'w-photos',
-          title: 'Please upload a photo of each window you want to replace.',
+          // Her message (7 Oct): "When the window section begins, make the first question be 'How many windows are we replacing?'"
+          id: 'w-count',
+          titleQuestion: true,
+          review: 'Window design',
           // "Up to 60%" is the client's own claim — confirm she can substantiate it before launch.
           intro: { icon: 'sun', title: 'It looks like you want to replace your windows. Great idea!', text: 'Energy efficient windows pay for themselves. You can save up to 60% on your energy bill just by replacing your windows.' },
+          questions: [
+            { id: 'windowCount', label: 'How many windows are we replacing?', review: 'Number of windows', type: 'number', unit: 'windows', required: true },
+          ],
+        },
+        {
+          id: 'w-photos',
+          title: 'Please upload a photo of each window you want to replace.',
           photos: { tips: [['eye', 'Stand back so the whole window is in frame'], ['sun', 'Daylight photos work best'], ['home', 'Inside or outside views both help']] },
           questions: [],
         },
@@ -520,164 +512,17 @@
         },
       ],
     },
-
-    /* ================= SIDING ================= */
-    {
-      id: 'siding',
-      label: 'Siding',
-      card: { text: 'Style, color, trim & gutters', image: PHOTO('projects', 'exterior-farmhouse-porch') },
-      pages: [
-        {
-          id: 's-photos',
-          title: 'We will need you to upload 8 photos for your siding estimate.',
-          desc: 'Front, back, left side, right side, and all 4 corners.',
-          intro: { icon: 'home', title: 'Awesome choice! Looks like you want new siding.', text: 'Replacing your old siding will reduce your energy costs and protect your home from bad weather. It also adds to your curb appeal and has a great return on investment!' },
-          photos: {},
-          questions: [],
-        },
-        {
-          id: 's-first',
-          kicker: 'Siding',
-          title: '1st floor siding',
-          questions: [
-            { id: 'siding1Style', label: 'Choose a style for your siding on the 1st floor of your home.', review: '1st floor style', type: 'single', layout: 'swatches', required: true, provisional: true, options: numbered('style', 'Style', SIDING_PATTERNS) },
-            { id: 'siding1Color', label: 'Choose a color.', review: '1st floor color', type: 'single', layout: 'swatches', required: true, provisional: true, options: numbered('color', 'Color', PLACEHOLDER_COLORS) },
-          ],
-        },
-        {
-          id: 's-second',
-          kicker: 'Siding',
-          title: '2nd floor siding',
-          questions: [
-            { id: 'siding2Style', label: 'Choose a style for your siding on the 2nd floor of your home.', hint: 'If your home is only 1 story, choose the same siding design.', review: '2nd floor style', type: 'single', layout: 'swatches', required: true, provisional: true, options: numbered('style', 'Style', SIDING_PATTERNS) },
-            { id: 'siding2Color', label: 'Choose a color.', review: '2nd floor color', type: 'single', layout: 'swatches', required: true, provisional: true, options: numbered('color', 'Color', PLACEHOLDER_COLORS) },
-          ],
-        },
-        {
-          id: 's-trim',
-          kicker: 'Siding',
-          title: 'Trim & gutters',
-          questions: [
-            { id: 'trimColor', label: 'Choose a color for your trim, soffits, and fascia.', review: 'Trim, soffits & fascia', type: 'single', layout: 'list', required: true, options: [
-              { id: 'white', label: 'White' },
-              { id: 'black', label: 'Black' },
-              { id: 'bone', label: 'Bone' },
-              { id: 'match', label: 'Match your siding' },
-            ] },
-            { id: 'sidingGutters', label: 'Would you like to add new gutters?', review: 'New gutters', type: 'single', layout: 'list', required: true, options: YES_NO },
-          ],
-        },
-      ],
-    },
-
-    /* ================= DOORS ================= */
-    {
-      id: 'doors',
-      label: 'Doors',
-      card: { text: 'Entry, sliding & patio doors', image: PHOTO('projects', 'exterior-white-cottage') },
-      pages: [
-        {
-          id: 'd-photos',
-          title: 'Upload a photo of each door you want replaced.',
-          intro: { icon: 'door', title: 'Good choice!', text: 'Doors are there to protect you and your family from intruders and the elements. Replacing your old doors with new, secure doors will give you the thing you want the most when it comes to protecting your family – peace of mind.' },
-          photos: {},
-          questions: [],
-        },
-        {
-          id: 'd-design',
-          kicker: 'Doors',
-          title: 'Door design',
-          questions: [
-            { id: 'entryDoor', label: 'Do you want to replace an entry door?', review: 'Entry door', type: 'single', layout: 'list', required: true, options: YES_NO },
-            /* Yes: entry door */
-            { id: 'doorMaterial', label: 'Do you want a steel door or a fiberglass door?', review: 'Material', type: 'single', layout: 'list', required: true, showIf: { q: 'entryDoor', in: ['yes'] }, options: [
-              { id: 'steel', label: 'Steel' },
-              { id: 'fiberglass', label: 'Fiberglass' },
-            ] },
-            { id: 'doorStyle', label: 'Choose a door style.', review: 'Door style', type: 'single', layout: 'swatches', required: true, provisional: true, showIf: { q: 'entryDoor', in: ['yes'] }, options: numbered('style', 'Style', DOOR_PATTERNS) },
-            { id: 'doorColor', label: 'Choose a door color.', review: 'Door color', type: 'single', layout: 'swatches', required: true, provisional: true, showIf: { q: 'entryDoor', in: ['yes'] }, options: numbered('color', 'Color', PLACEHOLDER_COLORS.slice(0, 6)) },
-            { id: 'doorHandset', label: 'Choose a handset.', review: 'Handset', type: 'single', layout: 'swatches', required: true, provisional: true, showIf: { q: 'entryDoor', in: ['yes'] }, options: numbered('handset', 'Handset', FIXTURE_FINISHES.slice(0, 4).map((f) => f.swatch)) },
-            { id: 'doorExtras', label: 'Choose any extra features you would like on your door.', hint: 'Choose all that apply.', review: 'Extra features', type: 'multi', layout: 'list', showIf: { q: 'entryDoor', in: ['yes'] }, options: [
-              { id: 'peephole', label: 'Peephole' },
-              { id: 'knocker', label: 'Knocker with peephole' },
-              { id: 'mail-slot', label: 'Mail slot' },
-              { id: 'doggie-door', label: 'Doggie door' },
-            ] },
-            /* No: sliding or patio */
-            { id: 'patioDoor', label: 'Are you looking for a sliding glass door or a patio door?', review: 'Sliding or patio', type: 'single', layout: 'list', required: true, showIf: { q: 'entryDoor', in: ['no'] }, options: [
-              { id: 'sliding', label: 'Sliding glass door' },
-              { id: 'french', label: 'Patio French doors' },
-              { id: 'neither', label: 'Neither' },
-            ] },
-            { id: 'patioColor', label: 'Choose a color.', review: 'Color', type: 'single', layout: 'swatches', required: true, showIf: { q: 'patioDoor', in: ['sliding', 'french'] }, options: [
-              { id: 'white', label: 'White', swatch: '#FFFFFF' },
-              { id: 'black', label: 'Black', swatch: '#1F2124' },
-              { id: 'tan', label: 'Tan', swatch: '#C7AD86' },
-            ] },
-            { id: 'patioMore', label: 'Is there anything else you would like to add?', review: 'Anything else', type: 'textarea', showIf: { q: 'patioDoor', in: ['sliding', 'french'] } },
-            { id: 'doorOther', label: 'Tell us what you are looking for.', review: 'Looking for', type: 'textarea', required: true, showIf: { q: 'patioDoor', in: ['neither'] } },
-          ],
-        },
-      ],
-    },
-
-    /* ================= ROOFING ================= */
-    {
-      id: 'roofing',
-      label: 'Roofing',
-      card: { text: 'Shingle or metal & gutters', image: PHOTO('projects', 'exterior-cottage-grids') },
-      pages: [
-        {
-          id: 'r-photos',
-          title: 'Please upload 4–6 photos of the outside of your home and roof.',
-          intro: { icon: 'roof', title: 'Need a new roof? We got you!', text: 'Your roof protects everything and everyone in your home, so it’s important that your roof stays in good condition and is qualified to handle the weather in your area!' },
-          photos: {},
-          questions: [],
-        },
-        {
-          id: 'r-design',
-          kicker: 'Roofing',
-          title: 'Roof design',
-          questions: [
-            { id: 'roofType', label: 'Would you like a shingled roof or a metal roof?', review: 'Roof type', type: 'single', layout: 'list', required: true, options: [
-              { id: 'shingle', label: 'Shingle' },
-              { id: 'metal', label: 'Metal' },
-            ] },
-            { id: 'shingleColor', label: 'We only use the best in roofing shingles, GAF. Choose a color.', review: 'Shingle color', type: 'single', layout: 'swatches', required: true, provisional: true, showIf: { q: 'roofType', in: ['shingle'] }, options: numbered('color', 'Color', SHINGLE_COLORS) },
-            { id: 'shingleGutters', label: 'Would you like to add new gutters? We highly suggest it when replacing a roof.', review: 'New gutters', type: 'single', layout: 'list', required: true, showIf: { q: 'roofType', in: ['shingle'] }, options: YES_NO },
-            { id: 'metalColor', label: 'Choose a color.', review: 'Metal color', type: 'single', layout: 'swatches', required: true, showIf: { q: 'roofType', in: ['metal'] }, options: [
-              { id: 'black', label: 'Black', swatch: '#232427' },
-              { id: 'green', label: 'Green', swatch: '#2F4B3A' },
-              { id: 'red', label: 'Red', swatch: '#8E2A2A' },
-              { id: 'brown', label: 'Brown', swatch: '#5A3E2B' },
-            ] },
-            { id: 'metalGutters', label: 'Would you like to add new gutters?', review: 'New gutters', type: 'single', layout: 'list', required: true, showIf: { q: 'roofType', in: ['metal'] }, options: YES_NO },
-          ],
-        },
-      ],
-    },
-
-    /* ================= SOMETHING ELSE ================= */
-    {
-      id: 'other',
-      label: 'Something else',
-      card: { text: 'Decks, fencing, additions & more', image: PHOTO('projects', 'exterior-porch-autumn') },
-      pages: [
-        {
-          id: 'o-project',
-          title: 'Please add photos of the area you want renovated.',
-          review: 'Your project',
-          intro: { icon: 'sparkle', title: 'New deck? Fencing? Do you need to build a mother-in-law suite?? (Let’s hope not..)', text: 'We can probably do it! We just need a bit more information.' },
-          photos: {},
-          questions: [
-            { id: 'otherDetails', label: 'Tell us about your project', review: 'Your project', type: 'textarea', required: true },
-          ],
-        },
-      ],
-    },
   ];
 
   const ESTIMATE_PRODUCTS = Array.isArray(window.SITE_ESTIMATE_PRODUCTS) ? window.SITE_ESTIMATE_PRODUCTS : DEFAULT_ESTIMATE_PRODUCTS;
+  // Safety net: a theme-relative "assets/…" image from a CMS resolves against the theme, not the page URL.
+  (() => {
+    const fix = (o) => { if (o && typeof o.image === 'string' && /^assets\//.test(o.image)) o.image = ASSET_BASE + o.image; };
+    ESTIMATE_PRODUCTS.forEach((p) => {
+      fix(p.card);
+      (p.pages || []).forEach((pg) => (pg.questions || []).forEach((q) => (q.options || []).forEach(fix)));
+    });
+  })();
 
   // Window colors share one list with the Windows page visualizer.
   ESTIMATE_PRODUCTS.forEach((product) =>
@@ -698,6 +543,14 @@
 
   /** Products in flow order (the order of ESTIMATE_PRODUCTS), whatever order they were ticked in. */
   const orderProducts = (ids) => ESTIMATE_PRODUCTS.filter((p) => ids.includes(p.id)).map((p) => p.id);
+
+  /** Number questions: default quick picks, and the unit word ("1 window" / "7 windows"). */
+  const NUMBER_PICKS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15];
+  const numberUnit = (q, n) => {
+    const plural = String(q.unit || '').trim();
+    return n === 1 ? String(q.unitOne || plural.replace(/(?<!s)s$/, '')).trim() : plural;
+  };
+  const MAX_NUMBER = 999;
 
   const hasAnswer = (value) => (Array.isArray(value) ? value.length > 0 : Boolean(String(value || '').trim()));
 
@@ -730,7 +583,7 @@
     return FLOW_QUESTIONS.filter((q) => q.type !== 'note' && hasAnswer(state.answers[q.id]) && questionApplies(q, state)).map((q) => {
       const value = state.answers[q.id];
       const labelOf = (v) => ((q.options || []).find((o) => o.id === v) || {}).label || v;
-      const isText = q.type === 'text' || q.type === 'textarea';
+      const isText = q.type === 'text' || q.type === 'textarea' || q.type === 'number';
       return {
         product: q.product,
         page: q.page,
@@ -771,6 +624,9 @@
     info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/>',
     upload: '<path d="M12 15.5V4M7 9l5-5 5 5M4.5 14.5v4A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5v-4"/>',
     check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    minus: '<path d="M5 12h14"/>',
+    zoom: '<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5M10.5 8v5M8 10.5h5"/>',
     edit: '<path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
     trash: '<path d="M4.5 7h15M9.5 7V5h5v2M6.5 7l.8 12a1.5 1.5 0 0 0 1.5 1.4h6.4a1.5 1.5 0 0 0 1.5-1.4l.8-12"/>',
     refresh: '<path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5M20 4v4.5h-4.5M20 12a8 8 0 0 1-13.7 5.6L4 15.5M4 20v-4.5h4.5"/>',
@@ -2144,6 +2000,158 @@
     });
   }
 
+  /* ---- Estimate option photo zoom ----
+     Erin (7 Oct): "make photos larger when the customer hovers over it — the wall options, flooring, etc."
+     Mouse: hovering (or keyboard-focusing) a photo option shows the whole, uncropped photo larger.
+     Touch: there is no hover, so each photo has a magnifier that opens it in a dialog with "Choose this". */
+  function initOptionZoom(form) {
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const photoOf = (card) => card && $('.option-card__media img', card);
+    const titleOf = (card) => ($('.option-card__title', card) || {}).textContent || '';
+
+    /* Hover / focus preview: one floating card, pointer-events off so it never blocks a tile. */
+    const peek = document.createElement('div');
+    peek.className = 'opt-peek';
+    peek.setAttribute('aria-hidden', 'true');
+    peek.innerHTML = '<img class="opt-peek__img" alt="" decoding="async"><span class="opt-peek__label"></span>';
+    document.body.append(peek);
+    const peekImg = $('img', peek);
+    const peekLabel = $('.opt-peek__label', peek);
+    let current = null;
+    let showTimer = 0;
+    let hideTimer = 0;
+
+    function place(card) {
+      const box = $('.option-card__media', card).getBoundingClientRect();
+      const src = photoOf(card);
+      const ratio = src.naturalWidth ? src.naturalHeight / src.naturalWidth : box.height / box.width;
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      const pad = 12;
+      const gap = 10;
+      const chrome = 12 + 2.25 * rem; // padding + label line
+      const header = $('.est-header, [data-site-header]');
+      const minTop = Math.max(0, header ? header.getBoundingClientRect().bottom : 0) + pad;
+      let w = Math.min(22.5 * rem, innerWidth - pad * 2);
+      if (w * ratio + chrome > innerHeight * 0.7) w = (innerHeight * 0.7 - chrome) / ratio;
+      const h = w * ratio + chrome;
+      let top = box.top - gap - h;
+      let origin = 'bottom';
+      if (top < minTop) {
+        top = box.bottom + gap;
+        origin = 'top';
+        if (top + h > innerHeight - pad) {
+          // Neither side fits whole: use the roomier one and keep it on screen.
+          const above = box.top - minTop;
+          const below = innerHeight - box.bottom;
+          top = above > below ? Math.max(minTop, box.top - gap - h) : Math.min(box.bottom + gap, innerHeight - pad - h);
+          origin = above > below ? 'bottom' : 'top';
+        }
+      }
+      const left = Math.min(Math.max(pad, box.left + box.width / 2 - w / 2), innerWidth - pad - w);
+      peek.style.width = `${Math.round(w)}px`;
+      peek.style.left = `${Math.round(left)}px`;
+      peek.style.top = `${Math.round(top)}px`;
+      peek.style.transformOrigin = `${Math.round(box.left + box.width / 2 - left)}px ${origin}`;
+    }
+
+    function show(card) {
+      clearTimeout(hideTimer);
+      if (card === current) return;
+      const img = photoOf(card);
+      if (!img) return;
+      current = card;
+      peekImg.src = img.currentSrc || img.src;
+      peekLabel.textContent = titleOf(card);
+      place(card);
+      peek.classList.add('is-open'); // already open = instant swap, no second entrance
+    }
+
+    function hide() {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+      current = null;
+      peek.classList.remove('is-open');
+    }
+
+    on(form, 'pointerover', (event) => {
+      if (event.pointerType !== 'mouse' || !canHover.matches) return;
+      const card = event.target.closest('.bq-opt');
+      if (!photoOf(card)) return;
+      clearTimeout(hideTimer);
+      clearTimeout(showTimer);
+      if (peek.classList.contains('is-open')) show(card);
+      else showTimer = setTimeout(() => show(card), 160);
+    });
+    on(form, 'pointerout', (event) => {
+      const card = event.target.closest('.bq-opt');
+      if (!card || card.contains(event.relatedTarget)) return;
+      clearTimeout(showTimer);
+      hideTimer = setTimeout(hide, 90);
+    });
+    on(form, 'focusin', (event) => {
+      const card = event.target.closest('.bq-opt');
+      if (photoOf(card) && canHover.matches && event.target.matches(':focus-visible')) show(card);
+    });
+    on(form, 'focusout', (event) => {
+      if (event.target.closest('.bq-opt')) hideTimer = setTimeout(hide, 90);
+    });
+    on(window, 'scroll', () => current && hide(), { passive: true });
+    on(document, 'pointerdown', (event) => {
+      if (current && !event.target.closest('.bq-opt')) hide();
+    });
+    on(document, 'keydown', (event) => {
+      if (event.key === 'Escape' && current) hide();
+    });
+
+    /* Touch: tap the magnifier → the photo full width, with "Choose this". */
+    if (typeof HTMLDialogElement !== 'function') return;
+    const dialog = document.createElement('dialog');
+    dialog.className = 'dialog opt-zoom';
+    dialog.setAttribute('aria-labelledby', 'opt-zoom-title');
+    dialog.innerHTML = `
+      <div class="opt-zoom__body">
+        <img class="opt-zoom__img" alt="" decoding="async">
+        <h2 class="opt-zoom__title" id="opt-zoom-title"></h2>
+        <div class="dialog__actions opt-zoom__actions">
+          <button class="btn btn--secondary" type="button" data-opt-zoom-close>Close</button>
+          <button class="btn btn--primary" type="button" data-opt-zoom-choose>Choose this</button>
+        </div>
+      </div>`;
+    document.body.append(dialog);
+    const zoomImg = $('.opt-zoom__img', dialog);
+    const zoomTitle = $('.opt-zoom__title', dialog);
+    const chooseBtn = $('[data-opt-zoom-choose]', dialog);
+    let zoomInput = null;
+
+    on(form, 'click', (event) => {
+      const button = event.target.closest('[data-opt-zoom]');
+      if (!button) return;
+      const card = $('.bq-opt', button.parentElement);
+      const img = photoOf(card);
+      if (!img) return;
+      zoomInput = $('input', card);
+      zoomImg.src = img.currentSrc || img.src;
+      zoomImg.alt = `Photo: ${titleOf(card)}`;
+      zoomTitle.textContent = titleOf(card);
+      const multi = zoomInput.type === 'checkbox';
+      chooseBtn.textContent = zoomInput.checked ? (multi ? 'Remove' : 'Keep this') : 'Choose this';
+      hide();
+      dialog.showModal();
+    });
+    on(chooseBtn, 'click', () => {
+      if (zoomInput) {
+        const was = zoomInput.checked;
+        zoomInput.checked = zoomInput.type === 'checkbox' ? !was : true;
+        if (zoomInput.checked !== was) zoomInput.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      dialog.close();
+    });
+    on($('[data-opt-zoom-close]', dialog), 'click', () => dialog.close());
+    on(dialog, 'click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+
   /* ---- Contact form ---- */
   function initContactForm(form) {
     const status = $('[data-form-status]', form);
@@ -2176,6 +2184,10 @@
         email: String(data.get('email') || '').trim(),
         phone: String(data.get('phone') || '').trim(),
         topic: String(data.get('topic') || ''),
+        topicLabel: (() => {
+          const checked = $('input[name="topic"]:checked', form);
+          return checked ? checked.closest('label').textContent.trim() : '';
+        })(),
         message: String(data.get('message') || '').trim(),
         createdAt: new Date().toISOString(),
       };
@@ -2700,6 +2712,29 @@
           </div>`;
       }
 
+      if (q.type === 'number') {
+        // Stepper (tap the number to type any count) + quick-pick chips. The input stays type="text" +
+        // inputmode: phones show the number pad, and there are no spinner arrows or scroll-to-change.
+        const unit = escapeHTML(numberUnit(q, 0));
+        const picks = (Array.isArray(q.picks) && q.picks.length ? q.picks : NUMBER_PICKS)
+          .map((n) => `<button class="chip chip--sm" type="button" data-qty-set="${Number(n)}" aria-pressed="false">${Number(n)}</button>`)
+          .join('');
+        return `
+          <div class="bq bq--number" ${wrap}>
+            <label class="${asTitle ? 'visually-hidden' : 'bq__label'}" for="bq-${id}">${num}${escapeHTML(q.label)}${optional}</label>
+            ${q.hint && !asTitle ? `<p class="bq__hint">${escapeHTML(q.hint)}</p>` : ''}
+            <div class="qty qty--bq">
+              <button class="qty__btn" type="button" data-qty-step="-1" aria-label="${unit ? `Fewer ${unit}` : 'Decrease'}">${icon('minus')}</button>
+              <div class="qty__value">
+                <input class="qty__input" id="bq-${id}" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off" placeholder="0" data-bq="${id}" data-bq-number${unit ? ` aria-describedby="bq-${id}-unit"` : ''}>
+                ${unit ? `<span class="qty__unit" id="bq-${id}-unit" data-qty-unit>${unit}</span>` : ''}
+              </div>
+              <button class="qty__btn qty__btn--plus" type="button" data-qty-step="1" aria-label="${unit ? `More ${unit}` : 'Increase'}">${icon('plus')}</button>
+            </div>
+            <div class="quick-picks" role="group" aria-label="Quick picks">${picks}</div>
+          </div>`;
+      }
+
       if (q.type === 'text' || q.type === 'textarea') {
         const control =
           q.type === 'textarea'
@@ -2718,13 +2753,17 @@
       const options = (q.options || [])
         .map((opt) => {
           const rowIcon = layout === 'list' && opt.icon ? `<span class="option-card__row-icon">${icon(opt.icon)}</span>` : '';
-          return `
+          const card = `
             <label class="option-card bq-opt${layout === 'list' ? ' option-card--row' : ' option-card--media'}${q.fit === 'contain' ? ' option-card--contain' : ''}">
               <input class="option-card__input" type="${inputType}" name="bq-${id}" value="${escapeHTML(opt.id)}" data-bq="${id}">
               ${optionMedia(opt)}${rowIcon}
               <span class="option-card__body"><span class="option-card__title">${escapeHTML(opt.label)}</span></span>
               <span class="option-card__check" aria-hidden="true">${icon('check')}</span>
             </label>`;
+          // Photo options get a magnifier for touch screens (no hover there); see initOptionZoom().
+          return opt.image && layout !== 'list'
+            ? `<div class="bq-opt-wrap">${card}<button class="opt-zoom-btn" type="button" data-opt-zoom aria-label="Enlarge photo: ${escapeHTML(opt.label)}">${icon('zoom')}</button></div>`
+            : card;
         })
         .join('');
       return `
@@ -2765,6 +2804,7 @@
       el.style.background = el.dataset.bg;
       el.removeAttribute('data-bg');
     });
+    initOptionZoom(form);
 
     /* ---- Answers ---- */
     function refreshVisibility() {
@@ -2784,7 +2824,35 @@
       });
       $$('.bq-opt', form).forEach((card) => card.classList.toggle('is-selected', $('input', card).checked));
       refreshVisibility();
+      syncNumberControls();
     }
+
+    /** Stepper buttons, unit word and the highlighted quick pick follow each number question's value. */
+    function syncNumberControls() {
+      $$('.bq--number', form).forEach((wrap) => {
+        const q = QUESTION_BY_ID.get(wrap.dataset.bqWrap);
+        const n = parseInt(answers()[wrap.dataset.bqWrap], 10) || 0;
+        $('[data-qty-step="-1"]', wrap).disabled = n <= 1;
+        $('[data-qty-step="1"]', wrap).disabled = n >= MAX_NUMBER;
+        const unit = $('[data-qty-unit]', wrap);
+        if (unit && q) unit.textContent = numberUnit(q, n);
+        $$('[data-qty-set]', wrap).forEach((chip) => {
+          const current = Number(chip.dataset.qtySet) === n;
+          chip.setAttribute('aria-pressed', String(current));
+          chip.classList.toggle('is-current', current);
+        });
+      });
+    }
+
+    on(form, 'click', (event) => {
+      const button = event.target.closest('[data-qty-step], [data-qty-set]');
+      if (!button) return;
+      const input = $('[data-bq-number]', button.closest('.bq--number'));
+      const current = parseInt(input.value, 10) || 0;
+      const n = button.dataset.qtySet ? Number(button.dataset.qtySet) : current + Number(button.dataset.qtyStep);
+      input.value = String(Math.min(MAX_NUMBER, Math.max(1, n)));
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
 
     function onFlowInput(event) {
       const input = event.target.closest('[data-bq]');
@@ -2796,7 +2864,9 @@
         if (!input.checked) return;
         answers()[id] = input.value;
       } else {
+        if (input.hasAttribute('data-bq-number') && /\D/.test(input.value)) input.value = input.value.replace(/\D/g, '');
         answers()[id] = input.value;
+        if (input.hasAttribute('data-bq-number')) syncNumberControls();
       }
       $$(`[data-bq="${id}"]`, form).forEach((i) => {
         const card = i.closest('.bq-opt');
@@ -2910,7 +2980,8 @@
       const invalidFields = $$('[data-validate]', step).filter((field) => !validateField(field));
       const missingChoice = (config.choices || []).find((name) => !$(`input[name="${name}"]:checked`, step));
       const missingAnswer = FLOW_QUESTIONS.find(
-        (q) => q.page === id && q.required && q.type !== 'note' && applies(q) && !hasAnswer(answers()[q.id])
+        (q) => q.page === id && q.required && q.type !== 'note' && applies(q) &&
+          (!hasAnswer(answers()[q.id]) || (q.type === 'number' && !(parseInt(answers()[q.id], 10) >= 1)))
       );
 
       const error = $('[data-step-error]', step);
@@ -3395,19 +3466,19 @@
 
     on($('[data-est-exit]'), 'click', () => {
       if (!hasProgress()) {
-        window.location.href = 'index.html';
+        window.location.href = pageUrl('index');
         return;
       }
       if (exitDialog && typeof exitDialog.showModal === 'function') exitDialog.showModal();
       else {
         saveEstimateDraft();
-        window.location.href = 'index.html';
+        window.location.href = pageUrl('index');
       }
     });
     on(exitDialog, 'close', () => {
       if (exitDialog.returnValue === 'confirm') {
         saveEstimateDraft();
-        window.location.href = 'index.html';
+        window.location.href = pageUrl('index');
       }
       exitDialog.returnValue = '';
     });
@@ -3512,6 +3583,36 @@
    *   POST multipart/form-data → fields: payload (JSON string),
    *   photos_windows[] / photos_bath[] (image files). Expect 2xx on success.
    */
+  /* ---- Spam guards (checked again by the server) ---- */
+  const PAGE_STARTED = Date.now();
+  /** Honeypot value (bots fill every field) and time on page (bots submit instantly). */
+  function spamFields(root = document) {
+    const hp = $('[data-hp]', root);
+    return { hp: hp ? hp.value : '', elapsed: Date.now() - PAGE_STARTED };
+  }
+
+  /**
+   * Shrinks a phone photo before upload (max 2000px, JPEG 85%) so uploads are fast on
+   * mobile data. Returns the original file when it is already small or can't be decoded.
+   */
+  async function compressImage(file, maxSide = 2000, quality = 0.85) {
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type) || file.size < 400 * 1024 || !window.createImageBitmap) return file;
+    try {
+      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+      const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close && bitmap.close();
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
+      if (!blob || blob.size >= file.size) return file;
+      return new File([blob], file.name.replace(/\.[a-z0-9]+$/i, '') + '.jpg', { type: 'image/jpeg', lastModified: file.lastModified });
+    } catch (error) {
+      return file;
+    }
+  }
+
   async function submitEstimate(payload, files = []) {
     if (!SUBMISSION_ENDPOINT) {
       console.info('[Estimate] Development mode — SUBMISSION_ENDPOINT is empty, nothing was sent.', { payload, files });
@@ -3520,7 +3621,11 @@
 
     const body = new FormData();
     body.append('payload', JSON.stringify(payload));
-    files.forEach(({ group, file }) => body.append(`photos_${group}[]`, file, file.name));
+    const guard = spamFields($('[data-est-form]') || document);
+    body.append('hp', guard.hp);
+    body.append('elapsed', String(guard.elapsed));
+    const ready = await Promise.all(files.map(async ({ group, file }) => ({ group, file: await compressImage(file) })));
+    ready.forEach(({ group, file }) => body.append(`photos_${group}[]`, file, file.name));
 
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 90000);
@@ -3552,7 +3657,7 @@
     const response = await fetch(CONTACT_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ ...payload, ...spamFields($('[data-contact-form]') || document) }),
     });
     if (!response.ok) throw new Error(`Contact request failed with status ${response.status}`);
     return { ok: true, mode: 'production' };

@@ -1,0 +1,1990 @@
+[
+ {
+  "id": "bath",
+  "label": "Bathroom",
+  "card": {
+   "text": "Tub, shower, vanity, flooring & toilet",
+   "image": "assets/images/bath/bath-glass-shower-640.webp"
+  },
+  "pages": [
+   {
+    "id": "b-photos",
+    "title": "All we need are a few photos.",
+    "desc": "Please upload 4–5 photos of your bathroom.",
+    "intro": {
+     "icon": "drop",
+     "title": "Great! You’re looking to renovate your bathroom.",
+     "text": "Water is the most damaging thing to a home. Replacing old plumbing and keeping your bathroom up to date is a smart decision!"
+    },
+    "photos": {
+     "tips": [
+      [
+       "eye",
+       "Shoot from the doorway to capture the whole room"
+      ],
+      [
+       "camera",
+       "Add close-ups of the tub, shower or vanity"
+      ],
+      [
+       "sun",
+       "Turn the lights on for clearer photos"
+      ]
+     ]
+    },
+    "questions": []
+   },
+   {
+    "id": "b-focus",
+    "titleQuestion": true,
+    "review": "Bathroom plan",
+    "questions": [
+     {
+      "id": "focus",
+      "label": "Choose which items you would like to focus on.",
+      "review": "Focus on",
+      "hint": "Choose all that apply.",
+      "type": "multi",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "shower",
+        "label": "Bathtub or shower",
+        "icon": "shower"
+       },
+       {
+        "id": "vanity",
+        "label": "Vanity",
+        "icon": "vanity"
+       },
+       {
+        "id": "flooring",
+        "label": "Flooring",
+        "icon": "floor"
+       },
+       {
+        "id": "toilet",
+        "label": "Toilet",
+        "icon": "toilet"
+       },
+       {
+        "id": "glass",
+        "label": "Custom glass",
+        "icon": "window"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-design",
+    "titleQuestion": true,
+    "review": "Bathroom plan",
+    "questions": [
+     {
+      "id": "design",
+      "label": "Would you like to design your bathroom yourself or would you like us to design it for you?",
+      "review": "Design",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "me",
+        "label": "Let me design it",
+        "icon": "palette"
+       },
+       {
+        "id": "you",
+        "label": "You do it for me",
+        "icon": "sparkle"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-tub",
+    "kicker": "Bathtub or shower",
+    "title": "Bathtub or shower",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "shower"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "wet",
+      "label": "What would you like to do to the wet spaces in your bathroom?",
+      "review": "Wet spaces",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "tub-to-tub",
+        "label": "Replace your tub with a new tub"
+       },
+       {
+        "id": "tub-to-walkin",
+        "label": "Replace your tub with a new walk-in shower"
+       },
+       {
+        "id": "both-to-walkin",
+        "label": "Replace your tub and shower with one big walk-in shower"
+       },
+       {
+        "id": "shower-to-shower",
+        "label": "Replace your shower with a new shower"
+       },
+       {
+        "id": "tub-to-walkin-remove",
+        "label": "Replace your tub with a walk-in shower and remove your current shower"
+       },
+       {
+        "id": "tub-and-shower",
+        "label": "Replace your tub with a new tub and replace your shower with a new shower"
+       }
+      ]
+     },
+     {
+      "id": "tubType",
+      "label": "What would you like to replace your tub with?",
+      "review": "New tub",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "showIf": {
+       "q": "wet",
+       "in": [
+        "tub-to-tub",
+        "tub-and-shower"
+       ]
+      },
+      "options": [
+       {
+        "id": "standard",
+        "label": "A standard tub",
+        "image": "assets/images/estimate/tub-standard.webp"
+       },
+       {
+        "id": "freestanding",
+        "label": "A freestanding tub",
+        "image": "assets/images/estimate/tub-freestanding.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubHeight",
+      "label": "Choose a height for your tub.",
+      "review": "Tub height",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "standard"
+       ]
+      },
+      "options": [
+       {
+        "id": "13",
+        "label": "13″"
+       },
+       {
+        "id": "15",
+        "label": "15″"
+       },
+       {
+        "id": "19",
+        "label": "19″"
+       }
+      ]
+     },
+     {
+      "id": "tubColor",
+      "label": "Choose a color for your tub.",
+      "review": "Tub color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "standard"
+       ]
+      },
+      "options": [
+       {
+        "id": "white",
+        "label": "White",
+        "image": "assets/images/estimate/color-white.webp"
+       },
+       {
+        "id": "grey",
+        "label": "Grey",
+        "image": "assets/images/estimate/color-grey.webp"
+       },
+       {
+        "id": "almond",
+        "label": "Almond",
+        "image": "assets/images/estimate/color-almond.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubDoors",
+      "label": "Glass doors or curved curtain rod?",
+      "review": "Doors",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "standard"
+       ]
+      },
+      "options": [
+       {
+        "id": "glass",
+        "label": "Glass doors",
+        "image": "assets/images/estimate/doors-glass-tub.webp"
+       },
+       {
+        "id": "curtain",
+        "label": "Curved curtain rod",
+        "image": "assets/images/estimate/doors-curtain-rod.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubFixtures",
+      "label": "What color for your fixtures?",
+      "review": "Fixture color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "standard"
+       ]
+      },
+      "options": [
+       {
+        "id": "chrome",
+        "label": "Chrome",
+        "image": "assets/images/estimate/fixture-chrome.webp"
+       },
+       {
+        "id": "brushed-nickel",
+        "label": "Brushed nickel",
+        "image": "assets/images/estimate/fixture-brushed-nickel.webp"
+       },
+       {
+        "id": "matte-black",
+        "label": "Matte black",
+        "image": "assets/images/estimate/fixture-matte-black.webp"
+       },
+       {
+        "id": "gold",
+        "label": "Gold",
+        "image": "assets/images/estimate/fixture-gold.webp"
+       },
+       {
+        "id": "oil-rubbed-bronze",
+        "label": "Oil rubbed bronze",
+        "image": "assets/images/estimate/fixture-oil-rubbed-bronze.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubAddons",
+      "label": "Need anything else in your tub?",
+      "hint": "Your tub will come with a standard shower head, valve and faucet, 2 corner shelves and 1 – 18″ grab bar. Choose all that apply.",
+      "review": "Tub extras",
+      "type": "multi",
+      "layout": "cards",
+      "fit": "contain",
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "standard"
+       ]
+      },
+      "options": [
+       {
+        "id": "handheld",
+        "label": "Handheld shower head",
+        "image": "assets/images/estimate/showerhead-slide-bar.webp"
+       },
+       {
+        "id": "rain-handheld",
+        "label": "Rain shower with a handheld",
+        "image": "assets/images/estimate/showerhead-rain-handheld.webp"
+       },
+       {
+        "id": "corner-shelves",
+        "label": "2 more corner shelves",
+        "image": "assets/images/estimate/addon-corner-shelf.webp"
+       },
+       {
+        "id": "soap-dish",
+        "label": "Soap dish",
+        "image": "assets/images/estimate/addon-soap-dish.webp"
+       },
+       {
+        "id": "niche",
+        "label": "A niche shelf",
+        "image": "assets/images/estimate/addon-niche.webp"
+       },
+       {
+        "id": "grab-12",
+        "label": "A 12″ grab bar",
+        "image": "assets/images/estimate/addon-grab-bar.webp"
+       },
+       {
+        "id": "grab-24",
+        "label": "A 24″ grab bar",
+        "image": "assets/images/estimate/addon-grab-bar.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubWall",
+      "label": "Choose a wall design.",
+      "review": "Wall design",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "standard"
+       ]
+      },
+      "options": [
+       {
+        "id": "basic",
+        "label": "Basic colors"
+       },
+       {
+        "id": "marble",
+        "label": "Marbles"
+       },
+       {
+        "id": "tile",
+        "label": "Tile designs"
+       }
+      ]
+     },
+     {
+      "id": "tubBasic",
+      "label": "Choose a color.",
+      "review": "Wall color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "showIf": {
+       "q": "tubWall",
+       "in": [
+        "basic"
+       ]
+      },
+      "options": [
+       {
+        "id": "white",
+        "label": "White",
+        "image": "assets/images/estimate/color-white.webp"
+       },
+       {
+        "id": "almond",
+        "label": "Almond",
+        "image": "assets/images/estimate/color-almond.webp"
+       },
+       {
+        "id": "grey",
+        "label": "Grey",
+        "image": "assets/images/estimate/color-grey.webp"
+       },
+       {
+        "id": "sandstone",
+        "label": "Sandstone",
+        "image": "assets/images/estimate/color-sandstone.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubMarble",
+      "label": "Choose a marble design.",
+      "review": "Marble",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "provisional": true,
+      "showIf": {
+       "q": "tubWall",
+       "in": [
+        "marble"
+       ]
+      },
+      "options": [
+       {
+        "id": "marble-1",
+        "label": "Marble 1",
+        "image": "assets/images/estimate/marble-01.webp"
+       },
+       {
+        "id": "marble-2",
+        "label": "Marble 2",
+        "image": "assets/images/estimate/marble-02.webp"
+       },
+       {
+        "id": "marble-3",
+        "label": "Marble 3",
+        "image": "assets/images/estimate/marble-03.webp"
+       },
+       {
+        "id": "marble-4",
+        "label": "Marble 4",
+        "image": "assets/images/estimate/marble-04.webp"
+       },
+       {
+        "id": "marble-5",
+        "label": "Marble 5",
+        "image": "assets/images/estimate/marble-05.webp"
+       },
+       {
+        "id": "marble-6",
+        "label": "Marble 6",
+        "image": "assets/images/estimate/marble-06.webp"
+       },
+       {
+        "id": "marble-7",
+        "label": "Marble 7",
+        "image": "assets/images/estimate/marble-07.webp"
+       },
+       {
+        "id": "marble-8",
+        "label": "Marble 8",
+        "image": "assets/images/estimate/marble-08.webp"
+       },
+       {
+        "id": "marble-9",
+        "label": "Marble 9",
+        "image": "assets/images/estimate/marble-09.webp"
+       },
+       {
+        "id": "marble-10",
+        "label": "Marble 10",
+        "image": "assets/images/estimate/marble-10.webp"
+       },
+       {
+        "id": "marble-11",
+        "label": "Marble 11",
+        "image": "assets/images/estimate/marble-11.webp"
+       },
+       {
+        "id": "marble-12",
+        "label": "Marble 12",
+        "image": "assets/images/estimate/marble-12.webp"
+       },
+       {
+        "id": "marble-13",
+        "label": "Marble 13",
+        "image": "assets/images/estimate/marble-13.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubTile",
+      "label": "Choose a tile design style.",
+      "review": "Tile style",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "provisional": true,
+      "showIf": {
+       "q": "tubWall",
+       "in": [
+        "tile"
+       ]
+      },
+      "options": [
+       {
+        "id": "tile-1",
+        "label": "Tile 1",
+        "image": "assets/images/estimate/tile-01.webp"
+       },
+       {
+        "id": "tile-2",
+        "label": "Tile 2",
+        "image": "assets/images/estimate/tile-02.webp"
+       },
+       {
+        "id": "tile-3",
+        "label": "Tile 3",
+        "image": "assets/images/estimate/tile-03.webp"
+       },
+       {
+        "id": "tile-4",
+        "label": "Tile 4",
+        "image": "assets/images/estimate/tile-04.webp"
+       },
+       {
+        "id": "tile-5",
+        "label": "Tile 5",
+        "image": "assets/images/estimate/tile-05.webp"
+       },
+       {
+        "id": "tile-6",
+        "label": "Tile 6",
+        "image": "assets/images/estimate/tile-06.webp"
+       },
+       {
+        "id": "tile-7",
+        "label": "Tile 7",
+        "image": "assets/images/estimate/tile-07.webp"
+       },
+       {
+        "id": "tile-8",
+        "label": "Tile 8",
+        "image": "assets/images/estimate/tile-08.webp"
+       },
+       {
+        "id": "tile-9",
+        "label": "Tile 9",
+        "image": "assets/images/estimate/tile-09.webp"
+       }
+      ]
+     },
+     {
+      "id": "tubGrout",
+      "label": "Black or grey laser etched grout?",
+      "review": "Grout",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "tubWall",
+       "in": [
+        "tile"
+       ]
+      },
+      "options": [
+       {
+        "id": "black",
+        "label": "Black"
+       },
+       {
+        "id": "grey",
+        "label": "Grey"
+       }
+      ]
+     },
+     {
+      "id": "tubTileMarble",
+      "label": "If you would like to add a marble color to your tile design, enter the name here:",
+      "review": "Marble color for tile",
+      "type": "text",
+      "showIf": {
+       "q": "tubWall",
+       "in": [
+        "tile"
+       ]
+      }
+     },
+     {
+      "id": "freeShape",
+      "label": "Would you like an oval tub, a square tub or a clawfoot tub?",
+      "review": "Tub shape",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "freestanding"
+       ]
+      },
+      "options": [
+       {
+        "id": "oval",
+        "label": "Oval",
+        "image": "assets/images/estimate/tub-freestanding.webp"
+       },
+       {
+        "id": "square",
+        "label": "Square",
+        "image": "assets/images/estimate/tub-square.webp"
+       },
+       {
+        "id": "clawfoot",
+        "label": "Clawfoot",
+        "image": "assets/images/estimate/tub-clawfoot.webp"
+       }
+      ]
+     },
+     {
+      "id": "freeFixtures",
+      "label": "Choose a color for your fixtures.",
+      "review": "Fixture color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "showIf": {
+       "q": "tubType",
+       "in": [
+        "freestanding"
+       ]
+      },
+      "options": [
+       {
+        "id": "chrome",
+        "label": "Chrome",
+        "image": "assets/images/estimate/fixture-chrome.webp"
+       },
+       {
+        "id": "brushed-nickel",
+        "label": "Brushed nickel",
+        "image": "assets/images/estimate/fixture-brushed-nickel.webp"
+       },
+       {
+        "id": "matte-black",
+        "label": "Matte black",
+        "image": "assets/images/estimate/fixture-matte-black.webp"
+       },
+       {
+        "id": "gold",
+        "label": "Gold",
+        "image": "assets/images/estimate/fixture-gold.webp"
+       },
+       {
+        "id": "oil-rubbed-bronze",
+        "label": "Oil rubbed bronze",
+        "image": "assets/images/estimate/fixture-oil-rubbed-bronze.webp"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-shower",
+    "kicker": "Walk-in shower",
+    "title": "Walk-in shower",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "shower"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     },
+     {
+      "q": "wet",
+      "in": [
+       "tub-to-walkin",
+       "both-to-walkin",
+       "shower-to-shower",
+       "tub-to-walkin-remove",
+       "tub-and-shower"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "pan",
+      "label": "Choose the height of your shower pan.",
+      "review": "Shower pan",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "options": [
+       {
+        "id": "low",
+        "label": "Low profile: 1″ with ramp",
+        "image": "assets/images/estimate/pan-low.webp"
+       },
+       {
+        "id": "standard",
+        "label": "Standard: 4″",
+        "image": "assets/images/estimate/pan-standard.webp"
+       },
+       {
+        "id": "double",
+        "label": "Double threshold: 8″",
+        "image": "assets/images/estimate/pan-double.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerDoors",
+      "label": "Glass doors or curtain rod?",
+      "review": "Doors",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "options": [
+       {
+        "id": "glass",
+        "label": "Glass doors",
+        "image": "assets/images/estimate/doors-glass-shower.webp"
+       },
+       {
+        "id": "curtain",
+        "label": "Curtain rod",
+        "image": "assets/images/estimate/doors-curtain-rod.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerFixtures",
+      "label": "What color for your fixtures?",
+      "review": "Fixture color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "options": [
+       {
+        "id": "chrome",
+        "label": "Chrome",
+        "image": "assets/images/estimate/fixture-chrome.webp"
+       },
+       {
+        "id": "brushed-nickel",
+        "label": "Brushed nickel",
+        "image": "assets/images/estimate/fixture-brushed-nickel.webp"
+       },
+       {
+        "id": "matte-black",
+        "label": "Matte black",
+        "image": "assets/images/estimate/fixture-matte-black.webp"
+       },
+       {
+        "id": "gold",
+        "label": "Gold",
+        "image": "assets/images/estimate/fixture-gold.webp"
+       },
+       {
+        "id": "oil-rubbed-bronze",
+        "label": "Oil rubbed bronze",
+        "image": "assets/images/estimate/fixture-oil-rubbed-bronze.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerAddons",
+      "label": "Need anything else in your shower?",
+      "hint": "Your shower will come with a standard shower head and valve, 2 corner shelves and 1 – 18″ grab bar. Choose all that apply.",
+      "review": "Shower extras",
+      "type": "multi",
+      "layout": "cards",
+      "fit": "contain",
+      "options": [
+       {
+        "id": "handheld",
+        "label": "Handheld showerhead",
+        "image": "assets/images/estimate/showerhead-slide-bar.webp"
+       },
+       {
+        "id": "rain-handheld",
+        "label": "Rain shower with a handheld",
+        "image": "assets/images/estimate/showerhead-rain-handheld.webp"
+       },
+       {
+        "id": "slide-bar",
+        "label": "Slide bar with handheld plus standard shower head",
+        "image": "assets/images/estimate/showerhead-slide-bar.webp"
+       },
+       {
+        "id": "rain-standard",
+        "label": "A rain shower head plus a standard shower head",
+        "image": "assets/images/estimate/showerhead-rain.webp"
+       },
+       {
+        "id": "corner-shelves",
+        "label": "2 more corner shelves",
+        "image": "assets/images/estimate/addon-corner-shelf.webp"
+       },
+       {
+        "id": "soap-dish",
+        "label": "Soap dish",
+        "image": "assets/images/estimate/addon-soap-dish.webp"
+       },
+       {
+        "id": "niche",
+        "label": "A niche shelf",
+        "image": "assets/images/estimate/addon-niche.webp"
+       },
+       {
+        "id": "teak-seat",
+        "label": "A teak seat",
+        "image": "assets/images/estimate/addon-teak-seat.webp"
+       },
+       {
+        "id": "bench-seat",
+        "label": "A bench seat",
+        "image": "assets/images/estimate/addon-bench-seat.webp"
+       },
+       {
+        "id": "corner-seat",
+        "label": "A corner seat",
+        "image": "assets/images/estimate/addon-corner-seat.webp"
+       },
+       {
+        "id": "foot-pedestal",
+        "label": "A foot pedestal",
+        "image": "assets/images/estimate/addon-shaving-bar.webp"
+       },
+       {
+        "id": "grab-12",
+        "label": "A 12″ grab bar",
+        "image": "assets/images/estimate/addon-grab-bar.webp"
+       },
+       {
+        "id": "grab-24",
+        "label": "A 24″ grab bar",
+        "image": "assets/images/estimate/addon-grab-bar.webp"
+       },
+       {
+        "id": "grab-valve",
+        "label": "A grab bar around the valve",
+        "image": "assets/images/estimate/addon-valve-grab-bar.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerWall",
+      "label": "Choose a wall design.",
+      "review": "Wall design",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "basic",
+        "label": "Basic colors"
+       },
+       {
+        "id": "marble",
+        "label": "Marbles"
+       },
+       {
+        "id": "tile",
+        "label": "Tile designs"
+       }
+      ]
+     },
+     {
+      "id": "showerBasic",
+      "label": "Choose a color.",
+      "review": "Wall color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "showIf": {
+       "q": "showerWall",
+       "in": [
+        "basic"
+       ]
+      },
+      "options": [
+       {
+        "id": "white",
+        "label": "White",
+        "image": "assets/images/estimate/color-white.webp"
+       },
+       {
+        "id": "almond",
+        "label": "Almond",
+        "image": "assets/images/estimate/color-almond.webp"
+       },
+       {
+        "id": "grey",
+        "label": "Grey",
+        "image": "assets/images/estimate/color-grey.webp"
+       },
+       {
+        "id": "sandstone",
+        "label": "Sandstone",
+        "image": "assets/images/estimate/color-sandstone.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerMarble",
+      "label": "Choose a marble design.",
+      "review": "Marble",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "provisional": true,
+      "showIf": {
+       "q": "showerWall",
+       "in": [
+        "marble"
+       ]
+      },
+      "options": [
+       {
+        "id": "marble-1",
+        "label": "Marble 1",
+        "image": "assets/images/estimate/marble-01.webp"
+       },
+       {
+        "id": "marble-2",
+        "label": "Marble 2",
+        "image": "assets/images/estimate/marble-02.webp"
+       },
+       {
+        "id": "marble-3",
+        "label": "Marble 3",
+        "image": "assets/images/estimate/marble-03.webp"
+       },
+       {
+        "id": "marble-4",
+        "label": "Marble 4",
+        "image": "assets/images/estimate/marble-04.webp"
+       },
+       {
+        "id": "marble-5",
+        "label": "Marble 5",
+        "image": "assets/images/estimate/marble-05.webp"
+       },
+       {
+        "id": "marble-6",
+        "label": "Marble 6",
+        "image": "assets/images/estimate/marble-06.webp"
+       },
+       {
+        "id": "marble-7",
+        "label": "Marble 7",
+        "image": "assets/images/estimate/marble-07.webp"
+       },
+       {
+        "id": "marble-8",
+        "label": "Marble 8",
+        "image": "assets/images/estimate/marble-08.webp"
+       },
+       {
+        "id": "marble-9",
+        "label": "Marble 9",
+        "image": "assets/images/estimate/marble-09.webp"
+       },
+       {
+        "id": "marble-10",
+        "label": "Marble 10",
+        "image": "assets/images/estimate/marble-10.webp"
+       },
+       {
+        "id": "marble-11",
+        "label": "Marble 11",
+        "image": "assets/images/estimate/marble-11.webp"
+       },
+       {
+        "id": "marble-12",
+        "label": "Marble 12",
+        "image": "assets/images/estimate/marble-12.webp"
+       },
+       {
+        "id": "marble-13",
+        "label": "Marble 13",
+        "image": "assets/images/estimate/marble-13.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerTile",
+      "label": "Choose a tile design style.",
+      "review": "Tile style",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "provisional": true,
+      "showIf": {
+       "q": "showerWall",
+       "in": [
+        "tile"
+       ]
+      },
+      "options": [
+       {
+        "id": "tile-1",
+        "label": "Tile 1",
+        "image": "assets/images/estimate/tile-01.webp"
+       },
+       {
+        "id": "tile-2",
+        "label": "Tile 2",
+        "image": "assets/images/estimate/tile-02.webp"
+       },
+       {
+        "id": "tile-3",
+        "label": "Tile 3",
+        "image": "assets/images/estimate/tile-03.webp"
+       },
+       {
+        "id": "tile-4",
+        "label": "Tile 4",
+        "image": "assets/images/estimate/tile-04.webp"
+       },
+       {
+        "id": "tile-5",
+        "label": "Tile 5",
+        "image": "assets/images/estimate/tile-05.webp"
+       },
+       {
+        "id": "tile-6",
+        "label": "Tile 6",
+        "image": "assets/images/estimate/tile-06.webp"
+       },
+       {
+        "id": "tile-7",
+        "label": "Tile 7",
+        "image": "assets/images/estimate/tile-07.webp"
+       },
+       {
+        "id": "tile-8",
+        "label": "Tile 8",
+        "image": "assets/images/estimate/tile-08.webp"
+       },
+       {
+        "id": "tile-9",
+        "label": "Tile 9",
+        "image": "assets/images/estimate/tile-09.webp"
+       }
+      ]
+     },
+     {
+      "id": "showerGrout",
+      "label": "Black or grey laser etched grout?",
+      "review": "Grout",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "showerWall",
+       "in": [
+        "tile"
+       ]
+      },
+      "options": [
+       {
+        "id": "black",
+        "label": "Black"
+       },
+       {
+        "id": "grey",
+        "label": "Grey"
+       }
+      ]
+     },
+     {
+      "id": "showerTileMarble",
+      "label": "If you would like to add a marble color to your tile design, enter the name here:",
+      "review": "Marble color for tile",
+      "type": "text",
+      "showIf": {
+       "q": "showerWall",
+       "in": [
+        "tile"
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "id": "b-removal",
+    "kicker": "Shower removal",
+    "title": "Shower removal",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "shower"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     },
+     {
+      "q": "wet",
+      "in": [
+       "tub-to-walkin-remove"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "removalNote",
+      "type": "note",
+      "label": "Once we remove your current shower, we will cap the plumbing and drywall the area – preparing it for painting."
+     },
+     {
+      "id": "removalFinish",
+      "label": "Would you like us to leave it ready for painting or something else?",
+      "review": "After removal",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "drywall",
+        "label": "Finished drywall"
+       },
+       {
+        "id": "drywall-shelves",
+        "label": "Finished drywall and put up floating shelves"
+       },
+       {
+        "id": "linen-closet",
+        "label": "Add a linen closet to that area"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-vanity",
+    "kicker": "Vanity",
+    "title": "Vanity",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "vanity"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "vanitySupply",
+      "label": "Would you like us to supply the vanity or would you like to buy your own vanity and have us install it?",
+      "review": "Vanity",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "us",
+        "label": "I want you to supply the vanity"
+       },
+       {
+        "id": "own",
+        "label": "I will supply the vanity myself but I will need you to install it"
+       }
+      ]
+     },
+     {
+      "id": "vanityType",
+      "label": "Would you like a single vanity or a double?",
+      "review": "Single or double",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "vanitySupply",
+       "in": [
+        "us"
+       ]
+      },
+      "options": [
+       {
+        "id": "single",
+        "label": "Single"
+       },
+       {
+        "id": "double",
+        "label": "Double"
+       }
+      ]
+     },
+     {
+      "id": "vanityDesign",
+      "label": "Choose a design you like:",
+      "review": "Vanity design",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "showIf": {
+       "q": "vanitySupply",
+       "in": [
+        "us"
+       ]
+      },
+      "options": [
+       {
+        "id": "vanity-1",
+        "label": "Vanity 1",
+        "image": "assets/images/estimate/vanity-01.webp"
+       },
+       {
+        "id": "vanity-2",
+        "label": "Vanity 2",
+        "image": "assets/images/estimate/vanity-02.webp"
+       },
+       {
+        "id": "vanity-3",
+        "label": "Vanity 3",
+        "image": "assets/images/estimate/vanity-03.webp"
+       },
+       {
+        "id": "vanity-4",
+        "label": "Vanity 4",
+        "image": "assets/images/estimate/vanity-04.webp"
+       },
+       {
+        "id": "vanity-5",
+        "label": "Vanity 5",
+        "image": "assets/images/estimate/vanity-05.webp"
+       },
+       {
+        "id": "vanity-6",
+        "label": "Vanity 6",
+        "image": "assets/images/estimate/vanity-06.webp"
+       },
+       {
+        "id": "vanity-7",
+        "label": "Vanity 7",
+        "image": "assets/images/estimate/vanity-07.webp"
+       },
+       {
+        "id": "vanity-8",
+        "label": "Vanity 8",
+        "image": "assets/images/estimate/vanity-08.webp"
+       },
+       {
+        "id": "vanity-9",
+        "label": "Vanity 9",
+        "image": "assets/images/estimate/vanity-09.webp"
+       },
+       {
+        "id": "vanity-10",
+        "label": "Vanity 10",
+        "image": "assets/images/estimate/vanity-10.webp"
+       },
+       {
+        "id": "vanity-11",
+        "label": "Vanity 11",
+        "image": "assets/images/estimate/vanity-11.webp"
+       },
+       {
+        "id": "vanity-12",
+        "label": "Vanity 12",
+        "image": "assets/images/estimate/vanity-12.webp"
+       },
+       {
+        "id": "vanity-13",
+        "label": "Vanity 13",
+        "image": "assets/images/estimate/vanity-13.webp"
+       },
+       {
+        "id": "vanity-14",
+        "label": "Vanity 14",
+        "image": "assets/images/estimate/vanity-14.webp"
+       },
+       {
+        "id": "vanity-15",
+        "label": "Vanity 15",
+        "image": "assets/images/estimate/vanity-15.webp"
+       },
+       {
+        "id": "vanity-16",
+        "label": "Vanity 16",
+        "image": "assets/images/estimate/vanity-16.webp"
+       },
+       {
+        "id": "vanity-17",
+        "label": "Vanity 17",
+        "image": "assets/images/estimate/vanity-17.webp"
+       },
+       {
+        "id": "vanity-18",
+        "label": "Vanity 18",
+        "image": "assets/images/estimate/vanity-18.webp"
+       },
+       {
+        "id": "vanity-19",
+        "label": "Vanity 19",
+        "image": "assets/images/estimate/vanity-19.webp"
+       },
+       {
+        "id": "vanity-20",
+        "label": "Vanity 20",
+        "image": "assets/images/estimate/vanity-20.webp"
+       }
+      ]
+     },
+     {
+      "id": "vanitySize",
+      "label": "Don’t worry, we will match your vanity size to your current vanity. Is that okay? Or would you like to change the size of your vanity?",
+      "review": "Vanity size",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "vanitySupply",
+       "in": [
+        "us"
+       ]
+      },
+      "options": [
+       {
+        "id": "same",
+        "label": "That’s great!"
+       },
+       {
+        "id": "bigger",
+        "label": "I want a bigger vanity than the one I have now"
+       },
+       {
+        "id": "smaller",
+        "label": "I want a smaller vanity than the one I have now"
+       }
+      ]
+     },
+     {
+      "id": "faucetNote",
+      "type": "note",
+      "label": "We will match your vanity faucets with the color of your shower faucets.",
+      "showIf": {
+       "q": "vanitySupply",
+       "in": [
+        "us"
+       ]
+      }
+     },
+     {
+      "id": "faucet",
+      "label": "Choose a faucet style.",
+      "review": "Faucet style",
+      "type": "single",
+      "layout": "cards",
+      "fit": "contain",
+      "required": true,
+      "showIf": {
+       "q": "vanitySupply",
+       "in": [
+        "us"
+       ]
+      },
+      "options": [
+       {
+        "id": "faucet-1",
+        "label": "Arc",
+        "image": "assets/images/estimate/faucet-01.webp"
+       },
+       {
+        "id": "faucet-2",
+        "label": "Curve",
+        "image": "assets/images/estimate/faucet-02.webp"
+       },
+       {
+        "id": "faucet-3",
+        "label": "Classic",
+        "image": "assets/images/estimate/faucet-03.webp"
+       },
+       {
+        "id": "faucet-4",
+        "label": "Modern",
+        "image": "assets/images/estimate/faucet-04.webp"
+       },
+       {
+        "id": "faucet-5",
+        "label": "Vessel",
+        "image": "assets/images/estimate/faucet-05.webp"
+       },
+       {
+        "id": "faucet-6",
+        "label": "Waterfall",
+        "image": "assets/images/estimate/faucet-06.webp"
+       },
+       {
+        "id": "faucet-7",
+        "label": "Square",
+        "image": "assets/images/estimate/faucet-07.webp"
+       },
+       {
+        "id": "faucet-8",
+        "label": "Centerset",
+        "image": "assets/images/estimate/faucet-08.webp"
+       },
+       {
+        "id": "faucet-9",
+        "label": "Two-handle",
+        "image": "assets/images/estimate/faucet-09.webp"
+       },
+       {
+        "id": "faucet-10",
+        "label": "Widespread",
+        "image": "assets/images/estimate/faucet-10.webp"
+       },
+       {
+        "id": "faucet-11",
+        "label": "Farmhouse",
+        "image": "assets/images/estimate/faucet-11.webp"
+       },
+       {
+        "id": "faucet-12",
+        "label": "Minimal",
+        "image": "assets/images/estimate/faucet-12.webp"
+       }
+      ]
+     },
+     {
+      "id": "bowls",
+      "label": "Are you going from a single bowl vanity to a double bowl vanity?",
+      "review": "Bowls",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "vanitySupply",
+       "in": [
+        "own"
+       ]
+      },
+      "options": [
+       {
+        "id": "yes",
+        "label": "Yes"
+       },
+       {
+        "id": "no",
+        "label": "No. I’m keeping the same amount of bowls."
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-floor",
+    "kicker": "Flooring",
+    "title": "Flooring",
+    "desc": "We offer luxury vinyl plank and luxury vinyl tile. This is the best product for any bathroom space due to its durability, softness to the feet, and waterproofing capabilities.",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "flooring"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "floor",
+      "label": "Choose a design:",
+      "review": "Flooring design",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "options": [
+       {
+        "id": "style-1",
+        "label": "Style 1",
+        "image": "assets/images/estimate/floor-01.webp"
+       },
+       {
+        "id": "style-2",
+        "label": "Style 2",
+        "image": "assets/images/estimate/floor-02.webp"
+       },
+       {
+        "id": "style-3",
+        "label": "Style 3",
+        "image": "assets/images/estimate/floor-03.webp"
+       },
+       {
+        "id": "style-4",
+        "label": "Style 4",
+        "image": "assets/images/estimate/floor-04.webp"
+       },
+       {
+        "id": "style-5",
+        "label": "Style 5",
+        "image": "assets/images/estimate/floor-05.webp"
+       },
+       {
+        "id": "style-6",
+        "label": "Style 6",
+        "image": "assets/images/estimate/floor-06.webp"
+       },
+       {
+        "id": "style-7",
+        "label": "Style 7",
+        "image": "assets/images/estimate/floor-07.webp"
+       },
+       {
+        "id": "style-8",
+        "label": "Style 8",
+        "image": "assets/images/estimate/floor-08.webp"
+       },
+       {
+        "id": "style-9",
+        "label": "Style 9",
+        "image": "assets/images/estimate/floor-09.webp"
+       },
+       {
+        "id": "style-10",
+        "label": "Style 10",
+        "image": "assets/images/estimate/floor-10.webp"
+       },
+       {
+        "id": "style-11",
+        "label": "Style 11",
+        "image": "assets/images/estimate/floor-11.webp"
+       },
+       {
+        "id": "style-12",
+        "label": "Style 12",
+        "image": "assets/images/estimate/floor-12.webp"
+       },
+       {
+        "id": "style-13",
+        "label": "Style 13",
+        "image": "assets/images/estimate/floor-13.webp"
+       },
+       {
+        "id": "style-14",
+        "label": "Style 14",
+        "image": "assets/images/estimate/floor-14.webp"
+       },
+       {
+        "id": "style-15",
+        "label": "Style 15",
+        "image": "assets/images/estimate/floor-15.webp"
+       },
+       {
+        "id": "style-16",
+        "label": "Style 16",
+        "image": "assets/images/estimate/floor-16.webp"
+       },
+       {
+        "id": "style-17",
+        "label": "Style 17",
+        "image": "assets/images/estimate/floor-17.webp"
+       },
+       {
+        "id": "style-18",
+        "label": "Style 18",
+        "image": "assets/images/estimate/floor-18.webp"
+       },
+       {
+        "id": "style-19",
+        "label": "Style 19",
+        "image": "assets/images/estimate/floor-19.webp"
+       },
+       {
+        "id": "style-20",
+        "label": "Style 20",
+        "image": "assets/images/estimate/floor-20.webp"
+       },
+       {
+        "id": "style-21",
+        "label": "Style 21",
+        "image": "assets/images/estimate/floor-21.webp"
+       },
+       {
+        "id": "style-22",
+        "label": "Style 22",
+        "image": "assets/images/estimate/floor-22.webp"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-toilet",
+    "kicker": "Toilet",
+    "title": "Toilet",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "toilet"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "toiletSupply",
+      "label": "Would you like us to supply the toilet or will you be supplying the toilet and need us to install it?",
+      "review": "Toilet",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "us",
+        "label": "You supply the toilet"
+       },
+       {
+        "id": "own",
+        "label": "I will supply the toilet but I’ll need you to install it"
+       }
+      ]
+     },
+     {
+      "id": "toiletColor",
+      "label": "Choose a color for your toilet.",
+      "review": "Toilet color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "showIf": {
+       "q": "toiletSupply",
+       "in": [
+        "us"
+       ]
+      },
+      "options": [
+       {
+        "id": "white",
+        "label": "White",
+        "swatch": "#FFFFFF"
+       },
+       {
+        "id": "black",
+        "label": "Black",
+        "swatch": "#161619"
+       },
+       {
+        "id": "almond",
+        "label": "Almond",
+        "swatch": "#EFE3C8"
+       }
+      ]
+     },
+     {
+      "id": "toiletStyle",
+      "label": "Choose a style.",
+      "review": "Toilet style",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "toiletSupply",
+       "in": [
+        "us"
+       ]
+      },
+      "options": [
+       {
+        "id": "standard",
+        "label": "Standard"
+       },
+       {
+        "id": "comfort",
+        "label": "Comfort height – a bit taller. Helps your knees…"
+       },
+       {
+        "id": "bidet",
+        "label": "A fancy toilet and bidet combo. Very modern. Very mindful. Very demure."
+       }
+      ]
+     },
+     {
+      "id": "toiletOwnType",
+      "label": "Is this a standard toilet or a toilet/bidet that needs electricity?",
+      "review": "Toilet type",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "showIf": {
+       "q": "toiletSupply",
+       "in": [
+        "own"
+       ]
+      },
+      "options": [
+       {
+        "id": "standard",
+        "label": "Standard"
+       },
+       {
+        "id": "electric",
+        "label": "Needs electricity"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-glass",
+    "kicker": "Custom glass",
+    "title": "Custom glass",
+    "when": [
+     {
+      "q": "focus",
+      "in": [
+       "glass"
+      ]
+     },
+     {
+      "q": "design",
+      "in": [
+       "me"
+      ]
+     }
+    ],
+    "questions": [
+     {
+      "id": "glassStyle",
+      "label": "Choose a glass style.",
+      "review": "Glass style",
+      "type": "single",
+      "layout": "cards",
+      "required": true,
+      "options": [
+       {
+        "id": "framed",
+        "label": "Framed",
+        "image": "assets/images/estimate/glass-framed.webp"
+       },
+       {
+        "id": "rollers",
+        "label": "Rollers",
+        "image": "assets/images/estimate/glass-rollers.webp"
+       },
+       {
+        "id": "frameless",
+        "label": "Frameless glass",
+        "image": "assets/images/estimate/glass-frameless.webp"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "b-details",
+    "title": "You did it!",
+    "review": "Bathroom — anything else",
+    "questions": [
+     {
+      "id": "extras",
+      "label": "Is there anything else you would like to add to your estimate?",
+      "review": "Also add",
+      "hint": "Choose all that apply.",
+      "type": "multi",
+      "layout": "list",
+      "options": [
+       {
+        "id": "wainscot",
+        "label": "Remove tile wainscotting around the walls"
+       },
+       {
+        "id": "mirror",
+        "label": "Remove the vanity mirror"
+       },
+       {
+        "id": "ceiling-light",
+        "label": "Add a ceiling light with exhaust"
+       },
+       {
+        "id": "vanity-lights",
+        "label": "Replace vanity lights"
+       }
+      ]
+     },
+     {
+      "id": "bathMore",
+      "label": "More details",
+      "review": "More details",
+      "type": "textarea"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "windows",
+  "label": "Windows",
+  "card": {
+   "text": "Style, color & grids",
+   "image": "assets/images/windows/windows-double-hung-grids-640.webp"
+  },
+  "pages": [
+   {
+    "id": "w-count",
+    "titleQuestion": true,
+    "review": "Window design",
+    "intro": {
+     "icon": "sun",
+     "title": "It looks like you want to replace your windows. Great idea!",
+     "text": "Energy efficient windows pay for themselves. You can save up to 60% on your energy bill just by replacing your windows."
+    },
+    "questions": [
+     {
+      "id": "windowCount",
+      "label": "How many windows are we replacing?",
+      "review": "Number of windows",
+      "type": "number",
+      "unit": "windows",
+      "required": true
+     }
+    ]
+   },
+   {
+    "id": "w-photos",
+    "title": "Please upload a photo of each window you want to replace.",
+    "photos": {
+     "tips": [
+      [
+       "eye",
+       "Stand back so the whole window is in frame"
+      ],
+      [
+       "sun",
+       "Daylight photos work best"
+      ],
+      [
+       "home",
+       "Inside or outside views both help"
+      ]
+     ]
+    },
+    "questions": []
+   },
+   {
+    "id": "w-design",
+    "kicker": "Windows",
+    "title": "Window design",
+    "questions": [
+     {
+      "id": "windowStyle",
+      "label": "Would you like to replace your windows with the style you currently have or would you like us to replace your windows with the best option?",
+      "review": "Style",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "same",
+        "label": "Replace with the same style I have"
+       },
+       {
+        "id": "you-decide",
+        "label": "You decide"
+       }
+      ]
+     },
+     {
+      "id": "windowColor",
+      "label": "Choose a color for your windows.",
+      "review": "Color",
+      "type": "single",
+      "layout": "swatches",
+      "required": true,
+      "options": [
+       {
+        "id": "white",
+        "label": "White",
+        "swatch": "#F4F4F0"
+       },
+       {
+        "id": "tan",
+        "label": "Tan",
+        "swatch": "#C7AD86"
+       },
+       {
+        "id": "black",
+        "label": "Black",
+        "swatch": "#1F2124"
+       },
+       {
+        "id": "burgundy",
+        "label": "Burgundy",
+        "swatch": "#6B2430"
+       },
+       {
+        "id": "grey",
+        "label": "Grey",
+        "swatch": "#8A8D90"
+       },
+       {
+        "id": "green",
+        "label": "Green",
+        "swatch": "#2F4B3A"
+       },
+       {
+        "id": "dark-brown",
+        "label": "Dark Brown",
+        "swatch": "#4A3428"
+       }
+      ]
+     },
+     {
+      "id": "windowGrids",
+      "label": "Would you like grids in your windows?",
+      "review": "Grids",
+      "type": "single",
+      "layout": "list",
+      "required": true,
+      "options": [
+       {
+        "id": "no",
+        "label": "No"
+       },
+       {
+        "id": "yes",
+        "label": "Yes"
+       },
+       {
+        "id": "diamond",
+        "label": "I want diamond pattern grids"
+       },
+       {
+        "id": "colonial",
+        "label": "I want colonial pattern grids"
+       }
+      ]
+     },
+     {
+      "id": "windowNote",
+      "type": "note",
+      "label": "All of our window installs come with re-framing, new sills and casing. Any windows on 2nd floor landings, in bathrooms, and/or are less than 16″ from the floor will be tempered.",
+      "more": "Any bathroom windows will be tempered and obscure."
+     }
+    ]
+   }
+  ]
+ }
+]

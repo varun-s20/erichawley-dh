@@ -37,7 +37,8 @@ Later messages supersede earlier ones.
 | 24 Sept | Bath flow is shown in a video (Google Photos link); bath **item photos to follow** | **Pending**, not received |
 | 24 Sept | Previous vendor's tool: "I didn't like the design and never used it" | Design quality is the reason this project exists |
 | 25 Sept | "The website is install-D.com" | The estimate site is reached from install-D.com |
-| 5 Oct | **Erin's full estimate script** (`client-chat/estimate-flow-2026-10-05.md`): six products (Bathroom, Windows, Siding, Doors, Roofing, Something else), every question, branch and page break, plus the submit page. Team: "build it exactly that way." | **Current — supersedes §4 and §5.** Option photos sent as Google Photos links (not yet received as files) |
+| 5 Oct | **Erin's full estimate script** (`client-chat/estimate-flow-2026-10-05.md`): six products (Bathroom, Windows, Siding, Doors, Roofing, Something else), every question, branch and page break, plus the submit page. Team: "build it exactly that way." | **Current — supersedes §4 and §5**, except the 7 Oct changes below |
+| 7 Oct | "Please remove roofing, siding, etc — we are only going to use **Windows and Bathrooms**"; "When the window section begins, make the first question be **'How many windows are we replacing?'**"; "make photos **larger when the customer hovers** — the wall options, flooring, etc." | **Current** — built 8 Oct (see §3a) |
 
 ## 3. What the client needs (authoritative)
 
@@ -62,6 +63,11 @@ Automatic price calculation (Erin prepares proposals herself), online payments, 
 ## 3a. The estimate flow — Erin's script (5 Oct 2026) — CURRENT
 
 **Source of truth:** `client-chat/estimate-flow-2026-10-05.md` (verbatim). It replaces the 24 Sept windows chat (§4) and the bath video (§5); those sections are kept only as history. Build it exactly as written: her wording (capitalisation and punctuation polished only), her branching, one estimator page per "HIT NEXT".
+
+**Changed 8 Oct 2026 (Erin's 7 Oct messages) — these override the bullets below:**
+- **Only Bathroom and Windows.** Siding, Doors, Roofing and Something else were deleted from `DEFAULT_ESTIMATE_PRODUCTS` (recover them from git history if she ever wants them back). Home stats now say "2 projects", the services list's 5th item is "In-Person Quote", About copy updated. The contact form's "Something else" topic stays (it's a message topic, not a product).
+- **Windows starts with "How many windows are we replacing?"**: a new first page `w-count` (her "Great idea!" intro moved there) with a required `type: 'number'` question `windowCount` (digits only, ≥1, number pad on phones). It renders as a stepper (− [7 windows] +, tap the number to type any count) plus quick-pick chips 1–6, 8, 10, 12, 15 (`unit` / `picks` in config, editable in the Builder). Team, 8 Oct: the first version, a plain grey field, read as a loading skeleton. Shown as "Number of windows" under Window design in the review and email.
+- **Photo zoom** (`initOptionZoom()`, `styles.css` §19v): with a mouse, hovering or keyboard-focusing any photo option shows the whole uncropped photo at about 360px. On touch screens (no hover) each photo has a magnifier that opens a dialog with "Choose this". Erin's flooring (254px) and tile (270×208px) originals are small, so ask for larger files.
 
 **Built (5 Oct 2026)** — all of it is data in `main.js` `DEFAULT_ESTIMATE_PRODUCTS` (overridable with `window.SITE_ESTIMATE_PRODUCTS`), rendered by one engine:
 - **Order:** project choice (multi-select of the six products) → contact → address → each chosen product in her order (Bathroom, Windows, Siding, Doors, Roofing, Something else) → submit page.
@@ -174,7 +180,8 @@ The video is a 4-minute phone screen recording (no narration) of the **previous 
 - [ ] "You do it for me": straight to the "You did it!" page (built) or straight to the final submit?
 - [ ] Spelling: "Arctic Ice" (her script: "Article Ice")
 - [ ] After Submit: keep the thank-you page, or the CONGRATS pop-up from 10 Sept?
-- [ ] Scope: Siding, Doors, Roofing and Something else go beyond the accepted Windows + Bath scope — agree it in writing (and any price change) before delivery
+- [x] ~~Scope: Siding, Doors, Roofing and Something else~~ — resolved 7 Oct: Erin removed them ("we are only going to use Windows and Bathrooms")
+- [ ] Larger originals of her flooring (254px) and tile (270×208px) photos, so the hover zoom is sharp
 
 - [x] Bath flow extracted from the video (§5). Still need: **her own item photos** for every option, the "Basic colors" wall options, and whether the "24 hours / financing" wording applies to install-D
 - [ ] The missing screenshot `65E535A1-….png`
@@ -276,7 +283,7 @@ The team supplied a reference video (a "CoolFix" AC-repair site). Its language i
 ## 7a. Brand & scope (v1.4, 28 Sept 2026)
 - **Brand is install-D** (the placeholder "Clearwell" is gone). The logo emblem is cut from the client's own logo on install-D.com and lives in `assets/images/brand/installd-emblem-{128,256,512}.{webp,png}`, with favicons and the OG image regenerated from it. The wordmark is "INSTALL-D" in wide tracking, as in the logo. Brand colors from the logo: navy `#1B1B41` (all dark sections) and sky `#7FD2FE` (accent on dark, hero headline gradient).
 - **Phone** `(910) 617-9122` comes from install-D.com's live site and is set in `SITE_CONFIG.phone`. Confirm it before launch.
-- **Scope (updated 5 Oct 2026):** install-D is a **home remodeling** company. Erin's script (§3a) puts **six products** in the online estimate: Bathroom, Windows, Siding, Doors, Roofing and Something else. The in-person quote stays as the secondary path everywhere. Don't add products beyond her script.
+- **Scope (updated 7 Oct 2026):** the online estimate has **two products, Bathroom and Windows** (Erin removed Siding, Doors, Roofing and Something else on 7 Oct). The in-person quote stays as the secondary path everywhere. Don't add products beyond her script.
 - **Dev notes are off** (`showDevNotes: false`). Placeholder markers still exist in the markup, so set the flag to `true` to review them. The sample reviews were replaced by an "Ideas for your home" card set (inspiration, not testimonials).
 - The header is **always visible** (sticky). It never hides on scroll.
 - **Brand blue = the logo's sky `#7FD2FE`** (team, 1 Oct 2026; `styles.css` §19r, supersedes the `--color-primary` values in §8). Fills (buttons, active steps, checks, the before/after tab) use it exactly, with logo navy text on top (9.8:1; white would be 1.7:1). Text, icons and selection rings on white use `--color-primary-ink` `#0D71A5` (same hue, 5.35:1). Dark zones use the pure sky. Keep this split when adding components: `background: var(--color-primary)` + `color: var(--color-on-primary)`, and `color: var(--color-primary-ink)` for text on white.
@@ -319,6 +326,9 @@ The restored v1 estimator predates the 24 Sept spec. Items 1–8 below already e
 Quick screenshots: `npx playwright screenshot --full-page --viewport-size="1440,900" "file:///<abs-path>/index.html" out.png`
 
 ## 10. WordPress conversion notes
+
+**Built (6 Oct 2026) — see `wordpress/`** (`CONVERSION-PLAN.md`, `README-WORDPRESS.md`). Standalone theme `dh-remodel` (templates generated from the prototype by `wordpress/tools/build_theme.py` — edit the `.html`, then re-run) + plugin `dh-estimate` (Settings, page creation, Estimate Builder, stored Estimates/Messages, spam guards, optional email). Free plugins only (+ Yoast free); our Elementor Pro / All-in-One WP Migration Pro licences available. Test site on a temporary domain first, migrated later. Brand is a setting (not final). Marketing copy stays in templates; email off on the test site; thank-you page kept (no CONGRATS pop-up). The notes below predate the build.
+
 
 - Header and footer sit between `BEGIN/END: site-header|site-footer` comments and map to `header.php` / `footer.php` (or template parts).
 - Estimator config maps to an **options page** (ACF or Carbon Fields): products, pages, questions, options (with her photos) and all copy. It is printed as `window.SITE_CONFIG_OVERRIDES` / `window.SITE_ESTIMATE_PRODUCTS` before `main.js`.
